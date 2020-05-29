@@ -1,0 +1,18 @@
+[color]
+	ui = true
+[diff]
+	tool = vimdiff
+[merge]
+	tool = vimdiff
+[core]
+	excludesfile = /home/mazza/.gitignore
+[alias]
+	st = status
+	ci = commit
+	co = checkout
+	df = diff --color-words
+[user]
+	name = Marcio Mazza
+	email = marciomazza@gmail.com
+[push]
+	default = simple

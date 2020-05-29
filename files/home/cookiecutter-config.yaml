@@ -1,0 +1,6 @@
+default_context:
+    full_name: "Marcio Mazza"
+    email: "marciomazza@gmail.com"
+    github_username: "marciomazza"
+    pypi_username: "mazza"
+    use_pytest: "y"

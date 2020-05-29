@@ -1,0 +1,64 @@
+# .GITIGNORE GLOBAL
+# usar:
+#   ln -s ~/.z/dot-gitignore ~/.gitignore
+#   git config --global core.excludesfile ~/.gitignore
+
+\#*#
+.*~
+*~
+.#*
+
+*.o
+*.lo
+*.la
+.*.rej
+*.rej
+.DS_Store
+*.pyc
+*.pyo
+*.so
+*.mo
+
+*.egg-info
+*.egg
+*.EGG
+*.EGG-INFO
+.installed.cfg
+.mr.developer.cfg
+
+develop-eggs
+bin
+parts
+var
+build
+
+# MAVEN
+target
+
+# ECLIPSE
+.classpath
+.project
+.settings
+.pydevproject
+.pydevproject.bak
+
+# MORE
+.ropeproject
+.sass-cache
+ipython_log.py
+
+.coverage
+htmlcov
+
+# SUBLIME
+*.sublime-project
+*.sublime-workspace
+
+zdev.cfg
+zzz*
+*.orig
+geckodriver.log
+.mypy_cache
+.hypothesis
+.pytype
+.tox

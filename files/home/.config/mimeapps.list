@@ -1,0 +1,5 @@
+[Default Applications]
+video/x-matroska=vlc.desktop
+
+[Added Associations]
+video/x-matroska=vlc.desktop;org.gnome.Totem.desktop;
