@@ -1,6 +1,13 @@
 import os
 
-from base import Path, install, lineinfile, pip_install, run, splitlines, symlink
+from base import (Path,
+                  download_and_install_deb,
+                  install,
+                  lineinfile,
+                  pip_install,
+                  run,
+                  splitlines,
+                  symlink,)
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # basic
@@ -67,7 +74,12 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
         gitg meld pgadmin3
         """
     )
-
     # custom firefox appearance
     [firefox_profile] = Path("~/.mozilla/firefox").glob("*.default-release")
     symlink(Path(firefox_profile, "user.js"), Path(files_dir, "firefox/user.js"))
+
+    # install google chrome
+    download_and_install_deb(
+        "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb",
+        "google-chrome-stable",
+    )

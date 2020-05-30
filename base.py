@@ -19,9 +19,13 @@ def run(cmd, **kwargs):
     return res
 
 
+def package_is_not_intalled(name):
+    return run(f"dpkg -s {name}", capture_output=True, check=False).returncode
+
+
 def install(packages):
     for name in packages.split():
-        if run(f"dpkg -s {name}", capture_output=True, check=False).returncode:
+        if package_is_not_intalled(name):
             print(f"apt: installing {name}...")
             run(
                 f"sudo apt-get install {name} --yes --quiet --quiet",
@@ -89,3 +93,11 @@ def download(url, dest_dir="/tmp"):
         assert is_downloaded(headers)
         print("done")
     return tmp_dest
+
+
+def download_and_install_deb(url, package_name):
+    if package_is_not_intalled(package_name):
+        install("gdebi")
+        tmp_dest = download(url)
+        print(f"Installing {package_name}...")
+        run(f"sudo gdebi {tmp_dest} --non-interactive")
