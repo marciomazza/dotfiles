@@ -1,4 +1,5 @@
 import os
+import subprocess
 
 from base import (Path,
                   apt_install,
@@ -74,6 +75,14 @@ def install_spotify():
     run(f"sudo chown root: {desktop_final_path}")
 
 
+def adjust_desktop():
+    gsettings = [
+        line.split(maxsplit=2) for line in splitlines(Path("gsettings").read_text())
+    ]
+    for schema, key, value in gsettings:
+        subprocess.check_call(["gsettings", "set", schema, key, value])
+
+
 if "XDG_CURRENT_DESKTOP" in os.environ:
     apt_install(
         """
@@ -98,3 +107,4 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
     )
 
     install_spotify()
+    adjust_desktop()

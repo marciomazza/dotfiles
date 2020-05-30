@@ -1,0 +1,38 @@
+org.gnome.desktop.datetime automatic-timezone true
+
+# force alt + tab to switch only on current workspace
+org.gnome.shell.app-switcher current-workspace-only true
+# Caps => another Ctrl, 2 shifts => caps on, one shift => caps off, right alt is compose (mainly to write ß)
+org.gnome.desktop.input-sources xkb-options ['caps:ctrl_modifier', 'shift:both_capslock_cancel', 'compose:ralt']
+# laucher favorites
+org.gnome.shell favorite-apps ['firefox.desktop', 'org.gnome.Nautilus.desktop']
+
+# nautilus
+org.gnome.nautilus.list-view default-zoom-level 'small'
+org.gnome.nautilus.preferences default-folder-viewer 'list-view'
+
+# auto hide the dock and adjust icon size
+org.gnome.shell.extensions.dash-to-dock dock-fixed false
+# -> show dock really only when mouse touches the edge
+#    this avoids the dock appearing alongside a non maximized window
+#    https://discourse.ubuntu.com/t/ubuntu-dock-add-true-autohide-option-to-default-session/11200/4
+org.gnome.shell.extensions.dash-to-dock intellihide false
+org.gnome.shell.extensions.dash-to-dock dash-max-icon-size 32
+
+# night-light warmer and fixed from 6:00 to 20:00
+org.gnome.settings-daemon.plugins.color night-light-enabled true
+org.gnome.settings-daemon.plugins.color night-light-schedule-automatic false
+org.gnome.settings-daemon.plugins.color night-light-schedule-to 6.0
+org.gnome.settings-daemon.plugins.color night-light-schedule-from 20.0
+org.gnome.settings-daemon.plugins.color night-light-temperature 2700
+
+# do not show icons on desktop
+org.gnome.shell.extensions.desktop-icons show-trash false
+org.gnome.shell.extensions.desktop-icons show-home false
+
+# more self explanatory tweaks
+org.gnome.desktop.interface clock-show-date true
+org.gnome.desktop.interface show-battery-percentage true
+
+# meld ignores
+org.gnome.meld filename-filters [('Backups', true, '#*# .#* ~* *~ *.{orig,bak,swp}'), ('OS-specific metadata', true, '.DS_Store ._* .Spotlight-V100 .Trashes Thumbs.db Desktop.ini'), ('Version Control', true, '_MTN .bzr .svn .svn .hg .fslckout _FOSSIL_ .fos CVS _darcs .git .svn .osc'), ('Binaries', true, '*.{pyc,a,obj,o,so,la,lib,dll,exe}'), ('Media', false, '*.{jpg,gif,png,bmp,wav,mp3,ogg,flac,avi,mpg,xcf,xpm}'), ('python caches', true, '__pycache__ .{pytest_cache,mypy_cache,pytype,hypothesis}')]

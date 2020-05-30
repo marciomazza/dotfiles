@@ -39,7 +39,11 @@ def pip_install(packages):
 
 
 def splitlines(text):
-    return dedent(text).strip().splitlines()
+    return [
+        line
+        for line in dedent(text).strip().splitlines()
+        if line and not line.strip().startswith("#")
+    ]
 
 
 def Path(*args, **kwargs):
