@@ -1,15 +1,12 @@
-import os
 import re
 import subprocess
-from functools import wraps
-from os.path import exists, expanduser, islink
 from pathlib import Path
 from textwrap import dedent
 
 
 def run(cmd, **kwargs):
     """
-    Tweaks subprocess.run to use cmd as a single string.
+    Tweaks subprocess.run to receive cmd as a single string.
     Raises exception by default when unsuccessful.
     """
     if "check" not in kwargs:
@@ -35,19 +32,6 @@ def pip_install(packages):
     for name in packages.split():
         print(f"pip: installing {name}...")
         run(f"pip install {name}")
-
-
-def symlink(src, dest):
-    src, dest = [expanduser(f) for f in (src, dest)]
-    if islink(dest) or exists(dest):
-        os.remove(dest)
-    os.symlink(src, dest)
-
-
-def mkdir(path):
-    path = expanduser(path)
-    if not exists(path):
-        os.mkdir(path)
 
 
 def splitlines(text):

@@ -1,12 +1,10 @@
-import os
-from glob import glob
-from os.path import join
+from pathlib import Path
 
-from base import install, lineinfile, mkdir, pip_install, run, splitlines, symlink
+from base import install, lineinfile, pip_install, run, splitlines
 
-# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # basic
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 install(
     """
     tree trash-cli xclip curl smbclient htop ncdu silversearcher-ag
@@ -17,24 +15,27 @@ install(
 )
 
 # Remove unnecessary hunspell english dicts
-for dic in glob("/usr/share/hunspell/en_*"):
-    if "en_US" not in dic:
+for dic in Path("/usr/share/hunspell").glob("en_*"):
+    if "en_US" != dic.stem:
         run(f"sudo rm {dic}")
 
-# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # link home config files recursively
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-base = "files/home"
-for subdir, ____, files in os.walk(base):
-    here = join(os.getcwd(), subdir)
-    athome = subdir.replace(base, "~")
-    mkdir(athome)
-    for file in files:
-        symlink(join(here, file), join(athome, file))
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+home = Path("~").expanduser()
+base = Path("files/home").absolute()
+for here in base.rglob("*"):
+    athome = Path(home, here.relative_to(base))  # path relative to home
+    if here.is_dir() and not here.is_symlink():
+        athome.mkdir(exist_ok=True)
+    else:
+        if athome.is_symlink() or athome.exists():
+            athome.unlink()
+        athome.symlink_to(here)
 
-# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # bash customizations
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 pip_install("cdiff")  # used in ~/.bash_customizations
 # color promt, infinite history size and run .bash_customizations
 for line in splitlines(
