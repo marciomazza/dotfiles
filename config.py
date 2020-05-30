@@ -1,22 +1,23 @@
 import os
 
 from base import (Path,
+                  apt_install,
                   download_and_install_deb,
-                  install,
                   lineinfile,
                   pip_install,
                   run,
+                  snap_install,
                   splitlines,
                   symlink,)
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # basic
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-install("git etckeeper")
+apt_install("git etckeeper")
 if not Path("/etc/.git").exists():
     run("etckeeper commit 'first commit'")
 
-install(
+apt_install(
     """
     tree trash-cli xclip curl smbclient htop ncdu silversearcher-ag
     python3-pip terminator neovim
@@ -61,8 +62,20 @@ for line in splitlines(
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # desktop
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+def install_spotify():
+    snap_install("spotify")
+    [icon] = Path("/snap/spotify").rglob("icons/spotify-linux-128.png")
+    template = Path(files_dir, "spotify_spotify.desktop.template")
+    desktop_file = Path("/tmp/spotify_spotify.desktop")
+    desktop_file.write_text(template.read_text().format(icon=icon))
+    desktop_file.chmod(0o555)  # read and write for all
+    desktop_final_path = "/var/lib/snapd/desktop/applications/spotify_spotify.desktop"
+    run(f"sudo mv {desktop_file} {desktop_final_path}")
+    run(f"sudo chown root: {desktop_final_path}")
+
+
 if "XDG_CURRENT_DESKTOP" in os.environ:
-    install(
+    apt_install(
         """
         gnome-tweak-tool gnome-shell-extensions gnome-shell-pomodoro
         dconf-editor
@@ -83,3 +96,5 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
         "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb",
         "google-chrome-stable",
     )
+
+    install_spotify()

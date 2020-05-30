@@ -19,24 +19,23 @@ def run(cmd, **kwargs):
     return res
 
 
-def package_is_not_intalled(name):
-    return run(f"dpkg -s {name}", capture_output=True, check=False).returncode
+def get_return_code(cmd):
+    return run(cmd, capture_output=True, check=False).returncode
 
 
-def install(packages):
+def install(tool, packages, cmd, test_cmd):
     for name in packages.split():
-        if package_is_not_intalled(name):
-            print(f"apt: installing {name}...")
-            run(
-                f"sudo apt-get install {name} --yes --quiet --quiet",
-                capture_output=True,
-            )
+        if get_return_code(f"{test_cmd} {name}"):
+            print(f"{tool}: installing {name}...")
+            run(cmd.format(name), capture_output=True)
+
+
+def apt_install(packages):
+    install("apt", packages, "sudo apt-get install {} --yes --quiet --quiet", "dpkg -s")
 
 
 def pip_install(packages):
-    for name in packages.split():
-        print(f"pip: installing {name}...")
-        run(f"pip install {name}")
+    install("pip", packages, "pip install {}", "pip show")
 
 
 def splitlines(text):
@@ -96,8 +95,12 @@ def download(url, dest_dir="/tmp"):
 
 
 def download_and_install_deb(url, package_name):
-    if package_is_not_intalled(package_name):
-        install("gdebi")
+    if get_return_code(f"dpkg -s {package_name}"):
+        apt_install("gdebi")
         tmp_dest = download(url)
         print(f"Installing {package_name}...")
         run(f"sudo gdebi {tmp_dest} --non-interactive")
+
+
+def snap_install(packages):
+    install("snap", packages, "sudo snap install {}", "snap list")

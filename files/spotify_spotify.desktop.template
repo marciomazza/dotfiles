@@ -3,7 +3,7 @@ X-SnapInstanceName=spotify
 Type=Application
 Name=Spotify
 GenericName=Music Player
-Icon=/snap/spotify/35/usr/share/spotify/icons/spotify-linux-128.png
+Icon={icon}
 Exec=env BAMF_DESKTOP_FILE_HINT=/var/lib/snapd/desktop/applications/spotify_spotify.desktop /snap/bin/spotify --force-device-scale-factor=2.5 %U
 Terminal=false
 MimeType=x-scheme-handler/spotify;
