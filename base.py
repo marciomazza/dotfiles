@@ -1,6 +1,6 @@
+import pathlib
 import re
 import subprocess
-from pathlib import Path
 from textwrap import dedent
 
 
@@ -38,6 +38,16 @@ def splitlines(text):
     return dedent(text).strip().splitlines()
 
 
+def Path(*args, **kwargs):
+    return pathlib.Path(*args, **kwargs).expanduser()
+
+
+def symlink(link, target):
+    if link.is_symlink() or link.exists():
+        link.unlink()
+    link.symlink_to(target)
+
+
 def replace_line(path, line_to_replace, line_start):
     replaced = 0
     for line in path.read_text().splitlines():
@@ -54,6 +64,6 @@ def replace_line(path, line_to_replace, line_start):
 
 def lineinfile(path, line, start=None):
     # start defaults to the line without whatever is after "="
+    path = Path(path)
     start = start or re.sub(r"(?<==).*", "", line)
-    path = Path(path).expanduser()
     path.write_text("\n".join(replace_line(path, line, start)))

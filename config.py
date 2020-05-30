@@ -1,6 +1,6 @@
-from pathlib import Path
+import os
 
-from base import install, lineinfile, pip_install, run, splitlines
+from base import Path, install, lineinfile, pip_install, run, splitlines, symlink
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # basic
@@ -14,7 +14,7 @@ install(
     tree trash-cli xclip curl smbclient htop ncdu silversearcher-ag
     python3-pip terminator neovim
 
-    gitg meld
+    docker.io docker-compose
     """
 )
 
@@ -26,16 +26,15 @@ for dic in Path("/usr/share/hunspell").glob("en_*"):
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # link home config files recursively
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-home = Path("~").expanduser()
-base = Path("files/home").absolute()
-for here in base.rglob("*"):
-    athome = Path(home, here.relative_to(base))  # path relative to home
+home = Path("~")
+files_dir = Path("files").absolute()
+files_home_dir = Path(files_dir, "home")
+for here in files_home_dir.rglob("*"):
+    athome = Path(home, here.relative_to(files_home_dir))  # path relative to home
     if here.is_dir() and not here.is_symlink():
         athome.mkdir(exist_ok=True)
     else:
-        if athome.is_symlink() or athome.exists():
-            athome.unlink()
-        athome.symlink_to(here)
+        symlink(athome, here)
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # bash customizations
@@ -51,3 +50,24 @@ for line in splitlines(
     """
 ):
     lineinfile("~/.bashrc", line)
+
+# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+# desktop
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+if "XDG_CURRENT_DESKTOP" in os.environ:
+    install(
+        """
+        gnome-tweak-tool gnome-shell-extensions gnome-shell-pomodoro
+        dconf-editor
+
+        gimp imagemagick
+        vlc mplayer audacity
+        xournal
+
+        gitg meld pgadmin3
+        """
+    )
+
+    # custom firefox appearance
+    [firefox_profile] = Path("~/.mozilla/firefox").glob("*.default-release")
+    symlink(Path(firefox_profile, "user.js"), Path(files_dir, "firefox/user.js"))
