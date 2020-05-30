@@ -54,21 +54,22 @@ def splitlines(text):
     return dedent(text).strip().splitlines()
 
 
-def replace_line(text, line_to_replace, line_start):
-    replaced = False
-    for line in text.splitlines():
+def replace_line(path, line_to_replace, line_start):
+    replaced = 0
+    for line in path.read_text().splitlines():
         if line.startswith(line_start):
             yield line_to_replace
-            replaced = True
+            replaced += 1
         else:
             yield line
     if not replaced:
         # if not replaced yield at last
         yield f"\n{line_to_replace}"
+    assert replaced <= 1, f"Line replaced more than once in {path}: {line_to_replace}"
 
 
 def lineinfile(path, line, start=None):
     # start defaults to the line without whatever is after "="
     start = start or re.sub(r"(?<==).*", "", line)
     path = Path(path).expanduser()
-    path.write_text("\n".join(replace_line(path.read_text(), line, start)))
+    path.write_text("\n".join(replace_line(path, line, start)))
