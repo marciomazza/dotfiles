@@ -5,10 +5,14 @@ from base import install, lineinfile, pip_install, run, splitlines
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # basic
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+install("git etckeeper")
+if not Path("/etc/.git").exists():
+    run("etckeeper commit 'first commit'")
+
 install(
     """
     tree trash-cli xclip curl smbclient htop ncdu silversearcher-ag
-    git python3-pip terminator neovim
+    python3-pip terminator neovim
 
     gitg meld
     """
