@@ -2,6 +2,7 @@ import pathlib
 import re
 import subprocess
 from textwrap import dedent
+from urllib.request import Request, urlopen, urlretrieve
 
 
 def run(cmd, **kwargs):
@@ -67,3 +68,24 @@ def lineinfile(path, line, start=None):
     path = Path(path)
     start = start or re.sub(r"(?<==).*", "", line)
     path.write_text("\n".join(replace_line(path, line, start)))
+
+
+def get_url_headers(url):
+    return urlopen(Request(url, method="HEAD")).info()
+
+
+def download(url, dest_dir="/tmp"):
+    print(f"Downloading {url}... ", end="", flush=True)
+    tmp_dest = Path(dest_dir, Path(url).name)
+
+    def is_downloaded(headers):
+        lenght = int(headers["Content-Length"])
+        return tmp_dest.exists() and tmp_dest.stat().st_size == lenght
+
+    if is_downloaded(get_url_headers(url)):
+        print("already downloaded")
+    else:
+        _, headers = urlretrieve(url, tmp_dest)
+        assert is_downloaded(headers)
+        print("done")
+    return tmp_dest
