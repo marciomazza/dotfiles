@@ -43,12 +43,12 @@ for dic in Path("/usr/share/hunspell").glob("en_*"):
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # link home config files recursively
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-home = Path("~")
-files_dir = Path("files").absolute()
+HOME = Path("~")
+FILES_HOME = Path("files").absolute()
 
-files_home_dir = Path(files_dir, "home")
+files_home_dir = Path(FILES_HOME, "home")
 for here in files_home_dir.rglob("*"):
-    athome = Path(home, here.relative_to(files_home_dir))  # path relative to home
+    athome = Path(HOME, here.relative_to(files_home_dir))  # path relative to home
     if here.is_dir() and not here.is_symlink():
         athome.mkdir(exist_ok=True)
     else:
@@ -109,7 +109,7 @@ pip_install("virtualenvwrapper")
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 def install_spotify():
     snap_install("spotify")
-    template = Path(files_dir, "spotify_spotify.desktop.template").read_text()
+    template = Path(FILES_HOME, "spotify_spotify.desktop.template").read_text()
     [icon] = Path("/snap/spotify").rglob("icons/spotify-linux-128.png")
     with temporary_ownership_of(
         "/var/lib/snapd/desktop/applications/spotify_spotify.desktop"
@@ -157,7 +157,7 @@ def install_geckodriver():
         page_content,
     )
     path = download(urljoin("https://github.com/", download_path), "~/.local/bin")
-    tarfile.open(path).extractall(Path(home, ".local/bin"))
+    tarfile.open(path).extractall(Path(HOME, ".local/bin"))
 
 
 if "XDG_CURRENT_DESKTOP" in os.environ:
@@ -174,7 +174,7 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
 
     # custom firefox appearance
     [firefox_profile] = Path("~/.mozilla/firefox").glob("*.default-release")
-    symlink(Path(firefox_profile, "user.js"), Path(files_dir, "firefox/user.js"))
+    symlink(Path(firefox_profile, "user.js"), Path(FILES_HOME, "firefox/user.js"))
 
     # install google chrome
     download_and_install_deb(
