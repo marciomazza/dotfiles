@@ -62,25 +62,28 @@ def symlink(link, target):
     link.symlink_to(target)
 
 
-def replace_line(path, line_to_replace, line_start):
-    replaced = 0
-    for line in path.read_text().splitlines():
-        if line.startswith(line_start):
-            yield line_to_replace
-            replaced += 1
-        else:
-            yield line
-    if not replaced:
-        # if not replaced yield at last
-        yield f"\n{line_to_replace}"
-    assert replaced <= 1, f"Line replaced more than once in {path}: {line_to_replace}"
-
-
 def lineinfile(path, line, start=None):
-    # start defaults to the line without whatever is after "="
     path = Path(path)
+    # start defaults to the start of the line up to "="
+    #   for example, the start of "abc=123" is "abc="
     start = start or re.sub(r"(?<==).*", "", line)
-    path.write_text("\n".join(replace_line(path, line, start)))
+    # normalize line
+    line = line.rstrip() + "\n"
+
+    def text_with_line():
+        replaced = 0
+        for current in path.read_text().splitlines(keepends=True):
+            if current.startswith(start):
+                yield line
+                replaced += 1
+            else:
+                yield current
+        if not replaced:
+            # if not replaced yield at last
+            yield f"\n{line}"
+        assert replaced <= 1, f"Line replaced more than once in {path}: {line}"
+
+    path.write_text("".join(text_with_line()))
 
 
 def get_url_headers(url):
