@@ -1,3 +1,6 @@
+# Desktop preferences in a gsettings friendly format
+# based on ubuntu 20.04
+
 org.gnome.desktop.datetime automatic-timezone true
 
 # force alt + tab to switch only on current workspace

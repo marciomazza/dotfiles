@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import os
 import re
 import subprocess
@@ -119,7 +121,8 @@ def install_spotify():
 
 def adjust_desktop():
     gsettings = [
-        line.split(maxsplit=2) for line in splitlines(Path("gsettings").read_text())
+        line.split(maxsplit=2)
+        for line in splitlines(Path(FILES_HOME, "gsettings").read_text())
     ]
     for schema, key, value in gsettings:
         subprocess.check_call(["gsettings", "set", schema, key, value])
