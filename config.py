@@ -1,8 +1,12 @@
 import os
+import re
 import subprocess
+import tarfile
+from urllib.request import urljoin, urlopen
 
 from base import (Path,
                   apt_install,
+                  download,
                   download_and_install_deb,
                   lineinfile,
                   pip_install,
@@ -105,6 +109,19 @@ def fix_cedilla_on_us_keyboard():
             lineinfile(path, line)
 
 
+def install_geckodriver():
+    if Path("~/.local/bin/geckodriver").exists():
+        return
+    res = urlopen("https://github.com/mozilla/geckodriver/releases/latest")
+    page_content = res.read().decode("utf-8")
+    [download_path] = re.findall(
+        "/mozilla/geckodriver/releases/download/.*/geckodriver-.*-linux64.tar.gz",
+        page_content,
+    )
+    path = download(urljoin("https://github.com/", download_path), "~/.local/bin")
+    tarfile.open(path).extractall(Path(home, ".local/bin"))
+
+
 if "XDG_CURRENT_DESKTOP" in os.environ:
     apt_install(
         """
@@ -131,3 +148,6 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
     install_spotify()
     adjust_desktop()
     fix_cedilla_on_us_keyboard()
+
+    # more dev tools for the desktop
+    install_geckodriver()
