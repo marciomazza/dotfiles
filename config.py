@@ -98,6 +98,8 @@ if any(is_not_dpkg_installed(p) for p in python_versions.split()):
     run("sudo apt-get update")
     apt_install(python_versions)
 
+pip_install("virtualenvwrapper")
+
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # desktop

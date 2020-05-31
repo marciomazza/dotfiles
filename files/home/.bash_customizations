@@ -226,10 +226,12 @@ export EDITOR='vim'
 # default para sauna.reload
 export RELOAD_PATH=src
 
-# para virtualenvwrapper
+# for virtualenvwrapper
+export VIRTUALENVWRAPPER_PYTHON=`which python3`
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/work
-source /usr/local/bin/virtualenvwrapper.sh
+mkdir -p $PROJECT_HOME
+source ~/.local/bin/virtualenvwrapper.sh
 
 # 256 colors
 if [ -n "$DISPLAY" -a "$TERM" == "xterm" ]; then
