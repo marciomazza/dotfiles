@@ -46,9 +46,9 @@ for dic in Path("/usr/share/hunspell").glob("en_*"):
 # link home config files recursively
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HOME = Path("~")
-FILES_HOME = Path("files").absolute()
+FILES = Path("files").absolute()
 
-files_home_dir = Path(FILES_HOME, "home")
+files_home_dir = Path(FILES, "home")
 for here in files_home_dir.rglob("*"):
     athome = Path(HOME, here.relative_to(files_home_dir))  # path relative to home
     if here.is_dir() and not here.is_symlink():
@@ -111,7 +111,7 @@ pip_install("virtualenvwrapper")
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 def install_spotify():
     snap_install("spotify")
-    template = Path(FILES_HOME, "spotify_spotify.desktop.template").read_text()
+    template = Path(FILES, "spotify_spotify.desktop.template").read_text()
     [icon] = Path("/snap/spotify").rglob("icons/spotify-linux-128.png")
     with temporary_ownership_of(
         "/var/lib/snapd/desktop/applications/spotify_spotify.desktop"
@@ -122,7 +122,7 @@ def install_spotify():
 def adjust_desktop():
     gsettings = [
         line.split(maxsplit=2)
-        for line in splitlines(Path(FILES_HOME, "gsettings").read_text())
+        for line in splitlines(Path(FILES, "gsettings").read_text())
     ]
     for schema, key, value in gsettings:
         subprocess.check_call(["gsettings", "set", schema, key, value])
@@ -177,7 +177,7 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
 
     # custom firefox appearance
     [firefox_profile] = Path("~/.mozilla/firefox").glob("*.default-release")
-    symlink(Path(firefox_profile, "user.js"), Path(FILES_HOME, "firefox/user.js"))
+    symlink(Path(firefox_profile, "user.js"), Path(FILES, "firefox/user.js"))
 
     # install google chrome
     download_and_install_deb(
