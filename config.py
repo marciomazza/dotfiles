@@ -186,6 +186,12 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
     adjust_desktop()
     fix_cedilla_on_us_keyboard()
 
+    # banco do brasil
+    download_and_install_deb(
+        "https://cloud.gastecnologia.com.br/bb/downloads/ws/warsaw_setup64.deb",
+        "warsaw",
+    )
+
     # more desktop dev tools
     apt_install("gitg meld pgadmin3")
     install_geckodriver()
