@@ -25,8 +25,12 @@ def get_return_code(cmd):
     return run(cmd, capture_output=True, check=False).returncode
 
 
+def strip_comments(text):
+    return re.sub(" *#.*", "", text)
+
+
 def install(tool, packages, cmd, test_cmd):
-    for name in packages.split():
+    for name in strip_comments(packages).split():
         if get_return_code(f"{test_cmd} {name}"):
             print(f"{tool}: installing {name}...")
             run(cmd.format(name), capture_output=True)
@@ -110,8 +114,12 @@ def download(url, dest_dir="/tmp"):
     return tmp_dest
 
 
+def is_not_dpkg_installed(package_name):
+    return get_return_code(f"dpkg -s {package_name}")
+
+
 def download_and_install_deb(url, package_name):
-    if get_return_code(f"dpkg -s {package_name}"):
+    if is_not_dpkg_installed(package_name):
         apt_install("gdebi")
         tmp_dest = download(url)
         print(f"Installing {package_name}...")

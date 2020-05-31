@@ -8,6 +8,8 @@ from base import (Path,
                   apt_install,
                   download,
                   download_and_install_deb,
+                  get_return_code,
+                  is_not_dpkg_installed,
                   lineinfile,
                   pip_install,
                   run,
@@ -25,8 +27,9 @@ if not Path("/etc/.git").exists():
 
 apt_install(
     """
+    software-properties-common python3-pip
     tree trash-cli xclip curl smbclient htop ncdu silversearcher-ag
-    python3-pip terminator neovim
+    terminator
 
     docker.io docker-compose
     """
@@ -64,6 +67,36 @@ for line in splitlines(
     """
 ):
     lineinfile("~/.bashrc", line)
+
+# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+# development tools
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+# neovim
+apt_install("neovim")
+download(
+    "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim",
+    "~/.local/share/nvim/site/autoload",
+)
+
+apt_install(
+    """
+    mysql-server mysql-client
+    libmysqlclient-dev          # for MySQL-python
+    postgresql
+    python3-tk                  # for %paste in IPython
+    libpq-dev                   # for psycopg
+
+    graphviz libgraphviz-dev
+    """
+)
+
+# install python versions 3.6 to 3.8
+python_versions = "python3.6 python3.7 python3.8"
+if any(is_not_dpkg_installed(p) for p in python_versions.split()):
+    run("sudo add-apt-repository ppa:deadsnakes/ppa --yes")
+    run("sudo apt-get update")
+    apt_install(python_versions)
 
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -131,10 +164,9 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
         gimp imagemagick
         vlc mplayer audacity
         xournal
-
-        gitg meld pgadmin3
         """
     )
+
     # custom firefox appearance
     [firefox_profile] = Path("~/.mozilla/firefox").glob("*.default-release")
     symlink(Path(firefox_profile, "user.js"), Path(files_dir, "firefox/user.js"))
@@ -149,5 +181,6 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
     adjust_desktop()
     fix_cedilla_on_us_keyboard()
 
-    # more dev tools for the desktop
+    # more desktop dev tools
+    apt_install("gitg meld pgadmin3")
     install_geckodriver()
