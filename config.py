@@ -45,6 +45,7 @@ for dic in Path("/usr/share/hunspell").glob("en_*"):
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 home = Path("~")
 files_dir = Path("files").absolute()
+
 files_home_dir = Path(files_dir, "home")
 for here in files_home_dir.rglob("*"):
     athome = Path(home, here.relative_to(files_home_dir))  # path relative to home
@@ -73,11 +74,13 @@ for line in splitlines(
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # neovim
-apt_install("neovim")
-download(
-    "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim",
-    "~/.local/share/nvim/site/autoload",
-)
+NVIM_AUTOLOAD_DIR = "~/.local/share/nvim/site/autoload"
+if not Path(NVIM_AUTOLOAD_DIR, "plug.vim").exists():
+    apt_install("neovim")
+    download(
+        "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim",
+        NVIM_AUTOLOAD_DIR,
+    )
 
 apt_install(
     """
