@@ -72,7 +72,8 @@ def lineinfile(path, line, start=None):
 
     def text_with_line():
         replaced = 0
-        for current in path.read_text().splitlines(keepends=True):
+        text = path.read_text()
+        for current in text.splitlines(keepends=True):
             if current.startswith(start):
                 yield line
                 replaced += 1
@@ -80,7 +81,9 @@ def lineinfile(path, line, start=None):
                 yield current
         if not replaced:
             # if not replaced yield at last
-            yield f"\n{line}"
+            newline_if_needed = "" if text.endswith("\n") else "\n"
+            yield newline_if_needed + line
+
         assert replaced <= 1, f"Line replaced more than once in {path}: {line}"
 
     path.write_text("".join(text_with_line()))
