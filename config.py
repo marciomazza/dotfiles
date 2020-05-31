@@ -9,7 +9,8 @@ from base import (Path,
                   run,
                   snap_install,
                   splitlines,
-                  symlink,)
+                  symlink,
+                  temporary_ownership_of,)
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # basic
@@ -60,19 +61,18 @@ for line in splitlines(
 ):
     lineinfile("~/.bashrc", line)
 
+
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # desktop
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 def install_spotify():
     snap_install("spotify")
+    template = Path(files_dir, "spotify_spotify.desktop.template").read_text()
     [icon] = Path("/snap/spotify").rglob("icons/spotify-linux-128.png")
-    template = Path(files_dir, "spotify_spotify.desktop.template")
-    desktop_file = Path("/tmp/spotify_spotify.desktop")
-    desktop_file.write_text(template.read_text().format(icon=icon))
-    desktop_file.chmod(0o555)  # read and write for all
-    desktop_final_path = "/var/lib/snapd/desktop/applications/spotify_spotify.desktop"
-    run(f"sudo mv {desktop_file} {desktop_final_path}")
-    run(f"sudo chown root: {desktop_final_path}")
+    with temporary_ownership_of(
+        "/var/lib/snapd/desktop/applications/spotify_spotify.desktop"
+    ) as desktop_file:
+        desktop_file.write_text(template.format(icon=icon))
 
 
 def adjust_desktop():

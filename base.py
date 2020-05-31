@@ -1,6 +1,8 @@
 import pathlib
 import re
 import subprocess
+from contextlib import contextmanager
+from os import getuid
 from textwrap import dedent
 from urllib.request import Request, urlopen, urlretrieve
 
@@ -50,8 +52,12 @@ def Path(*args, **kwargs):
     return pathlib.Path(*args, **kwargs).expanduser()
 
 
+def really_exists(path):
+    return path.is_symlink() or path.exists()
+
+
 def symlink(link, target):
-    if link.is_symlink() or link.exists():
+    if really_exists(link):
         link.unlink()
     link.symlink_to(target)
 
@@ -108,3 +114,13 @@ def download_and_install_deb(url, package_name):
 
 def snap_install(packages):
     install("snap", packages, "sudo snap install {}", "snap list")
+
+
+@contextmanager
+def temporary_ownership_of(path):
+    "Temporarily change onwnership of path to the current user"
+    path = Path(path)
+    original_uid = path.stat().st_uid
+    run(f"sudo chown {getuid()} {path}")
+    yield path
+    run(f"sudo chown {original_uid} {path}")
