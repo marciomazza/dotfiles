@@ -78,7 +78,12 @@ for line in splitlines(
 # neovim
 NVIM_AUTOLOAD_DIR = "~/.local/share/nvim/site/autoload"
 if not Path(NVIM_AUTOLOAD_DIR, "plug.vim").exists():
-    apt_install("neovim")
+    apt_install(
+        """
+        neovim
+        universal-ctags         # for majutsushi/tagbar
+        """
+    )
     download(
         "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim",
         NVIM_AUTOLOAD_DIR,
