@@ -1,1 +1,1 @@
-../../../../nvim/init.vim
+../../../../neovim/init.vim

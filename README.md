@@ -13,7 +13,7 @@ A set of reusable installation primitives.
 **files/home**<br/>
 A tree structure that mirrors the relevant config files in home
 
-**nvim**<br/>
+**neovim**<br/>
 A submodule with my neovim configuration that lives in https://github.com/marciomazza/neovim
 
 That's basically it.
