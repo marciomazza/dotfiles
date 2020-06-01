@@ -188,6 +188,7 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
     install_spotify()
     adjust_desktop()
     fix_cedilla_on_us_keyboard()
+    download_and_install_deb("https://zoom.us/client/latest/zoom_amd64.deb", "zoom")
 
     # banco do brasil
     download_and_install_deb(
