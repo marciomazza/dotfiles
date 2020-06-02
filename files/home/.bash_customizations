@@ -21,14 +21,8 @@ alias gitk='gitg --all &'
 alias svnlog='svn log -l 5 `git log | grep svn-id | head -n 1 | sed -e "s#git-svn-id: \([^@]\+\)@.\+#\1#"`'
 
 # open current repo on github
-# from https://gist.github.com/igrigorik/6666860#gistcomment-3189821
-function gh() {
-    set -e
-    git remote -v | grep push
-    remote=${1:-origin}
-    URL=$(git config remote.$remote.url | sed "s|git@\(.*\):\(.*\).git|https://\1/\2|")
-    open $URL
-}
+# from https://gist.github.com/igrigorik/6666860
+alias gh="firefox \`git remote -v | grep git@github.com | grep fetch | head -1 | cut -f2 | cut -d' ' -f1 | sed -e's/:/\//' -e 's/git@/http:\/\//'\`"
 
 # corrigir "mv" que deveria ter sido "git mv"
 function a ()
