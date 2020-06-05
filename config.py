@@ -31,7 +31,6 @@ apt_install(
     """
     software-properties-common python3-pip
     tree trash-cli xclip curl smbclient htop ncdu silversearcher-ag
-    terminator
 
     docker.io docker-compose
     """
@@ -171,11 +170,12 @@ def install_geckodriver():
 if "XDG_CURRENT_DESKTOP" in os.environ:
     apt_install(
         """
+        terminator
         gnome-tweak-tool gnome-shell-extensions gnome-shell-pomodoro
         dconf-editor
 
         gimp imagemagick
-        vlc mplayer audacity
+        vlc mplayer audacity ffmpeg
         xournal
         """
     )
