@@ -177,6 +177,7 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
         gimp imagemagick
         vlc mplayer audacity ffmpeg
         xournal
+        libreoffice
         """
     )
 
