@@ -101,7 +101,7 @@ apt_install(
 )
 
 # install python versions 3.6 to 3.8
-python_versions = "python3.6 python3.7 python3.8"
+python_versions = " ".join(f"python3.{v} python3.{v}-dev" for v in [6, 7, 8])
 if any(is_not_dpkg_installed(p) for p in python_versions.split()):
     run("sudo add-apt-repository ppa:deadsnakes/ppa --yes")
     run("sudo apt-get update")
