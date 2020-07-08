@@ -10,7 +10,6 @@ from base import (Path,
                   apt_install,
                   download,
                   download_and_install_deb,
-                  get_return_code,
                   is_not_dpkg_installed,
                   lineinfile,
                   pip_install,
@@ -99,6 +98,10 @@ apt_install(
     graphviz libgraphviz-dev
     """
 )
+
+# add pt_BR locale
+if "pt_BR.utf8" not in run("locale -a", capture_output=True).stdout.splitlines():
+    run("sudo locale-gen pt_BR.UTF-8")
 
 # install python versions 3.6 to 3.8
 python_versions = " ".join(f"python3.{v} python3.{v}-dev" for v in [6, 7, 8])
