@@ -108,10 +108,27 @@ python_versions = " ".join(f"python3.{v} python3.{v}-dev" for v in [6, 7, 8])
 if any(is_not_dpkg_installed(p) for p in python_versions.split()):
     run("sudo add-apt-repository ppa:deadsnakes/ppa --yes")
     run("sudo apt-get update")
-    apt_install(python_versions)
+    apt_install("nodejs")
 
 pip_install("virtualenvwrapper")
 
+
+# nodejs
+# https://github.com/nodesource/distributions/blob/master/README.md#debinstall
+def install_node(version):
+    added_to_sources = Path("/etc/apt/sources.list.d/nodesource.list").exists()
+
+    def get_node_version():
+        version = run("node --version", capture_output=True).stdout
+        return int(version.lstrip("v").split(".")[0])
+
+    if not added_to_sources or get_node_version() < version:
+        node_setup_script = download(f"https://deb.nodesource.com/setup_{version}.x")
+        run(f"sudo -E bash {node_setup_script}")
+        apt_install("")
+
+
+install_node(14)
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # desktop
