@@ -130,13 +130,17 @@ def install_node(version):
 
 install_node(14)
 
+
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # desktop
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 def install_spotify():
     snap_install("spotify")
     template = Path(FILES, "spotify_spotify.desktop.template").read_text()
-    [icon] = Path("/snap/spotify").rglob("icons/spotify-linux-128.png")
+    # there can be multiple versions of the snap
+    # the paths start with /snap/spotify/<version>,
+    # so the last one should be the installed version
+    *_, icon = sorted(Path("/snap/spotify").rglob("icons/spotify-linux-128.png"))
     with temporary_ownership_of(
         "/var/lib/snapd/desktop/applications/spotify_spotify.desktop"
     ) as desktop_file:
