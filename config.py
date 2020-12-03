@@ -63,9 +63,13 @@ if any(is_not_dpkg_installed(p) for p in python_packages.split()):
     run("sudo add-apt-repository ppa:deadsnakes/ppa --yes")
     run("sudo apt-get update")
     apt_install(python_packages)
-    # setup alternatives and make python3 point to the lastest
+    # setup alternatives
     for version in python_versions:
-        run("sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.{version} {version}")
+        run(
+            "sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.{version} {version}"
+        )
+    # make python3 point to python3.8 (python3.9 breaks terminator)
+    run("sudo update-alternatives  --set python3 /usr/bin/python3.8")
 
 pip_install("virtualenvwrapper")
 
