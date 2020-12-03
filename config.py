@@ -55,6 +55,21 @@ for here in files_home_dir.rglob("*"):
         symlink(athome, here)
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+# python
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+python_versions = [6, 7, 8, 9]
+python_packages = " ".join(f"python3.{v} python3.{v}-dev" for v in python_versions)
+if any(is_not_dpkg_installed(p) for p in python_packages.split()):
+    run("sudo add-apt-repository ppa:deadsnakes/ppa --yes")
+    run("sudo apt-get update")
+    apt_install(python_packages)
+    # setup alternatives and make python3 point to the lastest
+    for version in python_versions:
+        run("sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.{version} {version}")
+
+pip_install("virtualenvwrapper")
+
+# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # bash customizations
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 pip_install("cdiff")  # used in ~/.bash_customizations
@@ -102,20 +117,6 @@ apt_install(
 # add pt_BR locale
 if "pt_BR.utf8" not in run("locale -a", capture_output=True).stdout.splitlines():
     run("sudo locale-gen pt_BR.UTF-8")
-
-# install python versions 3.6 to 3.9
-python_versions = [6, 7, 8, 9]
-python_packages = " ".join(f"python3.{v} python3.{v}-dev" for v in python_versions)
-if any(is_not_dpkg_installed(p) for p in python_packages.split()):
-    run("sudo add-apt-repository ppa:deadsnakes/ppa --yes")
-    run("sudo apt-get update")
-    apt_install(python_packages)
-    # setup alternatives and make python3 point to the lastest
-    for version in python_versions:
-        run("sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.{version} {version}")
-
-pip_install("virtualenvwrapper")
-
 
 # nodejs
 # https://github.com/nodesource/distributions/blob/master/README.md#debinstall
