@@ -1,4 +1,6 @@
 [flake8]
-# to avoir confilcts with black (see https://github.com/ambv/black#slices)
+
+# for black
+# https://black.readthedocs.io/en/stable/compatible_configs.html#flake8
 max-line-length = 88
-ignore = E203
+extend-ignore = E203, W503
