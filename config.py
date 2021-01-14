@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import json
 import os
 import re
 import subprocess
@@ -197,16 +198,15 @@ def fix_cedilla_on_us_keyboard():
 
 
 def install_geckodriver():
-    if Path("~/.local/bin/geckodriver").exists():
+    if Path(LOCAL_BIN_DIR, "geckodriver").exists():
         return
-    res = urlopen("https://github.com/mozilla/geckodriver/releases/latest")
-    page_content = res.read().decode("utf-8")
-    [download_path] = re.findall(
-        "/mozilla/geckodriver/releases/download/.*/geckodriver-.*-linux64.tar.gz",
-        page_content,
+    res = json.load(
+        urlopen("https://api.github.com/repos/mozilla/geckodriver/releases/latest")
     )
-    path = download(urljoin("https://github.com/", download_path), "~/.local/bin")
-    tarfile.open(path).extractall(Path(HOME, ".local/bin"))
+    urls = [a["browser_download_url"] for a in res["assets"]]
+    [download_url] = (d for d in urls if d.endswith("linux64.tar.gz"))
+    path_tar = download(download_url)
+    tarfile.open(path_tar).extractall(LOCAL_BIN_DIR)
 
 
 if "XDG_CURRENT_DESKTOP" in os.environ:
