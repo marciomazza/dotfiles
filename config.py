@@ -78,6 +78,7 @@ pip_install("virtualenvwrapper")
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 pip_install("cdiff")  # used in ~/.bash_customizations
 # color promt, infinite history size and run .bash_customizations
+BASHRC_FILE = Path(HOME, ".bashrc")
 for line in splitlines(
     """
         force_color_prompt=yes
@@ -86,11 +87,12 @@ for line in splitlines(
         test -f ~/.bash_customizations && source ~/.bash_customizations
     """
 ):
-    lineinfile("~/.bashrc", line)
+    lineinfile(BASHRC_FILE, line)
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # development tools
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+LOCAL_BIN_DIR = Path(HOME, ".local/bin")
 
 # neovim
 NVIM_AUTOLOAD_DIR = "~/.local/share/nvim/site/autoload"
@@ -117,6 +119,13 @@ apt_install(
     graphviz libgraphviz-dev
     """
 )
+
+# django
+download(
+    "https://raw.githubusercontent.com/django/django/master/extras/django_bash_completion",
+    LOCAL_BIN_DIR,
+)
+lineinfile(BASHRC_FILE, f". {LOCAL_BIN_DIR}/django_bash_completion")
 
 # add pt_BR locale
 if "pt_BR.utf8" not in run("locale -a", capture_output=True).stdout.splitlines():
