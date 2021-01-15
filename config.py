@@ -2,10 +2,9 @@
 
 import json
 import os
-import re
 import subprocess
 import tarfile
-from urllib.request import urljoin, urlopen
+from urllib.request import urlopen
 
 from base import (Path,
                   apt_install,
@@ -122,11 +121,13 @@ apt_install(
 )
 
 # django
-download(
-    "https://raw.githubusercontent.com/django/django/master/extras/django_bash_completion",
-    LOCAL_BIN_DIR,
-)
-lineinfile(BASHRC_FILE, f". {LOCAL_BIN_DIR}/django_bash_completion")
+DJANGO_BASH_COMPLETION_FILE = Path(LOCAL_BIN_DIR, "django_bash_completion")
+if not DJANGO_BASH_COMPLETION_FILE.exists():
+    download(
+        "https://raw.githubusercontent.com/django/django/master/extras/django_bash_completion",
+        LOCAL_BIN_DIR,
+    )
+    lineinfile(BASHRC_FILE, f". {DJANGO_BASH_COMPLETION_FILE}")
 
 # add pt_BR locale
 if "pt_BR.utf8" not in run("locale -a", capture_output=True).stdout.splitlines():
@@ -203,8 +204,11 @@ def install_geckodriver():
     res = json.load(
         urlopen("https://api.github.com/repos/mozilla/geckodriver/releases/latest")
     )
-    urls = [a["browser_download_url"] for a in res["assets"]]
-    [download_url] = (d for d in urls if d.endswith("linux64.tar.gz"))
+    [download_url] = (
+        url
+        for a in res["assets"]
+        if (url := a["browser_download_url"]).endswith("linux64.tar.gz")
+    )
     path_tar = download(download_url)
     tarfile.open(path_tar).extractall(LOCAL_BIN_DIR)
 
