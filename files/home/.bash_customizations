@@ -81,7 +81,6 @@ alias ddate='date +%d/%m/%Y'
 alias ack='clear; ACK_PAGER_COLOR="less -x4SRFX" /usr/bin/ack-grep -a --follow'  # http://shuttlethread.com/blog/useful-ack-defaults
 alias cp='cp -a -v'
 alias w=workon
-alias i=ipython
 alias p=pytest
 
 tt ()
@@ -158,6 +157,16 @@ ff ()
 fz ()
 {
     readlink -f "$*" | tr -d '[[:space:]]' | xclip -selection c
+}
+
+i ()
+# use either IPython or django extensions shell_plus
+{
+    if test -f "manage.py"; then
+        ./manage.py shell_plus
+    else
+        ipython
+    fi
 }
 
 
