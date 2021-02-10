@@ -16,3 +16,7 @@
 	email = marciomazza@gmail.com
 [push]
 	default = simple
+[difftool]
+	trustExitCode = true
+[mergetool]
+	trustExitCode = true
