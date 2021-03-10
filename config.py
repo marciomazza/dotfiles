@@ -6,18 +6,20 @@ import subprocess
 import tarfile
 from urllib.request import urlopen
 
-from base import (Path,
-                  apt_install,
-                  download,
-                  download_and_install_deb,
-                  is_not_dpkg_installed,
-                  lineinfile,
-                  pip_install,
-                  run,
-                  snap_install,
-                  splitlines,
-                  symlink,
-                  temporary_ownership_of,)
+from base import (
+    Path,
+    apt_install,
+    download,
+    download_and_install_deb,
+    is_not_dpkg_installed,
+    lineinfile,
+    pip_install,
+    run,
+    snap_install,
+    splitlines,
+    symlink,
+    temporary_ownership_of,
+)
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # basic
@@ -113,6 +115,7 @@ apt_install(
     mysql-server mysql-client
     libmysqlclient-dev          # for MySQL-python
     postgresql
+    sqlite3
     python3-tk                  # for %paste in IPython
     libpq-dev                   # for psycopg
 
