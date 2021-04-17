@@ -19,6 +19,7 @@ from base import (
     splitlines,
     symlink,
     temporary_ownership_of,
+    get_return_code,
 )
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -36,6 +37,17 @@ apt_install(
     docker.io docker-compose
     """
 )
+
+# BUG https://bugs.launchpad.net/ubuntu/+source/libwebcam/+bug/811604
+#     webcam related log file grows without boundaries
+# workaround: purge the package uvcdynctrl
+# see https://bugs.launchpad.net/ubuntu/+source/libwebcam/+bug/811604/comments/48
+uvcdynctrl_log = Path("/var/log/uvcdynctrl-udev.log")
+if uvcdynctrl_log.exists() or get_return_code("dpkg -s uvcdynctrl") == 0:
+    run(f"sudo rm -f {uvcdynctrl_log}")
+    # purge the offending package as a workaround
+    run("sudo apt purge uvcdynctrl --yes --quiet --quiet")
+
 
 # Remove unnecessary hunspell english dicts
 for dic in Path("/usr/share/hunspell").glob("en_*"):
