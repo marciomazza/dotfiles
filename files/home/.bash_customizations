@@ -17,7 +17,6 @@ alias mkig='cp ~/.z/dots/.gitignore .'
 alias gitpush='git push origin `git status | head -n 1 | sed "s/# On branch //"`'
 alias svnorigem='git log -n 1 | grep svn-id | sed -e "s#git-svn-id: \([^@]\+\)@.\+#\1#"'
 alias unwhite='git stash && git stash apply && git diff -w > foo.patch && git checkout . && git apply foo.patch && git rm foo.patch'
-alias gitk='gitg --all &'
 alias svnlog='svn log -l 5 `git log | grep svn-id | head -n 1 | sed -e "s#git-svn-id: \([^@]\+\)@.\+#\1#"`'
 
 # open current repo on github
