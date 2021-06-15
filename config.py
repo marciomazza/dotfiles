@@ -11,6 +11,7 @@ from base import (
     apt_install,
     download,
     download_and_install_deb,
+    get_return_code,
     is_not_dpkg_installed,
     lineinfile,
     pip_install,
@@ -19,7 +20,6 @@ from base import (
     splitlines,
     symlink,
     temporary_ownership_of,
-    get_return_code,
 )
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -266,3 +266,15 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
     # more desktop dev tools
     apt_install("gitg meld pgadmin3")
     install_geckodriver()
+
+    # TODO
+    # disable faulty lenovo webcam
+    # based on https://superuser.com/a/982292
+    #
+    # add disable to the startup using cron
+    # based on https://karlcode.owtelse.com/blog/2017/01/09/disabling-usb-ports-on-linux/
+    #
+    # ... > sudo crontab -e
+    #
+    # disable builtin webcam
+    # @reboot echo 0 > /sys/bus/usb/devices/2-8/bConfigurationValue
