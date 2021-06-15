@@ -54,11 +54,20 @@ htmlcov
 *.sublime-project
 *.sublime-workspace
 
-zdev.cfg
-zzz*
 *.orig
 geckodriver.log
 .mypy_cache
 .hypothesis
 .pytype
 .tox
+
+# httpie
+session.json
+
+# personal file to ignore reformat revisions
+.git-blame-ignore-revs
+
+# my personal ignored stuff
+zdev.cfg
+zzz*
+project.todo
