@@ -5,7 +5,7 @@ ip = get_ipython()
 kb = ip.pt_app.key_bindings
 
 
-def _(func, key):
+def _register(func, key):
     @kb.add("escape", key)
     def _indent_unindent(event):
         buffer = event.current_buffer
@@ -13,4 +13,4 @@ def _(func, key):
 
 
 for func, key in ((indent, ">"), (unindent, "<")):
-    _(func, key)
+    _register(func, key)
