@@ -2,7 +2,7 @@ c = get_config()  # noqa
 c.InteractiveShell.autocall = 2
 c.InteractiveShell.logstart = True
 c.InteractiveShellApp.extensions = ["autoreload"]
-c.PlainTextFormatter.max_width = 110
+c.PlainTextFormatter.max_width = 160
 c.InteractiveShellApp.exec_lines = [
     "%autoreload 2",
     # load extensions ignoring absent ones
