@@ -66,7 +66,8 @@ for here in files_home_dir.rglob("*"):
     if here.is_dir() and not here.is_symlink():
         athome.mkdir(exist_ok=True)
     else:
-        symlink(athome, here)
+        if here.name != ".gitkeep":  # skip directory holders
+            symlink(athome, here)
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # python
