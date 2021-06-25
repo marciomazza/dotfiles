@@ -6,7 +6,7 @@
   [[default]]
     background_color = "#300a24"
     cursor_color = "#ffffff"
-    font = Ubuntu Mono 12
+    font = Ubuntu Mono 14
     foreground_color = "#ffffff"
     show_titlebar = False
     scrollback_infinite = True
@@ -16,7 +16,7 @@
     copy_on_selection = True
   [[migracaosapl31]]
     cursor_color = "#aaaaaa"
-    font = Ubuntu Mono 15
+    font = Ubuntu Mono 14
     foreground_color = "#fcaf3e"
     palette = "#282828:#cc241d:#98971a:#d79921:#458588:#b16286:#689d6a:#a89984:#928374:#fb4934:#b8bb26:#fabd2f:#83a598:#d3869b:#8ec07c:#ebdbb2"
     word_chars = "-,./?%&#:_~"
