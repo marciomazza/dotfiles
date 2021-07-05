@@ -64,9 +64,6 @@ geckodriver.log
 # httpie
 session.json
 
-# personal file to ignore reformat revisions
-.git-blame-ignore-revs
-
 # my personal ignored stuff
 zdev.cfg
 zzz*

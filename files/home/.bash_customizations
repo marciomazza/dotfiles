@@ -81,6 +81,7 @@ alias ack='clear; ACK_PAGER_COLOR="less -x4SRFX" /usr/bin/ack-grep -a --follow' 
 alias cp='cp -a -v'
 alias w=workon
 alias p=pytest
+alias vimdiff="nvim -d"
 
 tt ()
 {
