@@ -1,24 +1,24 @@
 [color]
-    ui = true
+  ui = true
 [diff]
-    tool = vimdiff
+  tool = vimdiff
 [merge]
-    tool = vimdiff
+  tool = vimdiff
 [core]
-    excludesfile = /home/mazza/.gitignore
+  excludesfile = /home/mazza/.gitignore
 [alias]
-    st = status
-    ci = commit
-    co = checkout
-    df = diff --color-words
+  st = status
+  ci = commit
+  co = checkout
+  df = diff --color-words
 [user]
-    name = Marcio Mazza
-    email = marciomazza@gmail.com
+  name = Marcio Mazza
+  email = marciomazza@gmail.com
 [push]
-    default = simple
+  default = simple
 [difftool]
-    trustExitCode = true
+  trustExitCode = true
 [mergetool]
-    trustExitCode = true
+  trustExitCode = true
 [includeIf "gitdir:~/work/"]
-    path = ~/work/.gitconfig
+  path = ~/work/.gitconfig
