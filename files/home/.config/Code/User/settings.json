@@ -1,29 +1,26 @@
 {
-    "telemetry.enableTelemetry": false,
-    "editor.minimap.enabled": false,
-    "breadcrumbs.enabled": true,
-    "workbench.statusBar.feedback.visible": false,
-    "workbench.startupEditor": "newUntitledFile",
-    "window.zoomLevel": 1,
+  "telemetry.enableTelemetry": false,
+  "editor.minimap.enabled": false,
+  "breadcrumbs.enabled": true,
+  "workbench.statusBar.feedback.visible": false,
+  "workbench.startupEditor": "newUntitledFile",
+  "window.zoomLevel": 1,
 
-    "vim.useCtrlKeys": false,
-    "vim.leader": ",",
-    "vim.normalModeKeyBindingsNonRecursive": [
-        {
-            "before": ["<leader>", "c"],
-            "commands": [
-                "workbench.action.closeActiveEditor"
-            ]
-        },
-    ],
-    "workbench.colorTheme": "Brogrammer",
-    "editor.hideCursorInOverviewRuler": true,
-    "editor.scrollbar.horizontal": "hidden",
-    "editor.scrollbar.vertical": "hidden",
-    "window.menuBarVisibility": "default",
-    "workbench.activityBar.visible": false,
-    "workbench.editor.highlightModifiedTabs": true,
-    "editor.formatOnSave": true,
-    "python.formatting.provider": "black",
-
+  "vim.useCtrlKeys": false,
+  "vim.leader": ",",
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<leader>", "c"],
+      "commands": ["workbench.action.closeActiveEditor"]
+    }
+  ],
+  "workbench.colorTheme": "Brogrammer",
+  "editor.hideCursorInOverviewRuler": true,
+  "editor.scrollbar.horizontal": "hidden",
+  "editor.scrollbar.vertical": "hidden",
+  "window.menuBarVisibility": "default",
+  "workbench.activityBar.visible": false,
+  "workbench.editor.highlightModifiedTabs": true,
+  "editor.formatOnSave": true,
+  "python.formatting.provider": "black"
 }
