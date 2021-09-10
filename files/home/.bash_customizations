@@ -5,10 +5,10 @@
 # GIT
 alias s='git status -sb'
 alias ss='git status -s | cut -c4- | xargs vim'
-alias d='clear; cdiff --ignore-all-space'
-alias di='clear; cdiff --ignore-all-space --cached'
-alias dd='clear; git difftool --no-prompt'
-alias ddi='clear; git difftool --no-prompt --cached'
+alias d='clear; cdiff --ignore-all-space -- ":(exclude)poetry.lock"'
+alias di='clear; cdiff --ignore-all-space --cached -- ":(exclude)poetry.lock"'
+alias dd='clear; git difftool --no-prompt -- ":(exclude)poetry.lock"'
+alias ddi='clear; git difftool --no-prompt --cached -- ":(exclude)poetry.lock"'
 # poderia usar  | sed 's/\([0-9]* [a-z]*\) ago/\1/' mas isso quebra o "less" do git
 # alias lo="git log --format='%ad %Cblue%an%C(auto) %h %s%d' --date=relative --branches --remotes --tags --graph --oneline --decorate"
 alias lo="git log --format='%ad %Cblue%an%C(auto) %h %s%d' --date=relative --all --graph"

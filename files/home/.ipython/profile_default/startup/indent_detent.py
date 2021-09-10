@@ -12,5 +12,10 @@ def _register(func, key):
         func(buffer, 0, buffer.document.line_count)
 
 
-for func, key in ((indent, ">"), (unindent, "<")):
-    _register(func, key)
+def _do_register():
+    for func, key in ((indent, ">"), (unindent, "<")):
+        _register(func, key)
+
+
+# run like this to avoid binding variables here
+_do_register()
