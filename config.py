@@ -235,6 +235,7 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
         terminator
         gnome-tweak-tool gnome-shell-extensions gnome-shell-pomodoro
         dconf-editor
+        gnome-shell-extension-autohidetopbar
 
         gimp imagemagick
         vlc mplayer audacity ffmpeg
