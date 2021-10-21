@@ -22,14 +22,14 @@
   "editor.scrollbar.horizontal": "hidden",
   "editor.scrollbar.vertical": "hidden",
   "window.menuBarVisibility": "toggle",
-  "workbench.activityBar.visible": false,
-  "workbench.editor.highlightModifiedTabs": true,
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.organizeImports": false
   },
+  "editor.snippetSuggestions": "top",
   "python.formatting.provider": "black",
-  "workbench.colorTheme": "Monokai Extended",
+  "workbench.activityBar.visible": false,
+  "workbench.editor.highlightModifiedTabs": true,
   "workbench.editorAssociations": {
     "*.ipynb": "jupyter-notebook"
   },
@@ -52,5 +52,9 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "javascript.updateImportsOnFileMove.enabled": "always",
-  "editor.autoClosingBrackets": "always"
+  "editor.autoClosingBrackets": "always",
+  "workbench.colorTheme": "Monokai Extended",
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }
