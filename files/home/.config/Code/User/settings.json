@@ -27,6 +27,7 @@
     "source.organizeImports": false
   },
   "editor.snippetSuggestions": "top",
+  "editor.bracketPairColorization.enabled": true,
   "python.formatting.provider": "black",
   "workbench.activityBar.visible": false,
   "workbench.editor.highlightModifiedTabs": true,
