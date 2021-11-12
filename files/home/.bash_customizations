@@ -67,6 +67,7 @@ function c ()
 alias zclip='xclip -selection c '
 alias pz='pwd | tr -d ''[[:space:]]'' | xclip -selection c'
 alias e='vim'
+alias ee='code'
 alias x='trash-put'
 alias z='cd ..'
 alias zz='cd ../..'
