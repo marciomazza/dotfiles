@@ -175,6 +175,13 @@ def install_git_trim():
 
 install_git_trim()
 
+# TODO...
+# docker compose V2
+# https://docs.docker.com/compose/cli-command/
+#
+# sudo mkdir -p /usr/local/lib/docker/cli-plugins
+# sudo curl -SL https://github.com/docker/compose/releases/download/v2.0.1/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose
+
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # desktop
