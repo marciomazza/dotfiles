@@ -1,10 +1,7 @@
 #!/usr/bin/python3
 
-import json
 import os
 import subprocess
-import tarfile
-from urllib.request import urlopen
 
 from base import (
     Path,
@@ -12,6 +9,7 @@ from base import (
     download,
     download_and_install_deb,
     get_return_code,
+    install_from_github_release,
     is_not_dpkg_installed,
     lineinfile,
     pip_install,
@@ -167,6 +165,24 @@ def install_node(version):
 install_node(14)
 
 
+def install_git_trim():
+    # https://github.com/foriequal0/git-trim
+    install_from_github_release(
+        "foriequal0/git-trim", ".*linux.*tgz$", LOCAL_BIN_DIR, "git-trim"
+    )
+    run("git config --global trim.bases develop,master")
+
+
+install_git_trim()
+
+# TODO...
+# docker compose V2
+# https://docs.docker.com/compose/cli-command/
+#
+# sudo mkdir -p /usr/local/lib/docker/cli-plugins
+# sudo curl -SL https://github.com/docker/compose/releases/download/v2.0.1/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose
+
+
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # desktop
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -215,18 +231,9 @@ def fix_cedilla_on_us_keyboard():
 
 
 def install_geckodriver():
-    if Path(LOCAL_BIN_DIR, "geckodriver").exists():
-        return
-    res = json.load(
-        urlopen("https://api.github.com/repos/mozilla/geckodriver/releases/latest")
+    install_from_github_release(
+        "mozilla/geckodriver", ".*linux64.*tar\.gz$", LOCAL_BIN_DIR, "geckodriver"
     )
-    [download_url] = (
-        url
-        for a in res["assets"]
-        if (url := a["browser_download_url"]).endswith("linux64.tar.gz")
-    )
-    path_tar = download(download_url)
-    tarfile.open(path_tar).extractall(LOCAL_BIN_DIR)
 
 
 if "XDG_CURRENT_DESKTOP" in os.environ:
@@ -235,6 +242,7 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
         terminator
         gnome-tweak-tool gnome-shell-extensions gnome-shell-pomodoro
         dconf-editor
+        gnome-shell-extension-autohidetopbar
 
         gimp imagemagick
         vlc mplayer audacity ffmpeg
@@ -267,6 +275,7 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
     # more desktop dev tools
     apt_install("gitg meld pgadmin3")
     install_geckodriver()
+    install_git_trim()
 
     # TODO
     # disable faulty lenovo webcam

@@ -22,3 +22,5 @@
   trustExitCode = true
 [includeIf "gitdir:~/work/"]
   path = ~/work/.gitconfig
+[trim]
+	bases = develop,master

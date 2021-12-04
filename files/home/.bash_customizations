@@ -67,6 +67,7 @@ function c ()
 alias zclip='xclip -selection c '
 alias pz='pwd | tr -d ''[[:space:]]'' | xclip -selection c'
 alias e='vim'
+alias ee='code'
 alias x='trash-put'
 alias z='cd ..'
 alias zz='cd ../..'
@@ -85,6 +86,8 @@ alias vimdiff="nvim -d"
 
 tt ()
 {
+    # TODO compatibilizar com tz
+
 	# remove "/" do final do nome do diretorio, que tipicamente aparece ao completar com TAB
 	local dir="`echo $1 | sed \"s/\/$//\"`" ;
 	tar -cf "$dir.`hostname`.`date +"%Y-%m-%d.%H%M"`.tar" $1
@@ -94,7 +97,7 @@ tz ()
 {
 	# remove "/" do final do nome do diretorio, que tipicamente aparece ao completar com TAB
 	local dir="`echo $1 | sed \"s/\/$//\"`" ;
-	tar -czf "$dir.`hostname`.`date +"%Y-%m-%d.%H%M"`.tar.gz" $1
+	tar -czf "$dir.`hostname`.`date +"%Y-%m-%d.%H%M"`.tar.gz" --exclude=node_modules --exclude=.mypy_cache --exclude=.pytest_cache $1
 }
 
 revertall-svn ()
