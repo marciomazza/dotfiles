@@ -24,3 +24,5 @@
   path = ~/work/.gitconfig
 [trim]
 	bases = develop,master
+[init]
+	defaultBranch = main
