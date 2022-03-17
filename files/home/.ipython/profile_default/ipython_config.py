@@ -15,5 +15,5 @@ for ext in ["ipython_autoimport", "pprintpp"]:
 ]
 # c.TerminalInteractiveShell.editing_mode = "vi"
 
-# would like to use the black autoformatter, but it bugs autocall
-# c.TerminalInteractiveShell.autoformatter = "black"
+# FIXME would like to use the black autoformatter, but it bugs autocall
+c.InteractiveShell.autoformatter = None
