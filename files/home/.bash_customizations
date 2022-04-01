@@ -237,7 +237,7 @@ export VIRTUALENVWRAPPER_PYTHON=`which python3`
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/work
 mkdir -p $PROJECT_HOME
-source ~/.local/bin/virtualenvwrapper.sh
+source /usr/local/bin/virtualenvwrapper.sh
 
 # 256 colors
 if [ -n "$DISPLAY" -a "$TERM" == "xterm" ]; then
