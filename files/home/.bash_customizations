@@ -2,6 +2,7 @@
 #   MEUS ALIASES E FUNÇÕES   #
 ##############################
 
+alias clear='clear -x'
 # GIT
 alias s='git status -sb'
 alias ss='git status -s | cut -c4- | xargs vim'
