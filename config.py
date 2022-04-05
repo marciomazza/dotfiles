@@ -232,7 +232,7 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
     apt_install(
         """
         terminator fonts-hack-ttf
-        gnome-tweaks gnome-shell-extensions gnome-shell-pomodoro
+        gnome-tweaks gnome-shell-extensions
         dconf-editor
         gnome-shell-extension-autohidetopbar
 
