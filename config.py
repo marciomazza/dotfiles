@@ -200,28 +200,6 @@ def adjust_desktop():
         subprocess.check_call(["gsettings", "set", schema, key, value])
 
 
-def fix_cedilla_on_us_keyboard():
-    with temporary_ownership_of(
-        "/usr/lib/x86_64-linux-gnu/gtk-3.0/3.0.0/immodules.cache"
-    ) as path:
-        lineinfile(
-            path,
-            '"cedilla" "Cedilla" "gtk30" "/usr/share/locale" "az:ca:co:fr:gv:oc:pt:sq:tr:wa:en"',  # noqa
-            '"cedilla" "Cedilla" "gtk30"',
-        )
-    with temporary_ownership_of("/usr/share/X11/locale/en_US.UTF-8/Compose") as path:
-        path.write_text(path.read_text().replace("ć", "ç").replace("Ć", "Ç"))
-
-    with temporary_ownership_of("/etc/environment") as path:
-        for line in splitlines(
-            """
-            GTK_IM_MODULE=cedilla
-            QT_IM_MODULE=cedilla
-            """
-        ):
-            lineinfile(path, line)
-
-
 def install_geckodriver():
     install_from_github_release(
         "mozilla/geckodriver", ".*linux64.*tar\.gz$", LOCAL_BIN_DIR, "geckodriver"
@@ -255,7 +233,6 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
 
     install_spotify()
     adjust_desktop()
-    fix_cedilla_on_us_keyboard()
     download_and_install_deb("https://zoom.us/client/latest/zoom_amd64.deb", "zoom")
 
     # banco do brasil
