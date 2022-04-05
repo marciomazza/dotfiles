@@ -244,7 +244,7 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
     )
 
     # custom firefox appearance
-    [firefox_profile] = Path("~/.mozilla/firefox").glob("*.default-release")
+    [firefox_profile] = Path("~/snap/firefox/common/.mozilla/firefox").glob("*.default")
     symlink(Path(firefox_profile, "user.js"), Path(FILES, "firefox/user.js"))
 
     # install google chrome
