@@ -108,10 +108,12 @@ if not Path(NVIM_AUTOLOAD_DIR, "plug.vim").exists():
         universal-ctags         # for majutsushi/tagbar
         """
     )
+    run(f"mkdir -p {NVIM_AUTOLOAD_DIR}")
     download(
         "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim",
         NVIM_AUTOLOAD_DIR,
     )
+    pip_install("black isort")  # used on save python files
 
 apt_install(
     """
