@@ -123,8 +123,6 @@ if not Path(NVIM_AUTOLOAD_DIR, "plug.vim").exists():
 
 apt_install(
     """
-    mysql-server mysql-client
-    libmysqlclient-dev          # for MySQL-python
     postgresql
     sqlite3
     python3-tk                  # for %paste in IPython
