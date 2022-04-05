@@ -231,7 +231,7 @@ def install_geckodriver():
 if "XDG_CURRENT_DESKTOP" in os.environ:
     apt_install(
         """
-        terminator
+        terminator fonts-hack-ttf
         gnome-tweak-tool gnome-shell-extensions gnome-shell-pomodoro
         dconf-editor
         gnome-shell-extension-autohidetopbar
