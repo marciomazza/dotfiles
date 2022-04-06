@@ -30,8 +30,7 @@ org.gnome.settings-daemon.plugins.color night-light-schedule-to 6.0
 org.gnome.settings-daemon.plugins.color night-light-temperature 2700
 
 # do not show icons on desktop
-org.gnome.shell.extensions.desktop-icons show-trash false
-org.gnome.shell.extensions.desktop-icons show-home false
+org.gnome.shell.extensions.ding show-home false
 
 # more self explanatory tweaks
 org.gnome.desktop.interface clock-show-date true
