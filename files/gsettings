@@ -1,5 +1,5 @@
 # Desktop preferences in a gsettings friendly format
-# based on ubuntu 20.04
+# based on ubuntu 22.04
 
 org.gnome.desktop.datetime automatic-timezone true
 
@@ -8,7 +8,7 @@ org.gnome.shell.app-switcher current-workspace-only true
 # Caps => another Ctrl, 2 shifts => caps on, one shift => caps off, right alt is compose (mainly to write ß)
 org.gnome.desktop.input-sources xkb-options ['caps:ctrl_modifier', 'shift:both_capslock_cancel', 'compose:ralt']
 # laucher favorites
-org.gnome.shell favorite-apps ['firefox.desktop', 'org.gnome.Nautilus.desktop', 'google-chrome.desktop']
+org.gnome.shell favorite-apps ['firefox_firefox.desktop', 'org.gnome.Nautilus.desktop', 'google-chrome.desktop']
 
 # nautilus
 org.gnome.nautilus.list-view default-zoom-level 'small'
