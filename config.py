@@ -264,6 +264,7 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
     apt_install("gitk gitg meld")
     install_geckodriver()
     install_git_trim()
+    snap_install("teams")
 
     # TODO
     # disable faulty lenovo webcam
