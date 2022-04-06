@@ -14,16 +14,8 @@ org.gnome.shell favorite-apps ['firefox_firefox.desktop', 'org.gnome.Nautilus.de
 org.gnome.nautilus.list-view default-zoom-level 'small'
 org.gnome.nautilus.preferences default-folder-viewer 'list-view'
 
-# auto hide the dock and adjust icon size
-org.gnome.shell.extensions.dash-to-dock dock-fixed false
-# -> show dock really only when mouse touches the edge
-#    this avoids the dock appearing alongside a non maximized window
-#    https://discourse.ubuntu.com/t/ubuntu-dock-add-true-autohide-option-to-default-session/11200/4
-org.gnome.shell.extensions.dash-to-dock intellihide false
-org.gnome.shell.extensions.dash-to-dock dash-max-icon-size 32
-# leave minimal on dock
-org.gnome.shell.extensions.dash-to-dock show-mounts false
-org.gnome.shell.extensions.dash-to-dock show-trash false
+# completely hide the dock
+org.gnome.shell disabled-extensions ['ubuntu-dock@ubuntu.com']
 
 # night-light warmer and fixed for all day
 org.gnome.settings-daemon.plugins.color night-light-enabled true
