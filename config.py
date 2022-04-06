@@ -259,7 +259,7 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
     )
 
     # more desktop dev tools
-    apt_install("gitg meld pgadmin3")
+    apt_install("gitg meld")
     install_geckodriver()
     install_git_trim()
 
