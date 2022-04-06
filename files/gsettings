@@ -15,7 +15,8 @@ org.gnome.nautilus.list-view default-zoom-level 'small'
 org.gnome.nautilus.preferences default-folder-viewer 'list-view'
 
 # completely hide the dock
-org.gnome.shell disabled-extensions ['ubuntu-dock@ubuntu.com']
+# do not show icons on desktop
+org.gnome.shell disabled-extensions ['ubuntu-dock@ubuntu.com', 'ding@rastersoft.com']
 
 # night-light warmer and fixed for all day
 org.gnome.settings-daemon.plugins.color night-light-enabled true
@@ -23,9 +24,6 @@ org.gnome.settings-daemon.plugins.color night-light-schedule-automatic false
 org.gnome.settings-daemon.plugins.color night-light-schedule-from 20.0
 org.gnome.settings-daemon.plugins.color night-light-schedule-to 6.0
 org.gnome.settings-daemon.plugins.color night-light-temperature 2700
-
-# do not show icons on desktop
-org.gnome.shell.extensions.ding show-home false
 
 # more self explanatory tweaks
 org.gnome.desktop.interface clock-show-date true
