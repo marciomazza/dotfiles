@@ -84,6 +84,7 @@ pip_install("virtualenvwrapper")
 pip_install("cdiff")  # used in ~/.bash_customizations
 # color promt, infinite history size and run .bash_customizations
 BASHRC_FILE = Path(HOME, ".bashrc")
+PROFILE_FILE = Path(HOME, ".profile")
 for line in splitlines(
     """
         force_color_prompt=yes
@@ -125,6 +126,22 @@ apt_install(
     graphviz libgraphviz-dev
     """
 )
+
+# poetry
+def install_poetry():
+    poetry_home = f"{HOME}/.local/share/poetry"
+    if poetry_home in os.environ["PATH"]:
+        return
+    print("Installing poetry...")
+    get_poetry = download(
+        "https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py"
+    )
+    env = os.environ | {"POETRY_HOME": poetry_home}
+    run(f"python3 {get_poetry} --yes", env=env, capture_output=True)
+    lineinfile(PROFILE_FILE, f'PATH="$HOME/.local/share/poetry/bin:$PATH"')
+
+
+install_poetry()
 
 # django
 DJANGO_BASH_COMPLETION_FILE = Path(LOCAL_BIN_DIR, "django_bash_completion")
