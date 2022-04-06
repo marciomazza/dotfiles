@@ -265,6 +265,10 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
     install_geckodriver()
     install_git_trim()
     snap_install("teams")
+    download_and_install_deb(
+        "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64",
+        "code",
+    )
 
     # TODO
     # disable faulty lenovo webcam

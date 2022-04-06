@@ -1,3 +1,4 @@
+import cgi
 import json
 import os
 import pathlib
@@ -98,23 +99,29 @@ def lineinfile(path, line, start=None):
     path.write_text("".join(text_with_line()))
 
 
-def get_url_headers(url):
-    return urlopen(Request(url, method="HEAD")).info()
+def get_filename_for_download(url, headers):
+    if content_disposition := headers.get("Content-Disposition"):
+        match cgi.parse_header(content_disposition):
+            case ("attachment", {"filename": filename}):
+                return filename
+    return Path(url).name
 
 
 def download(url, dest_dir="/tmp"):
-    print(f"Downloading {url}... ", end="", flush=True)
-    tmp_dest = Path(dest_dir, Path(url).name)
+    print(f"Downloading {url}... ")
+    pre_headers = urlopen(Request(url, method="HEAD")).info()
+    tmp_dest = Path(dest_dir, get_filename_for_download(url, pre_headers))
+    print(f"  filename: {tmp_dest}... ", end="", flush=True)
 
     def is_downloaded(headers):
         lenght = int(headers["Content-Length"])
         return tmp_dest.exists() and tmp_dest.stat().st_size == lenght
 
-    if is_downloaded(get_url_headers(url)):
+    if is_downloaded(pre_headers):
         print("already downloaded")
     else:
-        _, headers = urlretrieve(url, tmp_dest)
-        assert is_downloaded(headers)
+        _, final_headers = urlretrieve(url, tmp_dest)
+        assert is_downloaded(final_headers)
         print("done")
     return tmp_dest
 
