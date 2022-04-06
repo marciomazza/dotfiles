@@ -33,6 +33,7 @@ apt_install(
     tree trash-cli xclip curl smbclient htop ncdu silversearcher-ag
 
     docker.io docker-compose
+    openfortivpn
     """
 )
 
