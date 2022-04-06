@@ -230,7 +230,6 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
         terminator fonts-hack-ttf
         gnome-tweaks gnome-shell-extensions
         dconf-editor
-        gnome-shell-extension-autohidetopbar
 
         gimp imagemagick
         vlc mplayer audacity ffmpeg
@@ -238,6 +237,8 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
         libreoffice
         """
     )
+    # XXX reenable extension when available for ubuntu 22.04
+    # gnome-shell-extension-autohidetopbar
 
     # custom firefox appearance
     [firefox_profile] = Path("~/snap/firefox/common/.mozilla/firefox").glob("*.default")
