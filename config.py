@@ -245,6 +245,9 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
     [firefox_profile] = Path("~/snap/firefox/common/.mozilla/firefox").glob("*.default")
     symlink(Path(firefox_profile, "user.js"), Path(FILES, "firefox/user.js"))
 
+    # make firefox the default browser on X
+    run("xdg-settings set default-web-browser firefox_firefox.desktop")
+
     # install google chrome
     download_and_install_deb(
         "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb",
