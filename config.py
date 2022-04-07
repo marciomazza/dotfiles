@@ -226,6 +226,25 @@ def install_geckodriver():
     )
 
 
+VSCODE_EXTENSIONS = """
+    vscodevim.vim
+    dbaeumer.vscode-eslint
+    esbenp.prettier-vscode
+"""
+
+
+def install_vscode():
+    download_and_install_deb(
+        "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64",
+        "code",
+    )
+    out = run("code --list-extensions", capture_output=True)
+    installed_extensions = set(out.stdout.splitlines())
+    extensions = set(splitlines(VSCODE_EXTENSIONS))
+    for extension in extensions - installed_extensions:
+        run(f"code --install-extension {extension}")
+
+
 if "XDG_CURRENT_DESKTOP" in os.environ:
     apt_install(
         """
@@ -271,10 +290,7 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
     install_geckodriver()
     install_git_trim()
     snap_install("teams")
-    download_and_install_deb(
-        "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64",
-        "code",
-    )
+    install_vscode()
 
     # TODO
     # disable faulty lenovo webcam
