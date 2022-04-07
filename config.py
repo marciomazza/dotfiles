@@ -172,7 +172,7 @@ def install_node(version):
         apt_install("")
 
 
-install_node(14)
+install_node(16)
 
 
 def install_git_trim():
