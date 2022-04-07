@@ -241,6 +241,7 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
     # gnome-shell-extension-autohidetopbar
 
     # custom firefox appearance
+    # FIXME firefox is ignoring this, as it seems from ubuntu 22.04 snap firefox
     [firefox_profile] = Path("~/snap/firefox/common/.mozilla/firefox").glob("*.default")
     symlink(Path(firefox_profile, "user.js"), Path(FILES, "firefox/user.js"))
 
