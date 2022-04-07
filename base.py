@@ -35,7 +35,7 @@ def strip_comments(text):
     return re.sub(" *#.*", "", text)
 
 
-def install(tool, packages, cmd, test_cmd):
+def install(tool, packages, cmd, test_cmd="which"):
     for name in strip_comments(packages).split():
         if get_return_code(f"{test_cmd} {name}"):
             print(f"{tool}: installing {name}...")
@@ -48,6 +48,10 @@ def apt_install(packages):
 
 def pip_install(packages):
     install("pip", packages, "pip install {}", "pip show")
+
+
+def npm_install(packages):
+    return install("global npm", packages, "sudo npm install --global {}")
 
 
 def splitlines(text):

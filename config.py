@@ -12,6 +12,7 @@ from base import (
     install_from_github_release,
     is_not_dpkg_installed,
     lineinfile,
+    npm_install,
     pip_install,
     run,
     snap_install,
@@ -127,6 +128,7 @@ apt_install(
     graphviz libgraphviz-dev
     """
 )
+npm_install("yarn")
 
 # poetry
 def install_poetry():
