@@ -111,22 +111,34 @@ def get_filename_for_download(url, headers):
     return Path(url).name
 
 
+@contextmanager
+def print_message_and_done(message):
+    done_message = "done"
+
+    def done(msg):
+        nonlocal done_message
+        done_message = msg
+
+    print(f"{message}... ", end="", flush=True)
+    yield done
+    print(done_message)
+
+
 def download(url, dest_dir="/tmp"):
-    print(f"Downloading {url}... ")
+    print(f"Downloading {url}")
     pre_headers = urlopen(Request(url, method="HEAD")).info()
     tmp_dest = Path(dest_dir, get_filename_for_download(url, pre_headers))
-    print(f"  filename: {tmp_dest}... ", end="", flush=True)
+    with print_message_and_done(f"  filename: {tmp_dest}") as done:
 
-    def is_downloaded(headers):
-        lenght = int(headers["Content-Length"])
-        return tmp_dest.exists() and tmp_dest.stat().st_size == lenght
+        def is_downloaded(headers):
+            lenght = int(headers["Content-Length"])
+            return tmp_dest.exists() and tmp_dest.stat().st_size == lenght
 
-    if is_downloaded(pre_headers):
-        print("already downloaded")
-    else:
-        _, final_headers = urlretrieve(url, tmp_dest)
-        assert is_downloaded(final_headers)
-        print("done")
+        if is_downloaded(pre_headers):
+            done("already downloaded")
+        else:
+            _, final_headers = urlretrieve(url, tmp_dest)
+            assert is_downloaded(final_headers)
     return tmp_dest
 
 
