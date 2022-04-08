@@ -58,5 +58,6 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "explorer.confirmDelete": false,
-  "window.zoomLevel": 1
+  "window.zoomLevel": 1,
+  "workbench.statusBar.visible": false
 }
