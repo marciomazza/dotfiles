@@ -14,6 +14,7 @@ from base import (
     lineinfile,
     npm_install,
     pip_install,
+    print_message_and_done,
     run,
     snap_install,
     splitlines,
@@ -102,21 +103,46 @@ for line in splitlines(
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 LOCAL_BIN_DIR = Path(HOME, ".local/bin")
 
-# neovim
-NVIM_AUTOLOAD_DIR = "~/.local/share/nvim/site/autoload"
-if not Path(NVIM_AUTOLOAD_DIR, "plug.vim").exists():
-    apt_install(
-        """
-        neovim
-        universal-ctags         # for majutsushi/tagbar
-        """
-    )
-    run(f"mkdir -p {NVIM_AUTOLOAD_DIR}")
-    download(
-        "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim",
-        NVIM_AUTOLOAD_DIR,
-    )
-    pip_install("black isort")  # used on save python files
+
+def install_nerd_font(base_font_name, font_filename):
+    # install patched Hack nerd font (https://www.nerdfonts.com)
+    # we install only
+    custom_fonts_dir = "/usr/local/share/fonts/truetype/custom"
+    run(f"sudo mkdir -p {custom_fonts_dir}")
+
+    with temporary_ownership_of(custom_fonts_dir):
+        done_for_the_first_time = install_from_github_release(
+            "ryanoasis/nerd-fonts",
+            f".*{base_font_name}.zip",
+            custom_fonts_dir,
+            font_filename,
+        )
+    if done_for_the_first_time:
+        with print_message_and_done(f"Updating fonts"):
+            run("sudo fc-cache -rsv", capture_output=True)
+
+
+def install_neovim():
+    NVIM_AUTOLOAD_DIR = "~/.local/share/nvim/site/autoload"
+    if not Path(NVIM_AUTOLOAD_DIR, "plug.vim").exists():
+        apt_install(
+            """
+            neovim
+            universal-ctags         # for majutsushi/tagbar
+            """
+        )
+        run(f"mkdir -p {NVIM_AUTOLOAD_DIR}")
+        download(
+            "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim",
+            NVIM_AUTOLOAD_DIR,
+        )
+        pip_install("black isort")  # used on save python files
+
+    # install patched Hack font for ryanoasis/vim-devicons
+    install_nerd_font("Hack", "Hack Regular Nerd Font Complete Mono.ttf")
+
+
+install_neovim()
 
 apt_install(
     """
@@ -248,7 +274,7 @@ def install_vscode():
 if "XDG_CURRENT_DESKTOP" in os.environ:
     apt_install(
         """
-        terminator fonts-hack-ttf
+        terminator
         gnome-tweaks gnome-shell-extensions
         dconf-editor
 

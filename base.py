@@ -7,6 +7,7 @@ import shutil
 import subprocess
 import tarfile
 import tempfile
+import zipfile
 from contextlib import contextmanager
 from os import getuid
 from textwrap import dedent
@@ -168,27 +169,29 @@ def temporary_ownership_of(path):
     run(f"sudo chown {original_uid} {path}")
 
 
-def install_from_github_release(
-    repo_path, download_url_regex, binary_base_dir, binary_name
-):
+def install_from_github_release(repo_path, download_url_regex, dest_dir, target_file):
     # stop if this is already installed
-    if Path(binary_base_dir, binary_name).exists():
+    if Path(dest_dir, target_file).exists():
         return
 
-    # download tar from github
+    # download compressed file from github
     url = f"https://api.github.com/repos/{repo_path}/releases/latest"
     res = json.load(urlopen(url))
     urls = (a["browser_download_url"] for a in res["assets"])
     [download_url] = (u for u in urls if re.match(download_url_regex, u))
-    path_tar = download(download_url)
+    path_compressed_file = download(download_url)
+    open_fn = {
+        ".tar.gz": tarfile.open,
+        ".zip": zipfile.ZipFile,
+    }[path_compressed_file.suffix]
 
-    # extract the tar, pick the executable inside it and move it to binary_base_dir
+    # extract, pick the target file and move it to dest_dir
     with tempfile.TemporaryDirectory() as temp_dir:
-        tarfile.open(path_tar).extractall(temp_dir)
+        open_fn(path_compressed_file).extractall(temp_dir)
         [binary] = [
-            path
-            for path in Path(temp_dir).glob(f"**/{binary_name}")
-            if path.is_file() and os.access(path, os.X_OK)
+            path for path in Path(temp_dir).glob(f"**/{target_file}") if path.is_file()
         ]
-        shutil.move(str(binary), binary_base_dir)
-        print(f"{binary_name} installed in {binary_base_dir}")
+        shutil.move(str(binary), dest_dir)
+        print(f"{target_file} installed in {dest_dir}")
+
+    return True  # signal that the install was done for the first time
