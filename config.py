@@ -256,6 +256,7 @@ VSCODE_EXTENSIONS = """
     vscodevim.vim
     dbaeumer.vscode-eslint
     esbenp.prettier-vscode
+    EditorConfig.EditorConfig
 """
 
 
