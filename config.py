@@ -281,8 +281,9 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
 
         gimp imagemagick
         vlc mplayer audacity ffmpeg
-        xournal
+        xournal pdfarranger
         libreoffice
+        qbittorrent
         """
     )
     # XXX reenable extension when available for ubuntu 22.04
