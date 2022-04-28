@@ -221,6 +221,8 @@ install_git_trim()
 #
 # sudo mkdir -p /usr/local/lib/docker/cli-plugins
 # sudo curl -SL https://github.com/docker/compose/releases/download/v2.0.1/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose
+# run docker without sudo
+run("sudo adduser --quiet mazza docker")
 
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
