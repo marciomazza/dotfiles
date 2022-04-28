@@ -12,7 +12,7 @@ alias dd='clear; git difftool --no-prompt -- ":(exclude)poetry.lock"'
 alias ddi='clear; git difftool --no-prompt --cached -- ":(exclude)poetry.lock"'
 # poderia usar  | sed 's/\([0-9]* [a-z]*\) ago/\1/' mas isso quebra o "less" do git
 # alias lo="git log --format='%ad %Cblue%an%C(auto) %h %s%d' --date=relative --branches --remotes --tags --graph --oneline --decorate"
-alias lo="git log --format='%ad %Cblue%an%C(auto) %h %s%d' --date=relative --all --graph"
+alias lo="git log --format='%ad %Cblue%an%C(auto) %h %s%d' --date=short --all --graph"
 alias amend='git commit --amend'
 alias mkig='cp ~/.z/dots/.gitignore .'
 alias gitpush='git push origin `git status | head -n 1 | sed "s/# On branch //"`'
