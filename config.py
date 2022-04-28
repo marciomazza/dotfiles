@@ -39,6 +39,8 @@ apt_install(
     """
 )
 
+# FIXME is this still relevant after ubuntu 22.04?
+#
 # BUG https://bugs.launchpad.net/ubuntu/+source/libwebcam/+bug/811604
 #     webcam related log file grows without boundaries
 # workaround: purge the package uvcdynctrl
