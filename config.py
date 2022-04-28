@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import grp
 import os
 import subprocess
 
@@ -59,7 +60,7 @@ for dic in Path("/usr/share/hunspell").glob("en_*"):
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # link home config files recursively
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+USERNAME = os.getlogin()
 HOME = Path("~")
 FILES = Path("files").absolute()
 
@@ -126,19 +127,20 @@ def install_nerd_font(base_font_name, font_filename):
 
 def install_neovim():
     NVIM_AUTOLOAD_DIR = "~/.local/share/nvim/site/autoload"
-    if not Path(NVIM_AUTOLOAD_DIR, "plug.vim").exists():
-        apt_install(
-            """
-            neovim
-            universal-ctags         # for majutsushi/tagbar
-            """
-        )
-        run(f"mkdir -p {NVIM_AUTOLOAD_DIR}")
-        download(
-            "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim",
-            NVIM_AUTOLOAD_DIR,
-        )
-        pip_install("black isort")  # used on save python files
+    if Path(NVIM_AUTOLOAD_DIR, "plug.vim").exists():
+        return
+    apt_install(
+        """
+        neovim
+        universal-ctags         # for majutsushi/tagbar
+        """
+    )
+    run(f"mkdir -p {NVIM_AUTOLOAD_DIR}")
+    download(
+        "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim",
+        NVIM_AUTOLOAD_DIR,
+    )
+    pip_install("black isort")  # used on save python files
 
     # install patched Hack font for ryanoasis/vim-devicons
     install_nerd_font("Hack", "Hack Regular Nerd Font Complete Mono.ttf")
@@ -215,6 +217,11 @@ def install_git_trim():
 
 install_git_trim()
 
+
+def get_user_groups(username):
+    return {g.gr_name for g in grp.getgrall() if username in g.gr_mem}
+
+
 # TODO...
 # docker compose V2
 # https://docs.docker.com/compose/cli-command/
@@ -222,23 +229,26 @@ install_git_trim()
 # sudo mkdir -p /usr/local/lib/docker/cli-plugins
 # sudo curl -SL https://github.com/docker/compose/releases/download/v2.0.1/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose
 # run docker without sudo
-run("sudo adduser --quiet mazza docker")
+
+
+if "docker" not in get_user_groups(USERNAME):
+    run(f"sudo adduser --quiet {USERNAME} docker")
 
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # desktop
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 def install_spotify():
-    snap_install("spotify")
-    template = Path(FILES, "spotify_spotify.desktop.template").read_text()
-    # there can be multiple versions of the snap
-    # the paths start with /snap/spotify/<version>,
-    # so the last one should be the installed version
-    *_, icon = sorted(Path("/snap/spotify").rglob("icons/spotify-linux-128.png"))
-    with temporary_ownership_of(
-        "/var/lib/snapd/desktop/applications/spotify_spotify.desktop"
-    ) as desktop_file:
-        desktop_file.write_text(template.format(icon=icon))
+    if snap_install("spotify"):
+        template = Path(FILES, "spotify_spotify.desktop.template").read_text()
+        # there can be multiple versions of the snap
+        # the paths start with /snap/spotify/<version>,
+        # so the last one should be the installed version
+        *_, icon = sorted(Path("/snap/spotify").rglob("icons/spotify-linux-128.png"))
+        with temporary_ownership_of(
+            "/var/lib/snapd/desktop/applications/spotify_spotify.desktop"
+        ) as desktop_file:
+            desktop_file.write_text(template.format(icon=icon))
 
 
 def adjust_desktop():

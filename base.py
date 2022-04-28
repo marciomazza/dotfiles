@@ -13,6 +13,8 @@ from os import getuid
 from textwrap import dedent
 from urllib.request import Request, urlopen, urlretrieve
 
+import pkg_resources
+
 
 def run(cmd, **kwargs):
     """
@@ -37,18 +39,36 @@ def strip_comments(text):
 
 
 def install(tool, packages, cmd, test_cmd="which"):
-    for name in strip_comments(packages).split():
-        if get_return_code(f"{test_cmd} {name}"):
-            print(f"{tool}: installing {name}...")
-            run(cmd.format(name), capture_output=True)
+    names = strip_comments(packages).split()
+    test = (
+        test_cmd
+        if callable(test_cmd)
+        else lambda name: get_return_code(f"{test_cmd} {name}")
+    )
+
+    def install_all():
+        for name in names:
+            if test(name):
+                print(f"{tool}: installing {name}...")
+                run(cmd.format(name), capture_output=True)
+                yield name
+
+    return list(install_all())
 
 
 def apt_install(packages):
-    install("apt", packages, "sudo apt-get install {} --yes --quiet --quiet", "dpkg -s")
+    return install(
+        "apt", packages, "sudo apt-get install {} --yes --quiet --quiet", "dpkg -s"
+    )
+
+
+def test_python_package_installed(name):
+    # return False if installed to go allong with linux return code for success
+    return name not in {i.key for i in pkg_resources.working_set}
 
 
 def pip_install(packages):
-    install("pip", packages, "pip install {}", "pip show")
+    return install("pip", packages, "pip install {}", test_python_package_installed)
 
 
 def npm_install(packages):
@@ -156,7 +176,7 @@ def download_and_install_deb(url, package_name):
 
 
 def snap_install(packages):
-    install("snap", packages, "sudo snap install {}", "snap list")
+    return install("snap", packages, "sudo snap install {}", "snap list")
 
 
 @contextmanager
