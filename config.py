@@ -194,13 +194,15 @@ def install_node(version):
     added_to_sources = Path("/etc/apt/sources.list.d/nodesource.list").exists()
 
     def get_node_version():
+        if get_return_code("which node"):
+            return 0  # not installed
         version = run("node --version", capture_output=True).stdout
         return int(version.lstrip("v").split(".")[0])
 
     if not added_to_sources or get_node_version() < version:
         node_setup_script = download(f"https://deb.nodesource.com/setup_{version}.x")
         run(f"sudo -E bash {node_setup_script}")
-        apt_install("")
+        apt_install("nodejs")
 
 
 install_node(16)
