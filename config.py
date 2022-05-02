@@ -158,7 +158,6 @@ apt_install(
     graphviz libgraphviz-dev
     """
 )
-npm_install("yarn")
 
 # poetry
 def install_poetry():
@@ -205,6 +204,7 @@ def install_node(version):
 
 
 install_node(16)
+npm_install("yarn")
 
 
 def install_git_trim():
