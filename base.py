@@ -202,6 +202,7 @@ def install_from_github_release(repo_path, download_url_regex, dest_dir, target_
     path_compressed_file = download(download_url)
     open_fn = {
         ".tar.gz": tarfile.open,
+        ".tgz": tarfile.open,
         ".zip": zipfile.ZipFile,
     }[path_compressed_file.suffix]
 
