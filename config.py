@@ -76,7 +76,7 @@ for here in files_home_dir.rglob("*"):
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # python
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-python_versions = [9, 10]
+python_versions = [10]
 python_packages = " ".join(f"python3.{v} python3.{v}-dev" for v in python_versions)
 if any(is_not_dpkg_installed(p) for p in python_packages.split()):
     run("sudo apt-get update")
