@@ -58,7 +58,7 @@ def install(tool, packages, cmd, test_cmd="which"):
 
 def apt_install(packages):
     return install(
-        "apt", packages, "sudo apt-get install {} --yes --quiet --quiet", "dpkg -s"
+        "apt", packages, "sudo apt install {} --yes --quiet --quiet", "dpkg -s"
     )
 
 
