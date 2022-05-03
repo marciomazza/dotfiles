@@ -200,11 +200,16 @@ def install_from_github_release(repo_path, download_url_regex, dest_dir, target_
     urls = (a["browser_download_url"] for a in res["assets"])
     [download_url] = (u for u in urls if re.match(download_url_regex, u))
     path_compressed_file = download(download_url)
-    open_fn = {
-        ".tar.gz": tarfile.open,
-        ".tgz": tarfile.open,
-        ".zip": zipfile.ZipFile,
-    }[path_compressed_file.suffix]
+
+    match path_compressed_file.suffixes:
+        case (*_, ".tar", ".gz") | (*_, ".tgz"):
+            open_fn = tarfile.open
+        case (*_, ".zip"):
+            open_fn = zipfile.ZipFile
+        case _:
+            raise Exception(
+                f"Release from github repo {repo_path} is not a recognized compressed file."
+            )
 
     # extract, pick the target file and move it to dest_dir
     with tempfile.TemporaryDirectory() as temp_dir:
