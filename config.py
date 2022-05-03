@@ -152,12 +152,19 @@ apt_install(
     """
     postgresql
     sqlite3
-    python3-tk                  # for %paste in IPython
     libpq-dev                   # for psycopg
 
     graphviz libgraphviz-dev
     """
 )
+
+
+def install_ipython():
+    pip_install("ipython")
+    apt_install("python3-tk")  # for %paste in IPython
+
+
+install_ipython()
 
 # poetry
 def install_poetry():
