@@ -328,7 +328,6 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
     )
 
     install_spotify()
-    adjust_desktop()
     download_and_install_deb("https://zoom.us/client/latest/zoom_amd64.deb", "zoom")
 
     # banco do brasil
@@ -343,6 +342,9 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
     install_git_trim()
     snap_install("teams")
     install_vscode()
+
+    # must come last (actually after all installs referred in gsettings)
+    adjust_desktop()
 
     # TODO
     # disable faulty lenovo webcam
