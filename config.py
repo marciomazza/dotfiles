@@ -216,6 +216,9 @@ def install_node(version):
 install_node(16)
 npm_install("yarn")
 
+# bitwarden cli
+npm_install("@bitwarden/cli")
+
 
 def install_git_trim():
     # https://github.com/foriequal0/git-trim
