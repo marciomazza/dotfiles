@@ -162,7 +162,8 @@ apt_install(
 # poetry
 def install_poetry():
     poetry_home = f"{HOME}/.local/share/poetry"
-    if poetry_home in os.environ["PATH"]:
+    poetry_final = Path(poetry_home, "bin/poetry")
+    if poetry_final.exists():
         return
     print("Installing poetry...")
     get_poetry = download(
@@ -170,7 +171,7 @@ def install_poetry():
     )
     env = os.environ | {"POETRY_HOME": poetry_home}
     run(f"python3 {get_poetry} --yes", env=env, capture_output=True)
-    lineinfile(PROFILE_FILE, f'PATH="$HOME/.local/share/poetry/bin:$PATH"')
+    symlink(Path(LOCAL_BIN_DIR, "poetry"), poetry_final)
 
 
 install_poetry()
