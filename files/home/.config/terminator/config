@@ -7,7 +7,7 @@
   [[default]]
     background_color = "#300a24"
     cursor_color = "#ffffff"
-    font = Hack Nerd Font Mono 12
+    font = Hack Nerd Font Mono 13
     foreground_color = "#ffffff"
     show_titlebar = False
     scrollbar_position = hidden
