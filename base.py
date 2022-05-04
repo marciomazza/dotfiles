@@ -72,7 +72,9 @@ def pip_install(packages):
 
 
 def npm_install(packages):
-    return install("global npm", packages, "sudo npm install --global {}")
+    return install(
+        "global npm", packages, "sudo npm install --global {}", "npm list -g"
+    )
 
 
 def splitlines(text):
