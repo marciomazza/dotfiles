@@ -126,7 +126,7 @@ def install_nerd_font(base_font_name, font_filename):
 
 
 def install_neovim():
-    NVIM_AUTOLOAD_DIR = "~/.local/share/nvim/site/autoload"
+    NVIM_AUTOLOAD_DIR = Path("~/.local/share/nvim/site/autoload")
     if Path(NVIM_AUTOLOAD_DIR, "plug.vim").exists():
         return
     apt_install(
