@@ -4,7 +4,7 @@
 org.gnome.desktop.datetime automatic-timezone true
 
 # force alt + tab to switch only on current workspace
-org.gnome.shell.extensions.dash-to-dock isolate-workspaces true
+org.gnome.shell.app-switcher current-workspace-only true
 
 # fixed 3 workspaces
 org.gnome.mutter dynamic-workspaces false
