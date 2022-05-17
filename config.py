@@ -77,12 +77,18 @@ for here in files_home_dir.rglob("*"):
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # python
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-python_versions = [10]
-python_packages = " ".join(f"python3.{v} python3.{v}-dev" for v in python_versions)
-if any(is_not_dpkg_installed(p) for p in python_packages.split()):
-    run("sudo apt-get update")
-    apt_install(python_packages)
+def install_python_alternative_versions():
+    python_versions = [9]
+    python_packages = " ".join(
+        f"python3.{v} python3.{v}-dev python3.{v}-distutils" for v in python_versions
+    )
+    if any(is_not_dpkg_installed(p) for p in python_packages.split()):
+        run("sudo add-apt-repository ppa:deadsnakes/ppa --yes")
+        run("sudo apt-get update")
+        apt_install(python_packages)
 
+
+install_python_alternative_versions()
 pip_install("virtualenvwrapper")
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
