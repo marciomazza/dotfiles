@@ -11,7 +11,8 @@ org.gnome.mutter dynamic-workspaces false
 org.gnome.desktop.wm.preferences num-workspaces 3
 
 # Caps => another Ctrl, 2 shifts => caps on, one shift => caps off, right alt is compose (mainly to write ß)
-org.gnome.desktop.input-sources xkb-options ['caps:ctrl_modifier', 'shift:both_capslock_cancel']
+org.gnome.desktop.input-sources xkb-options ['caps:ctrl_modifier', 'shift:both_capslock_cancel', 'eurosign:e']
+
 # laucher favorites
 org.gnome.shell favorite-apps ['firefox_firefox.desktop', 'org.gnome.Nautilus.desktop', 'google-chrome.desktop']
 
