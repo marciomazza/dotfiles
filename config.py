@@ -162,6 +162,7 @@ apt_install(
     libpq-dev                   # for psycopg
 
     graphviz libgraphviz-dev
+    git-flow
     """
 )
 
