@@ -7,6 +7,7 @@ import shutil
 import subprocess
 import tarfile
 import tempfile
+import time
 import zipfile
 from contextlib import contextmanager
 from os import getuid
@@ -34,6 +35,19 @@ def get_return_code(cmd):
     return run(cmd, capture_output=True, check=False).returncode
 
 
+def is_success(cmd):
+    return not get_return_code(cmd)
+
+
+def wait_for_condition(test, timeout=2):
+    start = time.time()
+    while time.time() < start + timeout:
+        if res := test():
+            return res
+        time.sleep(0.1)
+    return False
+
+
 def strip_comments(text):
     return re.sub(" *#.*", "", text)
 
@@ -56,8 +70,22 @@ def install(tool, packages, cmd, test_cmd="which"):
     return list(install_all())
 
 
-def apt_install(packages):
-    return install("apt", packages, "sudo apt install {} --yes --quiet", "dpkg -s")
+def apt_install(packages, extra_args=""):
+    return install(
+        "apt", packages, f"sudo apt install {extra_args} {{}} --yes --quiet", "dpkg -s"
+    )
+
+
+def apt_add_ppa(name):
+    # check if ppa was already added
+    if [
+        line
+        for line in run("apt-cache policy", capture_output=True).stdout.splitlines()
+        if f"{name}/ppa" in line
+    ]:
+        return
+    run(f"sudo add-apt-repository ppa:{name}/ppa --yes")
+    run("sudo apt-get update")
 
 
 def test_python_package_installed(name):

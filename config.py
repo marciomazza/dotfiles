@@ -6,12 +6,14 @@ import subprocess
 
 from base import (
     Path,
+    apt_add_ppa,
     apt_install,
     download,
     download_and_install_deb,
     get_return_code,
     install_from_github_release,
     is_not_dpkg_installed,
+    is_success,
     lineinfile,
     npm_install,
     pip_install,
@@ -21,6 +23,7 @@ from base import (
     splitlines,
     symlink,
     temporary_ownership_of,
+    wait_for_condition,
 )
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -83,8 +86,7 @@ def install_python_alternative_versions():
         f"python3.{v} python3.{v}-dev python3.{v}-distutils" for v in python_versions
     )
     if any(is_not_dpkg_installed(p) for p in python_packages.split()):
-        run("sudo add-apt-repository ppa:deadsnakes/ppa --yes")
-        run("sudo apt-get update")
+        apt_add_ppa("deadsnakes")
         apt_install(python_packages)
 
 
@@ -334,6 +336,28 @@ def install_vscode():
         run(f"code --install-extension {extension}")
 
 
+def install_firefox():
+    # remove snap that is the default on ubuntu 22.04
+    if is_success("snap list firefox"):
+        run("sudo snap remove --purge firefox")
+    apt_add_ppa("mozillateam")
+    apt_install("firefox", "-t o=LP-PPA-mozillateam")
+
+    config_dir = Path("~/.mozilla/firefox")
+
+    # trigger the the creation the initial config that includes the default profile
+    process = subprocess.Popen(["firefox", "--headless"])
+    wait_for_condition(config_dir.exists)
+    process.terminate()
+
+    # custom firefox appearance
+    [firefox_profile] = config_dir.glob("*.default-release")
+    symlink(Path(firefox_profile, "user.js"), Path(FILES, "firefox/user.js"))
+
+    # make firefox the default browser on X
+    run("xdg-settings set default-web-browser firefox.desktop")
+
+
 if "XDG_CURRENT_DESKTOP" in os.environ:
     apt_install(
         """
@@ -351,13 +375,7 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
     # XXX reenable extension when available for ubuntu 22.04
     # gnome-shell-extension-autohidetopbar
 
-    # custom firefox appearance
-    # FIXME firefox is ignoring this, as it seems from ubuntu 22.04 snap firefox
-    [firefox_profile] = Path("~/snap/firefox/common/.mozilla/firefox").glob("*.default")
-    symlink(Path(firefox_profile, "user.js"), Path(FILES, "firefox/user.js"))
-
-    # make firefox the default browser on X
-    run("xdg-settings set default-web-browser firefox_firefox.desktop")
+    install_firefox()
 
     # install google chrome
     download_and_install_deb(
