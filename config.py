@@ -255,6 +255,33 @@ def get_user_groups(username):
 if "docker" not in get_user_groups(USERNAME):
     run(f"sudo adduser --quiet {USERNAME} docker")
 
+# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+# btrfs
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+# TODO configure snapshots ...
+
+
+def is_btrfs_subvolume(path):
+    # simple way to check if a path is a btrfs subvolume without sudo
+    # https://stackoverflow.com/a/32865333
+    return os.stat(path).st_ino == 256
+
+
+def create_btrfs_subvolume(path):
+    if path.exists():
+        assert is_btrfs_subvolume(path), f"{path} exits but is not a btrfs subvolume!"
+    else:
+        run(f"sudo btrfs subvolume create {path}")
+        run(f"sudo chown {USERNAME}: {path}")
+
+
+def create_home_btrfs_subvolumes():
+    for name in ["Downloads", "Videos", "repos", "temp"]:
+        create_btrfs_subvolume(Path(HOME, name))
+
+
+create_home_btrfs_subvolumes()
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # desktop
