@@ -64,6 +64,7 @@ for dic in Path("/usr/share/hunspell").glob("en_*"):
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # link home config files recursively
+# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 USERNAME = os.getlogin()
 HOME = Path("~")
 FILES = Path("files").absolute()
@@ -76,6 +77,24 @@ for here in files_home_dir.rglob("*"):
     else:
         if here.name != ".gitkeep":  # skip directory holders
             symlink(athome, here)
+
+
+LOCAL_BIN_DIR = Path(HOME, ".local/bin")
+
+
+def install_alias_autocomplete():
+    apt_install("bash-completion")
+    download(
+        "https://raw.githubusercontent.com/cykerway/complete-alias/master/complete_alias",
+        LOCAL_BIN_DIR,
+        quick=True,
+    )
+    # more configs in:
+    # ~/.z/files/home/.bash_completion
+    # ~/.z/files/home/.bash_customizations
+
+
+install_alias_autocomplete()
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # python
@@ -113,9 +132,6 @@ for line in splitlines(
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # development tools
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-LOCAL_BIN_DIR = Path(HOME, ".local/bin")
-
-
 def install_nerd_font(base_font_name, font_filename):
     # install patched Hack nerd font (https://www.nerdfonts.com)
     # we install only
@@ -194,13 +210,16 @@ def install_poetry():
 install_poetry()
 
 # django
-DJANGO_BASH_COMPLETION_FILE = Path(LOCAL_BIN_DIR, "django_bash_completion")
-if not DJANGO_BASH_COMPLETION_FILE.exists():
-    download(
+def install_django_bash_completion():
+    DJANGO_BASH_COMPLETION_FILE = download(
         "https://raw.githubusercontent.com/django/django/master/extras/django_bash_completion",
         LOCAL_BIN_DIR,
+        quick=True,
     )
     lineinfile(BASHRC_FILE, f". {DJANGO_BASH_COMPLETION_FILE}")
+
+
+install_django_bash_completion()
 
 # add pt_BR locale
 if "pt_BR.utf8" not in run("locale -a", capture_output=True).stdout.splitlines():

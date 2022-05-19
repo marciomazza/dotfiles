@@ -152,12 +152,13 @@ def lineinfile(path, line, start=None):
     path.write_text("".join(text_with_line()))
 
 
-def get_filename_for_download(url, headers):
+def get_file_info_for_download(url):
+    headers = urlopen(Request(url, method="HEAD")).info()
     if content_disposition := headers.get("Content-Disposition"):
         match cgi.parse_header(content_disposition):
             case ("attachment", {"filename": filename}):
-                return filename
-    return Path(url).name
+                return filename, headers
+    return None, headers
 
 
 @contextmanager
@@ -173,22 +174,27 @@ def print_message_and_done(message):
     print(done_message)
 
 
-def download(url, dest_dir="/tmp"):
+def download(url, dest_dir="/tmp", quick=False):
+    basename = Path(url).name
+    if quick and (dest_basename := Path(dest_dir, basename)).exists():
+        return dest_basename
+
     print(f"Downloading {url}")
-    pre_headers = urlopen(Request(url, method="HEAD")).info()
-    tmp_dest = Path(dest_dir, get_filename_for_download(url, pre_headers))
-    with print_message_and_done(f"  filename: {tmp_dest}") as done:
+    filename, pre_headers = get_file_info_for_download(url)
+    dest = Path(dest_dir, filename or basename)
+
+    with print_message_and_done(f"  filename: {dest}") as done:
 
         def is_downloaded(headers):
             lenght = int(headers["Content-Length"])
-            return tmp_dest.exists() and tmp_dest.stat().st_size == lenght
+            return dest.exists() and dest.stat().st_size == lenght
 
         if is_downloaded(pre_headers):
             done("already downloaded")
         else:
-            _, final_headers = urlretrieve(url, tmp_dest)
+            _, final_headers = urlretrieve(url, dest)
             assert is_downloaded(final_headers)
-    return tmp_dest
+    return dest
 
 
 def is_not_dpkg_installed(package_name):

@@ -85,6 +85,10 @@ alias w=workon
 alias p=pytest
 alias vimdiff="nvim -d"
 
+# autocomple all aliases
+# uses https://github.com/cykerway/complete-alias
+complete -F _complete_alias "${!BASH_ALIASES[@]}"
+
 tt ()
 {
     # TODO compatibilizar com tz
