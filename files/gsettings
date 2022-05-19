@@ -31,6 +31,9 @@ org.gnome.settings-daemon.plugins.color night-light-schedule-from 20.0
 org.gnome.settings-daemon.plugins.color night-light-schedule-to 6.0
 org.gnome.settings-daemon.plugins.color night-light-temperature 2700
 
+# disable power button action (to be able to remap it to Delete for zenbook keyboard)
+org.gnome.settings-daemon.plugins.power power-button-action "nothing"
+
 # more self explanatory tweaks
 org.gnome.desktop.interface clock-show-date true
 org.gnome.desktop.interface show-battery-percentage true

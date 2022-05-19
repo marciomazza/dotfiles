@@ -246,3 +246,7 @@ if [ -n "$DISPLAY" -a "$TERM" == "xterm" ]; then
 fi
 
 export LESS="-SRXF"
+
+# remap power button to delete (for zenbook keyboard)
+# TODO only works on Xorg, migrate to xkb to work on Wayland
+xmodmap -e "keycode XF86PowerOff = Delete"
