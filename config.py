@@ -338,10 +338,17 @@ def install_vscode():
 
 def install_firefox():
     # remove snap that is the default on ubuntu 22.04
+    # based on https://www.omgubuntu.co.uk/2022/04/how-to-install-firefox-deb-apt-ubuntu-22-04
+
     if is_success("snap list firefox"):
         run("sudo snap remove --purge firefox")
     apt_add_ppa("mozillateam")
-    apt_install("firefox", "-t o=LP-PPA-mozillateam")
+
+    # configure apt to prioritize PPA and do automatic updates
+    run(f"sudo cp -rf {FILES}/firefox/apt /etc")
+
+    # apt_install("firefox", "-t o=LP-PPA-mozillateam")
+    apt_install("firefox")
 
     config_dir = Path("~/.mozilla/firefox")
 
