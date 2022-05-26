@@ -84,10 +84,19 @@ alias cp='cp -a -v'
 alias w=workon
 alias p=pytest
 alias vimdiff="nvim -d"
+alias vd="nvim -d"
 
 # autocomple all aliases
 # uses https://github.com/cykerway/complete-alias
-complete -F _complete_alias "${!BASH_ALIASES[@]}"
+# complete -F _complete_alias "${!BASH_ALIASES[@]}"
+complete -F _complete_alias w
+complete -F _complete_alias p
+complete -F _complete_alias vimdiff
+complete -F _complete_alias vd
+complete -F _complete_alias e
+complete -F _complete_alias ee
+complete -F _complete_alias s
+complete -F _complete_alias ss
 
 tt ()
 {
