@@ -132,7 +132,7 @@ sel ()
 t ()
 {
 	level=${1:-3}
-	clear; tree -L $level -I '__pycache__|ipython_log\.py\.*~'
+	clear; tree -a -L $level -I '.git|__pycache__|ipython_log\.py\.*~'
 }
 
 g ()
