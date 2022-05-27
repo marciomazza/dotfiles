@@ -26,3 +26,5 @@
 	bases = develop,master
 [init]
 	defaultBranch = main
+[stash]
+    showIncludeUntracked = true
