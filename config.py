@@ -36,7 +36,7 @@ if not Path("/etc/.git").exists():
 apt_install(
     """
     software-properties-common python3-pip
-    tree trash-cli xclip curl smbclient htop ncdu silversearcher-ag
+    tree trash-cli xclip curl smbclient htop ncdu silversearcher-ag fd-find
 
     docker.io docker-compose
     openfortivpn

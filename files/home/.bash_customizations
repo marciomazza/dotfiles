@@ -85,6 +85,7 @@ alias w=workon
 alias p=pytest
 alias vimdiff="nvim -d"
 alias vd="nvim -d"
+alias fd=fdfind
 
 # autocomple all aliases
 # uses https://github.com/cykerway/complete-alias
@@ -97,6 +98,7 @@ complete -F _complete_alias e
 complete -F _complete_alias ee
 complete -F _complete_alias s
 complete -F _complete_alias ss
+complete -F _complete_alias fd
 
 tt ()
 {
