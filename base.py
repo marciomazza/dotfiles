@@ -1,6 +1,5 @@
 import cgi
 import json
-import os
 import pathlib
 import re
 import shutil
@@ -25,9 +24,7 @@ def run(cmd, **kwargs):
     if "check" not in kwargs:
         kwargs["check"] = True
     res = subprocess.run(cmd.split(), **kwargs)
-    res.stdout, res.stderr = [
-        b.decode("utf-8") if b else b for b in (res.stdout, res.stderr)
-    ]
+    res.stdout, res.stderr = [b.decode() if b else b for b in (res.stdout, res.stderr)]
     return res
 
 
