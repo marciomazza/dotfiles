@@ -35,6 +35,7 @@ if not Path("/etc/.git").exists():
 
 apt_install(
     """
+    zsh
     software-properties-common python3-pip
     tree trash-cli xclip curl smbclient htop ncdu silversearcher-ag fd-find
 
