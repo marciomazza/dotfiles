@@ -15,6 +15,7 @@ from base import (
     is_not_dpkg_installed,
     is_success,
     lineinfile,
+    mkdir,
     npm_install,
     pip_install,
     print_message_and_done,
@@ -74,7 +75,7 @@ files_home_dir = Path(FILES, "home")
 for here in files_home_dir.rglob("*"):
     athome = Path(HOME, here.relative_to(files_home_dir))  # path relative to home
     if here.is_dir() and not here.is_symlink():
-        athome.mkdir(exist_ok=True)
+        mkdir(athome)
     else:
         if here.name != ".gitkeep":  # skip directory holders
             symlink(athome, here)
@@ -161,7 +162,7 @@ def install_neovim():
         universal-ctags         # for majutsushi/tagbar
         """
     )
-    run(f"mkdir -p {NVIM_AUTOLOAD_DIR}")
+    mkdir(NVIM_AUTOLOAD_DIR)
     download(
         "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim",
         NVIM_AUTOLOAD_DIR,

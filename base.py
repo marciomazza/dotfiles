@@ -252,3 +252,7 @@ def install_from_github_release(repo_path, download_url_regex, dest_dir, target_
         print(f"{target_file} installed in {dest_dir}")
 
     return True  # signal that the install was done for the first time
+
+
+def mkdir(*path_parts):
+    Path(*path_parts).mkdir(parents=True, exist_ok=True)
