@@ -112,7 +112,12 @@ def install_python_alternative_versions():
 
 
 install_python_alternative_versions()
+
+
+# virtualenvwrapper
+mkdir("~/work")
 pip_install("virtualenvwrapper")
+
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # bash customizations
