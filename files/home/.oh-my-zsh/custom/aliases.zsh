@@ -1,3 +1,5 @@
+# aliases and helper functions
+
 alias x=trash-put
 alias e=nvim
 alias s=gsb
@@ -5,6 +7,8 @@ alias d='gd ":(exclude)poetry.lock"'
 alias di='gdca ":(exclude)poetry.lock"'
 alias lo=glods
 alias amend=gc!
+alias w=workon
+alias pz="pwd | tr -d '[:space:]' | xclip -selection c"
 
 a ()
 {
@@ -46,4 +50,9 @@ i ()
     else
         ipython
     fi
+}
+
+fz ()
+{
+    readlink -f "$*" | tr -d '[:space:]' | xclip -selection c
 }
