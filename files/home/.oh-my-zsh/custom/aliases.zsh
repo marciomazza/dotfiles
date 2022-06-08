@@ -37,3 +37,13 @@ c ()
         fi
     fi
 }
+
+i ()
+# use either IPython or django extensions shell_plus
+{
+    if test -f "manage.py"; then
+        ./manage.py shell_plus
+    else
+        ipython
+    fi
+}
