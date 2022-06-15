@@ -9,6 +9,10 @@ alias lo=glods
 alias amend=gc!
 alias w=workon
 alias pz="pwd | tr -d '[:space:]' | xclip -selection c"
+alias cp='cp -a -v'
+alias fd=fdfind
+alias vd="nvim -d"
+alias gh="git open"
 
 a ()
 {

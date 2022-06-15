@@ -36,7 +36,6 @@ if not Path("/etc/.git").exists():
 
 apt_install(
     """
-    zsh
     software-properties-common python3-pip
     tree trash-cli xclip curl smbclient htop ncdu silversearcher-ag fd-find
 
@@ -135,6 +134,18 @@ for line in splitlines(
     """
 ):
     lineinfile(BASHRC_FILE, line)
+
+# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+# zsh
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+apt_install("zsh")
+mkdir("~/.data")  # for z plugin since we like to use ~/.z for these configs
+
+# TODO install plugins:
+# git_clone("paulirish/git-open", "~/.oh-my-zsh/plugins/git-open") # => defaults to github
+# or something like
+# install_zsh_plugin("paulirish/git-open")
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # development tools

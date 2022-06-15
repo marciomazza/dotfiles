@@ -22,7 +22,7 @@ alias svnlog='svn log -l 5 `git log | grep svn-id | head -n 1 | sed -e "s#git-sv
 
 # open current repo on github
 # from https://gist.github.com/igrigorik/6666860
-alias gh="firefox \`git remote -v | grep git@github.com | grep fetch | head -1 | cut -f2 | cut -d' ' -f1 | sed -e's/:/\//' -e 's/git@/http:\/\//'\`"
+alias gh="git open"
 
 # corrigir "mv" que deveria ter sido "git mv"
 function a ()
