@@ -45,6 +45,10 @@ apt_install(
     """
 )
 
+# enable some Linux Magic System Request Keys
+# see https://www.kernel.org/doc/html/latest/admin-guide/sysrq.html
+lineinfile("/etc/sysctl.conf", f"kernel.sysrq={0b11110000}")
+
 # FIXME is this still relevant after ubuntu 22.04?
 #
 # BUG https://bugs.launchpad.net/ubuntu/+source/libwebcam/+bug/811604

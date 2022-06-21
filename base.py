@@ -130,23 +130,31 @@ def lineinfile(path, line, start=None):
     # normalize line
     line = line.rstrip() + "\n"
 
-    def text_with_line():
+    original_text = path.read_text()
+
+    def gen_text_lines_with_replaced_line():
         replaced = 0
-        text = path.read_text()
-        for current in text.splitlines(keepends=True):
+        for current in original_text.splitlines(keepends=True):
             if current.startswith(start):
                 yield line
                 replaced += 1
             else:
                 yield current
         if not replaced:
-            # if not replaced yield at last
-            newline_if_needed = "" if text.endswith("\n") else "\n"
+            # if not replaced yield as last line
+            newline_if_needed = "" if original_text.endswith("\n") else "\n"
             yield newline_if_needed + line
 
         assert replaced <= 1, f"Line replaced more than once in {path}: {line}"
 
-    path.write_text("".join(text_with_line()))
+    new_text = "".join(gen_text_lines_with_replaced_line())
+    if original_text != new_text:
+        # try first without temporary ownership to avoid an unnecessary sudo
+        try:
+            path.write_text(new_text)
+        except PermissionError:
+            with temporary_ownership_of(path):
+                path.write_text(new_text)
 
 
 def get_file_info_for_download(url):
