@@ -13,6 +13,11 @@ alias cp='cp -a -v'
 alias fd=fdfind
 alias vd="nvim -d"
 alias gh="git open"
+alias z='cd ..'
+alias zz='cd ../..'
+alias zzz='cd ../../..'
+alias zzzz='cd ../../../..'
+alias zzzzz='cd ../../../../..'
 
 a ()
 {
