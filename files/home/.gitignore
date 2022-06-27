@@ -67,4 +67,4 @@ session.json
 # my personal ignored stuff
 zdev.cfg
 zz*
-project.todo
+*.todo
