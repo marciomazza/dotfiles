@@ -59,5 +59,6 @@
   },
   "explorer.confirmDelete": false,
   "window.zoomLevel": 1,
-  "workbench.statusBar.visible": false
+  "workbench.statusBar.visible": false,
+  "editor.inlineSuggest.enabled": true
 }
