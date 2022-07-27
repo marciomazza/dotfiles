@@ -72,6 +72,7 @@ ZSH_THEME="gnzh"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git autojump virtualenv virtualenvwrapper git-open)
 export VIRTUALENVWRAPPER_PYTHON=`which python3`
+export PROJECT_HOME=$HOME/work
 export _Z_DATA="$HOME/.data/z"
 
 source $ZSH/oh-my-zsh.sh
