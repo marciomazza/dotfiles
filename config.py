@@ -49,6 +49,10 @@ apt_install(
 # see https://www.kernel.org/doc/html/latest/admin-guide/sysrq.html
 lineinfile("/etc/sysctl.conf", f"kernel.sysrq={0b11110000}")
 
+# limit the total size of /var/log/journal/ to 100M
+lineinfile("/etc/systemd/journald.conf", "SystemMaxUse=100M")
+
+
 # FIXME is this still relevant after ubuntu 22.04?
 #
 # BUG https://bugs.launchpad.net/ubuntu/+source/libwebcam/+bug/811604
