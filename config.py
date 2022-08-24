@@ -78,9 +78,9 @@ USERNAME = os.getlogin()
 HOME = Path("~")
 FILES = Path("files").absolute()
 
-files_home_dir = Path(FILES, "home")
+files_home_dir = FILES / "home"
 for here in files_home_dir.rglob("*"):
-    athome = Path(HOME, here.relative_to(files_home_dir))  # path relative to home
+    athome = HOME / here.relative_to(files_home_dir)  # path relative to home
     if here.is_dir() and not here.is_symlink():
         mkdir(athome)
     else:
@@ -88,7 +88,7 @@ for here in files_home_dir.rglob("*"):
             symlink(athome, here)
 
 
-LOCAL_BIN_DIR = Path(HOME, ".local/bin")
+LOCAL_BIN_DIR = HOME / ".local/bin"
 
 
 def install_alias_autocomplete():
@@ -131,8 +131,8 @@ pip_install("virtualenvwrapper")
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 pip_install("cdiff")  # used in ~/.bash_customizations
 # color promt, infinite history size and run .bash_customizations
-BASHRC_FILE = Path(HOME, ".bashrc")
-PROFILE_FILE = Path(HOME, ".profile")
+BASHRC_FILE = HOME / ".bashrc"
+PROFILE_FILE = HOME / ".profile"
 for line in splitlines(
     """
         force_color_prompt=yes
@@ -178,7 +178,7 @@ def install_nerd_font(base_font_name, font_filename):
 
 def install_neovim():
     NVIM_AUTOLOAD_DIR = Path("~/.local/share/nvim/site/autoload")
-    if Path(NVIM_AUTOLOAD_DIR, "plug.vim").exists():
+    if (NVIM_AUTOLOAD_DIR / "plug.vim").exists():
         return
     apt_install(
         """
@@ -220,8 +220,8 @@ install_ipython()
 
 # poetry
 def install_poetry():
-    poetry_home = f"{HOME}/.local/share/poetry"
-    poetry_final = Path(poetry_home, "bin/poetry")
+    poetry_home = HOME / ".local/share/poetry"
+    poetry_final = poetry_home / "bin/poetry"
     if poetry_final.exists():
         return
     print("Installing poetry...")
@@ -230,7 +230,7 @@ def install_poetry():
     )
     env = os.environ | {"POETRY_HOME": poetry_home}
     run(f"python3 {get_poetry} --yes", env=env, capture_output=True)
-    symlink(Path(LOCAL_BIN_DIR, "poetry"), poetry_final)
+    symlink(LOCAL_BIN_DIR / "poetry", poetry_final)
 
 
 install_poetry()
@@ -325,7 +325,7 @@ def create_btrfs_subvolume(path):
 
 def create_home_btrfs_subvolumes():
     for name in ["Downloads", "Videos", "repos", "temp"]:
-        create_btrfs_subvolume(Path(HOME, name))
+        create_btrfs_subvolume(HOME / name)
 
 
 create_home_btrfs_subvolumes()
@@ -335,7 +335,7 @@ create_home_btrfs_subvolumes()
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 def install_spotify():
     if snap_install("spotify"):
-        template = Path(FILES, "spotify_spotify.desktop.template").read_text()
+        template = (FILES / "spotify_spotify.desktop.template").read_text()
         # there can be multiple versions of the snap
         # the paths start with /snap/spotify/<version>,
         # so the last one should be the installed version
@@ -348,8 +348,7 @@ def install_spotify():
 
 def adjust_desktop():
     gsettings = [
-        line.split(maxsplit=2)
-        for line in splitlines(Path(FILES, "gsettings").read_text())
+        line.split(maxsplit=2) for line in splitlines((FILES / "gsettings").read_text())
     ]
     for schema, key, value in gsettings:
         subprocess.check_call(["gsettings", "set", schema, key, value])
@@ -398,7 +397,7 @@ def install_firefox():
         run("sudo snap remove --purge firefox")
     apt_add_ppa("mozillateam")
     # configure apt to prioritize PPA and do automatic updates
-    sudo_cp(Path(FILES, "firefox/apt"), "/etc")
+    sudo_cp(FILES / "firefox/apt", "/etc")
     apt_install("firefox")
 
     config_dir = Path("~/.mozilla/firefox")
@@ -410,7 +409,7 @@ def install_firefox():
 
     # custom firefox appearance
     [firefox_profile] = config_dir.glob("*.default-release")
-    symlink(Path(firefox_profile, "user.js"), Path(FILES, "firefox/user.js"))
+    symlink(firefox_profile / "user.js", FILES / "firefox/user.js")
 
     # make firefox the default browser on X
     run("xdg-settings set default-web-browser firefox.desktop")
