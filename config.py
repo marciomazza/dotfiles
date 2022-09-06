@@ -108,8 +108,7 @@ install_alias_autocomplete()
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # python
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-def install_python_alternative_versions():
-    python_versions = [9]
+def install_python_alternative_versions(*python_versions):
     python_packages = " ".join(
         f"python3.{v} python3.{v}-dev python3.{v}-distutils" for v in python_versions
     )
@@ -118,7 +117,7 @@ def install_python_alternative_versions():
         apt_install(python_packages)
 
 
-install_python_alternative_versions()
+install_python_alternative_versions(9)
 
 
 # virtualenvwrapper
