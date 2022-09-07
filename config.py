@@ -180,12 +180,12 @@ def install_neovim():
     if not apt_install("neovim"):
         return
 
-    # install paqs package manager
+    # install packer.nvim package manager
     NVIM_PACK_DIR = HOME / ".local/share/nvim/site/pack"
     if not (NVIM_PACK_DIR / "paqs").exists():
         run(
-            "git clone --depth=1 https://github.com/savq/paq-nvim.git "
-            f"{NVIM_PACK_DIR}/paqs/start/paq-nvim"
+            "git clone --depth 1 https://github.com/wbthomason/packer.nvim"
+            f" {NVIM_PACK_DIR}/packer/start/packer.nvim"
         )
 
     apt_install("universal-ctags")  # for majutsushi/tagbar
