@@ -176,6 +176,7 @@ def install_nerd_font(base_font_name, font_filename):
 
 
 def install_neovim():
+    apt_add_ppa("neovim-ppa/stable")
     NVIM_AUTOLOAD_DIR = Path("~/.local/share/nvim/site/autoload")
     if (NVIM_AUTOLOAD_DIR / "plug.vim").exists():
         return
@@ -190,7 +191,7 @@ def install_neovim():
         "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim",
         NVIM_AUTOLOAD_DIR,
     )
-    pip_install("black isort")  # used on save python files
+    pip_install("black isort")  # used as ALE fixers
 
     # install patched Hack font for ryanoasis/vim-devicons
     install_nerd_font("Hack", "Hack Regular Nerd Font Complete Mono.ttf")

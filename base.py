@@ -74,14 +74,16 @@ def apt_install(packages, extra_args=""):
 
 
 def apt_add_ppa(name):
+    if "/" not in name:
+        name = f"{name}/ppa"
     # check if ppa was already added
     if [
         line
         for line in run("apt-cache policy", capture_output=True).stdout.splitlines()
-        if f"{name}/ppa" in line
+        if name in line
     ]:
         return
-    run(f"sudo add-apt-repository ppa:{name}/ppa --yes")
+    run(f"sudo add-apt-repository ppa:{name} --yes")
     run("sudo apt-get update")
 
 
