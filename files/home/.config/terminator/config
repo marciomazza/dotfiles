@@ -1,14 +1,12 @@
-# based on https://github.com/srcery-colors/srcery-terminal
-
 [global_config]
   geometry_hinting = True
-  window_state = maximise
+  window_state = fullscreen
   borderless = True
 [keybindings]
 [profiles]
   [[default]]
     background_color = "#21043e"
-    cursor_color = "#fbb829"
+    cursor_color = "#e66100"
     cursor_color_fg = False
     font = Hack Nerd Font Mono 13
     foreground_color = "#fce8c3"
