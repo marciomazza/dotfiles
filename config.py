@@ -176,7 +176,7 @@ def install_nerd_font(base_font_name, font_filename):
 
 
 def install_neovim():
-    apt_add_ppa("neovim-ppa/stable")
+    apt_add_ppa("neovim-ppa/unstable")
     if not apt_install("neovim"):
         return
 
