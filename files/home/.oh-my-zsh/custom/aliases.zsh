@@ -21,6 +21,8 @@ alias zz='cd ../..'
 alias zzz='cd ../../..'
 alias zzzz='cd ../../../..'
 alias zzzzz='cd ../../../../..'
+alias pi='pip install --upgrade'
+alias pu='pip uninstall'
 
 a ()
 {
