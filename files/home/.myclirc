@@ -14,7 +14,7 @@ multi_line = False
 # Destructive warning mode will alert you before executing a sql statement
 # that may cause harm to the database such as "drop table", "drop database"
 # or "shutdown".
-destructive_warning = True
+destructive_warning = False
 
 # log_file location.
 log_file = ~/.mycli.log
@@ -118,5 +118,4 @@ output.even-row = ""
 [alias_dsn]
 # example_dsn = mysql://[user[:password]@][host][:port][/dbname]
 
-
-pager = 'less -SRXF'
+pager = 'less'
