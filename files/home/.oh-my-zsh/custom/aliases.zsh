@@ -3,8 +3,8 @@
 alias x=trash-put
 alias e=nvim
 alias s=gsb
-alias d='gd ":(exclude)poetry.lock"'
-alias di='gdca ":(exclude)poetry.lock"'
+alias d='git diff ":(exclude)poetry.lock"'
+alias di='git diff --cached ":(exclude)poetry.lock"'
 alias dd='git difftool --no-prompt -- ":(exclude)poetry.lock"'
 alias ddi='git difftool --no-prompt --cached -- ":(exclude)poetry.lock"'
 alias lo=glods
