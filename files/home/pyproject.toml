@@ -1,2 +1,5 @@
 [tool.black]
-line-length = 79
+line-length = 100
+
+[tool.pyright]
+exclude = ["**/ipython_log.py*"]
