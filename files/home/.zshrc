@@ -70,6 +70,7 @@ ZSH_THEME="gnzh"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
+DISABLE_VENV_CD=1
 plugins=(git autojump virtualenv virtualenvwrapper git-open)
 export VIRTUALENVWRAPPER_PYTHON=`which python3`
 export PROJECT_HOME=$HOME/work
