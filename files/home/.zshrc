@@ -78,6 +78,14 @@ export _Z_DATA="$HOME/.data/z"
 
 source $ZSH/oh-my-zsh.sh
 
+# Theme customization
+ZSH_THEME_VIRTUALENV_PREFIX="%F{red}"
+ZSH_THEME_VIRTUALENV_SUFFIX="%f"
+# use virtualenv promt instead of ruby's on theme
+function ruby_prompt_info() {
+  echo $(virtualenv_prompt_info)
+}
+
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
