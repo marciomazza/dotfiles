@@ -99,3 +99,7 @@ export LESS="-SRXF"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # https://github.com/junegunn/fzf#respecting-gitignore
 export FZF_DEFAULT_COMMAND='fdfind --type f --strip-cwd-prefix --hidden --follow --exclude .git'
+
+# for plone
+export RELOAD_PATH=src  # for sauna.reload
+export PYCHARM_JDK=/usr/lib/jvm/java-11-openjdk-amd64  # for pycharm
