@@ -2,6 +2,7 @@
   ui = true
 [diff]
   tool = vimdiff
+  submodule = diff
 [merge]
   tool = vimdiff
 [core]
@@ -27,4 +28,4 @@
 [init]
 	defaultBranch = main
 [stash]
-    showIncludeUntracked = true
+  showIncludeUntracked = true
