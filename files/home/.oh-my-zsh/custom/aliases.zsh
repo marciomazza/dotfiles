@@ -23,6 +23,7 @@ alias zzzz='cd ../../../..'
 alias zzzzz='cd ../../../../..'
 alias pi='pip install --upgrade'
 alias pu='pip uninstall'
+alias p='poetry shell'
 
 a ()
 {
