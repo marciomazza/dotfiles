@@ -24,6 +24,11 @@ alias zzzzz='cd ../../../../..'
 alias pi='pip install --upgrade'
 alias pu='pip uninstall'
 alias p='poetry shell'
+alias ls="exa --icons --git --ignore-glob='.git|node_modules|__pycache__|*.pyc|*.pyo|*.o|*.swp|*.swo|*.swx|*.swpx'" # list
+# alias ll="exa --icons -l --git --ignore-glob='.git|node_modules|__pycache__|*.pyc|*.pyo|*.o|*.swp|*.swo|*.swx|*.swpx|'" # list
+alias ll="ls -l"
+alias t="ls --tree"
+
 
 a ()
 {
@@ -32,12 +37,6 @@ a ()
     else
         git add "$@"
     fi
-}
-
-t ()
-{
-	level=${1:-3}
-	clear; tree -a -L $level -I '.git|__pycache__|ipython_log\.py\.*~|zz*' --gitignore
 }
 
 c ()
