@@ -71,11 +71,12 @@ ZSH_THEME="gnzh"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 DISABLE_VENV_CD=1
-plugins=(git autojump virtualenv virtualenvwrapper git-open)
+plugins=(git autojump virtualenv virtualenvwrapper git-open poetry asdf F-Sy-H zsh-autosuggestions)
 export VIRTUALENVWRAPPER_PYTHON=`which python3`
 export PROJECT_HOME=$HOME/work
 export _Z_DATA="$HOME/.data/z"
 
+fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 source $ZSH/oh-my-zsh.sh
 
 # Theme customization
@@ -85,6 +86,7 @@ ZSH_THEME_VIRTUALENV_SUFFIX="%f"
 function ruby_prompt_info() {
   echo $(virtualenv_prompt_info)
 }
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
 # User configuration
 
