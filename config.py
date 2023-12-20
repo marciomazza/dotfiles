@@ -105,6 +105,7 @@ def install_alias_autocomplete():
 
 install_alias_autocomplete()
 
+
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # python
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -154,6 +155,7 @@ mkdir("~/.data")  # for z plugin since we like to use ~/.z for these configs
 # or something like
 # install_zsh_plugin("paulirish/git-open")
 
+
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # development tools
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -171,7 +173,7 @@ def install_nerd_font(base_font_name, font_filename):
             font_filename,
         )
     if done_for_the_first_time:
-        with print_message_and_done(f"Updating fonts"):
+        with print_message_and_done("Updating fonts"):
             run("sudo fc-cache -rsv", capture_output=True)
 
 
@@ -215,6 +217,7 @@ def install_ipython():
 
 install_ipython()
 
+
 # poetry
 def install_poetry():
     poetry_home = HOME / ".local/share/poetry"
@@ -232,6 +235,7 @@ def install_poetry():
 
 install_poetry()
 
+
 # django
 def install_django_bash_completion():
     DJANGO_BASH_COMPLETION_FILE = download(
@@ -247,6 +251,7 @@ install_django_bash_completion()
 # add pt_BR locale
 if "pt_BR.utf8" not in run("locale -a", capture_output=True).stdout.splitlines():
     run("sudo locale-gen pt_BR.UTF-8")
+
 
 # nodejs
 # https://github.com/nodesource/distributions/blob/master/README.md#debinstall
@@ -327,6 +332,7 @@ def create_home_btrfs_subvolumes():
 
 create_home_btrfs_subvolumes()
 
+
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # desktop
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -339,6 +345,8 @@ def install_spotify():
         *_, icon = sorted(Path("/snap/spotify").rglob("icons/spotify-linux-128.png"))
         with temporary_ownership_of(
             "/var/lib/snapd/desktop/applications/spotify_spotify.desktop"
+            # FIXME use !!!!!!!!!!
+            # '~/.local/share/applications/spotify_spotify.desktop'
         ) as desktop_file:
             desktop_file.write_text(template.format(icon=icon))
 
