@@ -29,3 +29,5 @@
 	defaultBranch = main
 [stash]
   showIncludeUntracked = true
+[difftool "vimdiff"]
+  path = nvim
