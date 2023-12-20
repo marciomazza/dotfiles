@@ -68,3 +68,4 @@ session.json
 zdev.cfg
 zz*
 *.todo
+.envrc
