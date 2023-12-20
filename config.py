@@ -178,6 +178,10 @@ def install_nerd_font(base_font_name, font_filename):
 
 
 def install_neovim():
+    # TODO this gets the development versions
+    # install the latest from github:
+    # https://github.com/neovim/neovim/releases/latest
+
     apt_add_ppa("neovim-ppa/unstable")
     if not apt_install("neovim"):
         return
