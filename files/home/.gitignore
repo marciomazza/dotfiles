@@ -1,7 +1,4 @@
-# .GITIGNORE GLOBAL
-# usar:
-#   ln -s ~/.z/dot-gitignore ~/.gitignore
-#   git config --global core.excludesfile ~/.gitignore
+# global .gitignore
 
 \#*#
 .*~

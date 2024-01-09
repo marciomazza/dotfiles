@@ -1,3 +1,5 @@
+# global git config
+
 [color]
   ui = true
 [diff]
@@ -6,7 +8,7 @@
 [merge]
   tool = vimdiff
 [core]
-  excludesfile = /home/mazza/.gitignore
+  excludesfile = ~/.gitignore
 [alias]
   st = status
   ci = commit
@@ -31,3 +33,5 @@
   showIncludeUntracked = true
 [difftool "vimdiff"]
   path = nvim
+[pull]
+    rebase = true
