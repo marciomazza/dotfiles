@@ -106,5 +106,6 @@ export FZF_DEFAULT_COMMAND='fdfind --type f --strip-cwd-prefix --hidden --follow
 export RELOAD_PATH=src  # for sauna.reload
 export PYCHARM_JDK=/usr/lib/jvm/java-11-openjdk-amd64  # for pycharm
 
+# FIXME: this is not working
 # https://direnv.net/docs/hook.html
-eval "$(direnv hook zsh)"
+# eval "$(direnv hook zsh)"
