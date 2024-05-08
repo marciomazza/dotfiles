@@ -72,7 +72,7 @@ def apt_install(packages, extra_args=""):
 def apt_add_ppa(name):
     if "/" not in name:
         name = f"{name}/ppa"
-    # check if ppa was already added
+    # skip if ppa was already added
     if [
         line
         for line in run("apt-cache policy", capture_output=True).stdout.splitlines()
