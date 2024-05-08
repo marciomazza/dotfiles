@@ -13,8 +13,6 @@ from os import getuid
 from textwrap import dedent
 from urllib.request import Request, urlopen, urlretrieve
 
-import pkg_resources
-
 
 def run(cmd, **kwargs):
     """
@@ -51,16 +49,14 @@ def strip_comments(text):
 
 def install(tool, packages, cmd, test_cmd="which"):
     names = strip_comments(packages).split()
-    test = (
-        test_cmd
-        if callable(test_cmd)
-        else lambda name: get_return_code(f"{test_cmd} {name}")
-    )
+
+    def test(name):
+        return get_return_code(f"{test_cmd} {name}")
 
     def install_all():
         for name in names:
             if test(name):
-                print(f"{tool}: installing {name}...")
+                print(f"{tool}: Installing {name}...")
                 run(cmd.format(name), capture_output=True)
                 yield name
 
@@ -87,13 +83,8 @@ def apt_add_ppa(name):
     run("sudo apt-get update")
 
 
-def test_python_package_installed(name):
-    # return False if installed to go allong with linux return code for success
-    return name not in {i.key for i in pkg_resources.working_set}
-
-
-def pip_install(packages):
-    return install("pip", packages, "pip install {}", test_python_package_installed)
+def pipx_install(packages):
+    return install("pipx", packages, "pipx install {}")
 
 
 def npm_install(packages):

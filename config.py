@@ -17,7 +17,7 @@ from base import (
     lineinfile,
     mkdir,
     npm_install,
-    pip_install,
+    pipx_install,
     print_message_and_done,
     run,
     snap_install,
@@ -44,6 +44,11 @@ apt_install(
     baobab timeshift
     """
 )
+
+
+if apt_install("pipx"):
+    run("pipx ensurepath")
+
 
 # enable some Linux Magic System Request Keys
 # see https://www.kernel.org/doc/html/latest/admin-guide/sysrq.html
@@ -124,7 +129,7 @@ install_python_alternative_versions(9)
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # bash customizations
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-pip_install("cdiff")  # used in ~/.bash_customizations
+pipx_install("cdiff")  # used in ~/.bash_customizations
 # color promt, infinite history size and run .bash_customizations
 BASHRC_FILE = HOME / ".bashrc"
 PROFILE_FILE = HOME / ".profile"
@@ -190,7 +195,7 @@ def install_neovim():
         )
 
     apt_install("universal-ctags")  # for majutsushi/tagbar
-    pip_install("black isort")  # used as ALE fixers
+    pipx_install("black isort")  # used as ALE fixers
     # install patched Hack font for ryanoasis/vim-devicons
     install_nerd_font("Hack", "Hack Regular Nerd Font Complete Mono.ttf")
 
@@ -210,7 +215,7 @@ apt_install(
 
 
 def install_ipython():
-    pip_install("ipython")
+    pipx_install("ipython")
     apt_install("python3-tk")  # for %paste in IPython
 
 
