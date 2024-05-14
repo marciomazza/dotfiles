@@ -207,10 +207,6 @@ def download_and_install_deb(url, package_name):
         run(f"sudo gdebi {tmp_dest} --non-interactive")
 
 
-def snap_install(packages):
-    return install("snap", packages, "sudo snap install {}", "snap list")
-
-
 @contextmanager
 def temporary_ownership_of(path):
     "Temporarily change onwnership of path to the current user"

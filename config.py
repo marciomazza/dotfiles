@@ -20,7 +20,6 @@ from base import (
     pipx_install,
     print_message_and_done,
     run,
-    snap_install,
     splitlines,
     symlink,
     temporary_ownership_of,
