@@ -221,10 +221,13 @@ def temporary_ownership_of(path):
     run(f"sudo chown {original_uid} {path}")
 
 
-def install_from_github_release(repo_path, download_url_regex, dest_dir, target_file):
-    # stop if this is already installed
-    if Path(dest_dir, target_file).exists():
-        return
+def install_from_github_release(
+    repo_path, download_url_regex, dest_dir, target_glob, update=False
+):
+    some_target_exists = any(Path(dest_dir).glob(f"**/{target_glob}"))
+    if not (update) and some_target_exists:
+        # shortcut and signal that the install was already done before
+        return False
 
     # download compressed file from github
     url = f"https://api.github.com/repos/{repo_path}/releases/latest"
@@ -246,14 +249,18 @@ def install_from_github_release(repo_path, download_url_regex, dest_dir, target_
     # extract, pick the target file and move it to dest_dir
     with tempfile.TemporaryDirectory() as temp_dir:
         open_fn(path_compressed_file).extractall(temp_dir)
-        [binary] = [
-            path for path in Path(temp_dir).glob(f"**/{target_file}") if path.is_file()
-        ]
-        shutil.move(str(binary), dest_dir)
-        print(f"{target_file} installed in {dest_dir}")
+        for path in Path(temp_dir).glob(f"**/{target_glob}"):
+            if path.is_file():
+                if (dest_path := dest_dir / path.name).exists():
+                    dest_path.unlink()
+                shutil.move(str(path), dest_dir)
+                print(f"{path} installed in {dest_dir}")
 
-    return True  # signal that the install was done for the first time
+    # signal that the install or update was done
+    return True
 
 
 def mkdir(*path_parts):
-    Path(*path_parts).mkdir(parents=True, exist_ok=True)
+    path = Path(*path_parts)
+    path.mkdir(parents=True, exist_ok=True)
+    return path
