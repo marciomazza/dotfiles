@@ -207,22 +207,7 @@ def install_ipython():
 install_ipython()
 
 
-# poetry
-def install_poetry():
-    poetry_home = HOME / ".local/share/poetry"
-    poetry_final = poetry_home / "bin/poetry"
-    if poetry_final.exists():
-        return
-    print("Installing poetry...")
-    get_poetry = download(
-        "https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py"
-    )
-    env = os.environ | {"POETRY_HOME": poetry_home}
-    run(f"python3 {get_poetry} --yes", env=env, capture_output=True)
-    symlink(LOCAL_BIN_DIR / "poetry", poetry_final)
-
-
-install_poetry()
+pipx_install("poetry")
 
 
 # django
