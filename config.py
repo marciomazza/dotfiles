@@ -41,6 +41,7 @@ apt_install(
     docker.io docker-compose
     openfortivpn
     baobab timeshift
+    cargo
     """
 )
 
