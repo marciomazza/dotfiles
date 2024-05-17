@@ -148,7 +148,7 @@ for line in splitlines(
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 apt_install("zsh")
-mkdir("~/.data")  # for z plugin since we like to use ~/.z for these configs
+mkdir(HOME / ".data")  # for z plugin since we like to use ~/.z for these configs
 
 # TODO install plugins:
 # git_clone("paulirish/git-open", "~/.oh-my-zsh/plugins/git-open") # => defaults to github
