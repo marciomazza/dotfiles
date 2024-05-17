@@ -19,9 +19,9 @@ def run(cmd, **kwargs):
     Tweaks subprocess.run to receive cmd as a single string.
     Raises exception by default when unsuccessful.
     """
-    if "check" not in kwargs:
-        kwargs["check"] = True
-    res = subprocess.run(cmd.split(), **kwargs)
+    kwargs.setdefault("check", True)
+    kwargs.setdefault("shell", True)
+    res = subprocess.run(cmd, **kwargs)
     res.stdout, res.stderr = [b.decode() if b else b for b in (res.stdout, res.stderr)]
     return res
 
