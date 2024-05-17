@@ -178,24 +178,12 @@ def install_nerd_font(base_font_name, font_filename):
 
 
 def install_neovim():
-    # TODO this gets the development versions
-    # install the latest from github:
-    # https://github.com/neovim/neovim/releases/latest
+    apt_add_ppa("neovim-ppa/stable")
+    apt_install("neovim")
 
-    apt_add_ppa("neovim-ppa/unstable")
-    if not apt_install("neovim"):
-        return
-
-    # install packer.nvim package manager
-    NVIM_PACK_DIR = HOME / ".local/share/nvim/site/pack"
-    if not (NVIM_PACK_DIR / "paqs").exists():
-        run(
-            "git clone --depth 1 https://github.com/wbthomason/packer.nvim"
-            f" {NVIM_PACK_DIR}/packer/start/packer.nvim"
-        )
-
-    apt_install("universal-ctags")  # for majutsushi/tagbar
-    pipx_install("black isort")  # used as ALE fixers
+    pipx_install("jedi_language_server ruff_lsp")
+    # for majutsushi/tagbar
+    apt_install("universal-ctags")
     # install patched Hack font for ryanoasis/vim-devicons
     install_nerd_font("Hack", "Hack Regular Nerd Font Complete Mono.ttf")
 
