@@ -31,7 +31,7 @@ from base import (
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 apt_install("git etckeeper")
 if not Path("/etc/.git").exists():
-    run("etckeeper commit 'first commit'")
+    run("sudo etckeeper commit 'first commit'")
 
 apt_install(
     """
