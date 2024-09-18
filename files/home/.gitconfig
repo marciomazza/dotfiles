@@ -6,7 +6,7 @@
   tool = vimdiff
   submodule = diff
 [merge]
-  tool = vimdiff
+	tool = nvimdiff
 [core]
   excludesfile = ~/.gitignore
 [alias]
@@ -23,6 +23,7 @@
   trustExitCode = true
 [mergetool]
   trustExitCode = true
+	prompt = false
 [includeIf "gitdir:~/work/"]
   path = ~/work/.gitconfig
 [trim]
@@ -35,3 +36,5 @@
   path = nvim
 [pull]
     rebase = true
+[mergetool "nvimdiff"]
+	cmd = nvim -d $LOCAL $REMOTE $MERGED -c \"wincmd l\" -c \"wincmd J\"
