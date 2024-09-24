@@ -23,7 +23,7 @@ alias zzzz='cd ../../../..'
 alias zzzzz='cd ../../../../..'
 alias pi='pip install --upgrade'
 alias pu='pip uninstall'
-alias p='poetry shell'
+alias p='pytest -s'
 alias ls="exa --icons --git --ignore-glob='.git|node_modules|__pycache__|*.pyc|*.pyo|*.o|*.swp|*.swo|*.swx|*.swpx'" # list
 # alias ll="exa --icons -l --git --ignore-glob='.git|node_modules|__pycache__|*.pyc|*.pyo|*.o|*.swp|*.swo|*.swx|*.swpx|'" # list
 alias ll="ls -l"
