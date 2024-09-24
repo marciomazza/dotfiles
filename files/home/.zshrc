@@ -71,9 +71,7 @@ ZSH_THEME="bira"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 DISABLE_VENV_CD=1
-plugins=(git autojump virtualenv virtualenvwrapper git-open poetry asdf F-Sy-H zsh-autosuggestions)
-export VIRTUALENVWRAPPER_PYTHON=`which python3`
-export PROJECT_HOME=$HOME/work
+plugins=(git autojump virtualenv git-open poetry asdf F-Sy-H zsh-autosuggestions)
 export _Z_DATA="$HOME/.data/z"
 
 fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
