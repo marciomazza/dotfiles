@@ -102,7 +102,3 @@ export PYCHARM_JDK=/usr/lib/jvm/java-11-openjdk-amd64  # for pycharm
 
 # debug with ipdb
 export PYTHONBREAKPOINT='IPython.terminal.debugger.set_trace'
-
-# FIXME: this is not working
-# https://direnv.net/docs/hook.html
-# eval "$(direnv hook zsh)"
