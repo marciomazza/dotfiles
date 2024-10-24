@@ -67,3 +67,4 @@ zz*
 *.todo
 .envrc
 .tool-versions
+.ruff.toml
