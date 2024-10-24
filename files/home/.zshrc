@@ -116,3 +116,21 @@ function toggle_poetry_venv {
 # Hook the function to directory changes
 autoload -U add-zsh-hook
 add-zsh-hook chpwd toggle_poetry_venv
+
+
+function mkvenv() {
+    # Pega caminho relativo ao $HOME
+    local rel_path=$(pwd | sed "s|^$HOME/||")
+    # Pega as iniciais dos diretórios pai (exceto o último)
+    local initials=$(echo "$rel_path" | rev | cut -d'/' -f2- | rev | sed 's/\([^/]\)[^/]*/\1/g' | tr -d '/')
+    # Pega o nome do diretório atual
+    local current_dir=$(basename $(pwd))
+    # Combina as iniciais com o nome atual
+    local venv_name="${initials}-${current_dir}"
+    
+    if [[ ! -d "$HOME/.venvs/$venv_name" ]]; then
+        uv venv "$HOME/.venvs/$venv_name"
+    fi
+    source "$HOME/.venvs/$venv_name/bin/activate"
+}
+alias u=mkvenv
