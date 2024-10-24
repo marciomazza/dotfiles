@@ -28,7 +28,7 @@ alias ls="exa --icons --git --ignore-glob='.git|node_modules|__pycache__|*.pyc|*
 # alias ll="exa --icons -l --git --ignore-glob='.git|node_modules|__pycache__|*.pyc|*.pyo|*.o|*.swp|*.swo|*.swx|*.swpx|'" # list
 alias ll="ls -l"
 alias t="ls --tree"
-
+alias o=open
 
 a ()
 {
