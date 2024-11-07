@@ -103,20 +103,6 @@ export PYCHARM_JDK=/usr/lib/jvm/java-11-openjdk-amd64  # for pycharm
 # debug with ipdb
 export PYTHONBREAKPOINT='IPython.terminal.debugger.set_trace'
 
-# Automatically activate and deactivate poetry virtual environment
-function toggle_poetry_venv {
-  # If inside a Poetry project directory (contains pyproject.toml) and no venv is active
-  if [[ -f pyproject.toml ]] && [[ -z "$VIRTUAL_ENV" ]]; then
-    source $(poetry env info --path)/bin/activate
-  # If leaving a poetry project directory (no pyproject.toml) and a venv is active
-  elif [[ -n "$VIRTUAL_ENV" ]] && [[ ! -f pyproject.toml ]]; then
-    deactivate
-  fi
-}
-# Hook the function to directory changes
-autoload -U add-zsh-hook
-add-zsh-hook chpwd toggle_poetry_venv
-
 function uv_venv_create() {
     # Create a unique venv name based on the initials of parent directories
     # and the current directory name
