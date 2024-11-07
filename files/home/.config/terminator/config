@@ -7,6 +7,7 @@
   go_down = <Shift><Alt>Down
   go_left = <Shift><Alt>Left
   go_right = <Shift><Alt>Right
+  layout_launcher = ""
 [profiles]
   [[default]]
     background_color = "#282828"
