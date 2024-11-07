@@ -117,22 +117,21 @@ function toggle_poetry_venv {
 autoload -U add-zsh-hook
 add-zsh-hook chpwd toggle_poetry_venv
 
-
-function uv_venv_activate() {
-    # collect the initial letter of each ancestor dir relative to home
-    local relative_path_to_home=$(pwd | sed "s|^$HOME/||")
-    local ancestors_initials=$(echo "$relative_path_to_home" | rev | cut -d'/' -f2- | rev | sed 's/\([^/]\)[^/]*/\1/g' | tr -d '/')
-    local current_dir=$(basename $(pwd))
-    local venv_name="${ancestors_initials}-${current_dir}"
-    # creates the venv (if necessary)
+function uv_venv_create() {
+    # Create a unique venv name based on the initials of parent directories
+    # and the current directory name
+    local ancestors_initials=""
+    for dir in $(pwd | sed "s|^$HOME/||" | tr '/' ' '); do
+        ancestors_initials+="${dir:0:1}"
+    done
+    local venv_name="${ancestors_initials}-$(basename $(pwd))"
+    # Create the venv if it doesn't exist
     local venv_dir="$HOME/.venvs/$venv_name"
-    if [[ ! -d "$venv_dir" ]]; then
-        uv venv "$venv_dir"
-    fi
+    [[ ! -d "$venv_dir" ]] && uv venv "$venv_dir"
     # make a symlink .venv pointing to the actual one to satisfy uv
     # see https://github.com/astral-sh/uv/issues/1495
     ln -sfn "$venv_dir" .venv
-    # activate
+    # finally activate
     source .venv/bin/activate
 }
-alias u=uv_venv_activate
+alias u=uv_venv_create
