@@ -175,6 +175,11 @@ def install_nerd_font(base_font_name):
 
 
 def install_neovim():
+    # FIXME: install neovim from tar
+    # curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
+    # sudo rm -rf /opt/nvim
+    # sudo tar -C /opt -xzf nvim-linux64.tar.gz
+
     apt_add_ppa("neovim-ppa/stable")
     apt_install("neovim")
 
