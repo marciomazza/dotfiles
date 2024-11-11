@@ -1,6 +1,7 @@
 # aliases and helper functions
 
 alias x=trash-put
+alias vim=nvim
 alias e=nvim
 alias s=gsb
 alias d='git diff -w ":(exclude)poetry.lock"'

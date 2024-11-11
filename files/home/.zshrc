@@ -88,7 +88,7 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
-export EDITOR='vim'
+export EDITOR='nvim'
 export LESS="-SRXF"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
