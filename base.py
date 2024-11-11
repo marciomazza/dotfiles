@@ -10,7 +10,6 @@ import time
 import zipfile
 from contextlib import contextmanager
 from os import getuid
-from textwrap import dedent
 from urllib.request import Request, urlopen, urlretrieve
 
 
@@ -93,14 +92,6 @@ def npm_install(packages):
     return install(
         "global npm", packages, "sudo npm install --global {}", "npm list -g"
     )
-
-
-def splitlines(text):
-    return [
-        line
-        for line in dedent(text).strip().splitlines()
-        if line and not line.strip().startswith("#")
-    ]
 
 
 def Path(*args, **kwargs):

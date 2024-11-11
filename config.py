@@ -19,7 +19,6 @@ from base import (
     npm_install,
     print_message_and_done,
     run,
-    splitlines,
     symlink,
     temporary_ownership_of,
     wait_for_condition,
@@ -28,10 +27,6 @@ from base import (
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # basic
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-apt_install("git etckeeper")
-if not Path("/etc/.git").exists():
-    run("sudo etckeeper commit 'first commit'")
-
 apt_install(
     """
     software-properties-common
@@ -40,7 +35,7 @@ apt_install(
     docker.io docker-compose
     openfortivpn
     baobab timeshift
-    cargo
+    cargo git
     """
 )
 
@@ -50,20 +45,6 @@ lineinfile("/etc/sysctl.conf", f"kernel.sysrq={0b11110000}")
 
 # limit the total size of /var/log/journal/ to 100M
 lineinfile("/etc/systemd/journald.conf", "SystemMaxUse=100M")
-
-
-# FIXME is this still relevant after ubuntu 22.04?
-#
-# BUG https://bugs.launchpad.net/ubuntu/+source/libwebcam/+bug/811604
-#     webcam related log file grows without boundaries
-# workaround: purge the package uvcdynctrl
-# see https://bugs.launchpad.net/ubuntu/+source/libwebcam/+bug/811604/comments/48
-uvcdynctrl_log = Path("/var/log/uvcdynctrl-udev.log")
-if uvcdynctrl_log.exists() or get_return_code("dpkg -s uvcdynctrl") == 0:
-    run(f"sudo rm -f {uvcdynctrl_log}")
-    # purge the offending package as a workaround
-    run("sudo apt purge uvcdynctrl --yes --quiet --quiet")
-
 
 # Remove unnecessary hunspell english dicts
 for dic in Path("/usr/share/hunspell").glob("en_*"):
@@ -90,46 +71,10 @@ for here in files_home_dir.rglob("*"):
 LOCAL_BIN_DIR = HOME / ".local/bin"
 
 
-def install_alias_autocomplete():
-    apt_install("bash-completion")
-    download(
-        "https://raw.githubusercontent.com/cykerway/complete-alias/master/complete_alias",
-        LOCAL_BIN_DIR,
-        quick=True,
-    )
-    # more configs in:
-    # ~/.z/files/home/.bash_completion
-    # ~/.z/files/home/.bash_customizations
-
-
-install_alias_autocomplete()
-# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-# bash customizations
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-# color promt, infinite history size and run .bash_customizations
-BASHRC_FILE = HOME / ".bashrc"
-PROFILE_FILE = HOME / ".profile"
-for line in splitlines(
-    """
-        force_color_prompt=yes
-        HISTSIZE=-1
-        HISTFILESIZE=-1
-        test -f ~/.bash_customizations && source ~/.bash_customizations
-    """
-):
-    lineinfile(BASHRC_FILE, line)
-
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # zsh
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
 apt_install("zsh")
-mkdir(HOME / ".data")  # for z plugin since we like to use ~/.z for these configs
-
-# TODO install plugins:
-# git_clone("paulirish/git-open", "~/.oh-my-zsh/plugins/git-open") # => defaults to github
-# or something like
-# install_zsh_plugin("paulirish/git-open")
 
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -181,18 +126,6 @@ if install("basic", "uv", "curl -LsSf https://astral.sh/uv/install.sh | sh"):
     install("uv", "ruff isort ipython djlint poetry", "uv tool install --force {}", "")
 
 
-# django
-def install_django_bash_completion():
-    DJANGO_BASH_COMPLETION_FILE = download(
-        "https://raw.githubusercontent.com/django/django/master/extras/django_bash_completion",
-        LOCAL_BIN_DIR,
-        quick=True,
-    )
-    lineinfile(BASHRC_FILE, f". {DJANGO_BASH_COMPLETION_FILE}")
-
-
-install_django_bash_completion()
-
 # add pt_BR locale
 if "pt_BR.utf8" not in run("locale -a", capture_output=True).stdout.splitlines():
     run("sudo locale-gen pt_BR.UTF-8")
@@ -201,6 +134,7 @@ if "pt_BR.utf8" not in run("locale -a", capture_output=True).stdout.splitlines()
 # nodejs
 # https://github.com/nodesource/distributions/blob/master/README.md#debinstall
 def install_node(version):
+    # TODO review this
     added_to_sources = Path("/etc/apt/sources.list.d/nodesource.list").exists()
 
     def get_node_version():
@@ -222,15 +156,10 @@ npm_install("yarn")
 npm_install("@bitwarden/cli")
 
 
-def install_git_trim():
-    # https://github.com/foriequal0/git-trim
-    install_from_github_release(
-        "foriequal0/git-trim", ".*linux.*tgz$", LOCAL_BIN_DIR, "git-trim"
-    )
-    run("git config --global trim.bases develop,master")
-
-
-install_git_trim()
+# https://github.com/foriequal0/git-trim
+install_from_github_release(
+    "foriequal0/git-trim", ".*linux.*tgz$", LOCAL_BIN_DIR, "git-trim"
+)
 
 
 def get_user_groups(username):
@@ -253,7 +182,7 @@ if "docker" not in get_user_groups(USERNAME):
 # btrfs
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-# TODO configure snapshots ...
+# TODO: configure snapshots ...
 
 
 def is_btrfs_subvolume(path):
@@ -282,6 +211,7 @@ create_home_btrfs_subvolumes()
 # desktop
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 def install_spotify():
+    # FIXME
     if snap_install("spotify"):
         template = (FILES / "spotify_spotify.desktop.template").read_text()
         # there can be multiple versions of the snap
@@ -294,40 +224,6 @@ def install_spotify():
             # '~/.local/share/applications/spotify_spotify.desktop'
         ) as desktop_file:
             desktop_file.write_text(template.format(icon=icon))
-
-
-def adjust_desktop():
-    gsettings = [
-        line.split(maxsplit=2) for line in splitlines((FILES / "gsettings").read_text())
-    ]
-    for schema, key, value in gsettings:
-        subprocess.check_call(["gsettings", "set", schema, key, value])
-
-
-def install_geckodriver():
-    install_from_github_release(
-        "mozilla/geckodriver", ".*linux64.*tar\.gz$", LOCAL_BIN_DIR, "geckodriver"
-    )
-
-
-VSCODE_EXTENSIONS = """
-    vscodevim.vim
-    dbaeumer.vscode-eslint
-    esbenp.prettier-vscode
-    EditorConfig.EditorConfig
-"""
-
-
-def install_vscode():
-    download_and_install_deb(
-        "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64",
-        "code",
-    )
-    out = run("code --list-extensions", capture_output=True)
-    installed_extensions = set(out.stdout.splitlines())
-    extensions = set(splitlines(VSCODE_EXTENSIONS))
-    for extension in extensions - installed_extensions:
-        run(f"code --install-extension {extension}")
 
 
 def sudo_cp(origin_dir, dest_dir):
@@ -373,14 +269,12 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
         dconf-editor
 
         gimp imagemagick
-        vlc mplayer audacity ffmpeg
+        vlc ffmpeg
         xournal pdfarranger
         libreoffice
         qbittorrent
         """
     )
-    # XXX reenable extension when available for ubuntu 22.04
-    # gnome-shell-extension-autohidetopbar
 
     install_firefox()
 
@@ -401,13 +295,6 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
 
     # more desktop dev tools
     apt_install("gitk gitg meld")
-    install_geckodriver()
-    install_git_trim()
-    snap_install("teams")
-    install_vscode()
-
-    # must come last (actually after all installs referred in gsettings)
-    adjust_desktop()
 
     # TODO
     # disable faulty lenovo webcam
