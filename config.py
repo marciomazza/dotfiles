@@ -11,13 +11,12 @@ from base import (
     download,
     download_and_install_deb,
     get_return_code,
+    install,
     install_from_github_release,
-    is_not_dpkg_installed,
     is_success,
     lineinfile,
     mkdir,
     npm_install,
-    pipx_install,
     print_message_and_done,
     run,
     splitlines,
@@ -35,7 +34,7 @@ if not Path("/etc/.git").exists():
 
 apt_install(
     """
-    software-properties-common python3-pip
+    software-properties-common
     tree trash-cli xclip curl smbclient htop ncdu silversearcher-ag fd-find
 
     docker.io docker-compose
@@ -44,11 +43,6 @@ apt_install(
     cargo
     """
 )
-
-
-if apt_install("pipx"):
-    run("pipx ensurepath")
-
 
 # enable some Linux Magic System Request Keys
 # see https://www.kernel.org/doc/html/latest/admin-guide/sysrq.html
@@ -109,27 +103,9 @@ def install_alias_autocomplete():
 
 
 install_alias_autocomplete()
-
-
-# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-# python
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-def install_python_alternative_versions(*python_versions):
-    python_packages = " ".join(
-        f"python3.{v} python3.{v}-dev python3.{v}-distutils" for v in python_versions
-    )
-    if any(is_not_dpkg_installed(p) for p in python_packages.split()):
-        apt_add_ppa("deadsnakes")
-        apt_install(python_packages)
-
-
-install_python_alternative_versions(9)
-
-
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # bash customizations
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-pipx_install("cdiff")  # used in ~/.bash_customizations
 # color promt, infinite history size and run .bash_customizations
 BASHRC_FILE = HOME / ".bashrc"
 PROFILE_FILE = HOME / ".profile"
@@ -180,10 +156,6 @@ def install_neovim():
     # sudo rm -rf /opt/nvim
     # sudo tar -C /opt -xzf nvim-linux64.tar.gz
 
-    apt_add_ppa("neovim-ppa/stable")
-    apt_install("neovim")
-
-    pipx_install("jedi_language_server ruff_lsp")
     # for majutsushi/tagbar
     apt_install("universal-ctags")
     # install patched Hack font for ryanoasis/vim-devicons
@@ -204,15 +176,9 @@ apt_install(
 )
 
 
-def install_ipython():
-    pipx_install("ipython")
-    apt_install("python3-tk")  # for %paste in IPython
-
-
-install_ipython()
-
-
-pipx_install("poetry")
+# python
+if install("basic", "uv", "curl -LsSf https://astral.sh/uv/install.sh | sh"):
+    install("uv", "ruff isort ipython djlint poetry", "uv tool install --force {}", "")
 
 
 # django

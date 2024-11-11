@@ -54,6 +54,8 @@ def install(tool, packages, cmd, test_cmd="which"):
     names = strip_comments(packages).split()
 
     def already_installed(name):
+        if not test_cmd:
+            return False
         return get_return_code(f"{test_cmd} {name}") == 0
 
     def install_all():
@@ -85,10 +87,6 @@ def apt_add_ppa(name):
         return
     run(f"sudo add-apt-repository ppa:{name} --yes")
     run("sudo apt-get update")
-
-
-def pipx_install(packages):
-    return install("pipx", packages, "pipx install {}")
 
 
 def npm_install(packages):
