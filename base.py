@@ -1,6 +1,5 @@
 import cgi
 import json
-import pathlib
 import re
 import shutil
 import subprocess
@@ -10,6 +9,7 @@ import time
 import zipfile
 from contextlib import contextmanager
 from os import getuid
+from pathlib import Path
 from urllib.request import Request, urlopen, urlretrieve
 
 
@@ -92,10 +92,6 @@ def npm_install(packages):
     return install(
         "global npm", packages, "sudo npm install --global {}", "npm list -g"
     )
-
-
-def Path(*args, **kwargs):
-    return pathlib.Path(*args, **kwargs).expanduser()
 
 
 def really_exists(path):

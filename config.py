@@ -55,7 +55,7 @@ for dic in Path("/usr/share/hunspell").glob("en_*"):
 # link home config files recursively
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 USERNAME = os.getlogin()
-HOME = Path("~")
+HOME = Path.home()
 FILES = Path("files").absolute()
 
 files_home_dir = FILES / "home"
@@ -246,7 +246,7 @@ def install_firefox():
     sudo_cp(FILES / "firefox/apt", "/etc")
     apt_install("firefox")
 
-    config_dir = Path("~/.mozilla/firefox")
+    config_dir = HOME / ".mozilla/firefox"
 
     # trigger the the creation the initial config that includes the default profile
     process = subprocess.Popen(["firefox", "--headless"])
