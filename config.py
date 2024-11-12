@@ -8,12 +8,12 @@ from base import (
     Path,
     apt_add_ppa,
     apt_install,
+    cmd_works,
     download,
     download_and_install_deb,
     get_return_code,
     install,
     install_from_github_release,
-    is_success,
     lineinfile,
     mkdir,
     npm_install,
@@ -123,7 +123,12 @@ apt_install(
 
 # python
 if install("basic", "uv", "curl -LsSf https://astral.sh/uv/install.sh | sh"):
-    install("uv", "ruff isort ipython djlint poetry", "uv tool install --force {}", "")
+    install(
+        "uv",
+        "ruff isort ipython djlint poetry",
+        "uv tool install --force {}",
+        lambda: False,
+    )
 
 
 # add pt_BR locale
@@ -201,7 +206,7 @@ def install_spotify():
 def sudo_cp(origin_dir, dest_dir):
     files = [p for p in origin_dir.glob("**/*") if p.is_file()]
     if not all(
-        is_success(f"diff {p} {dest_dir}/{p.relative_to(origin_dir.parent)}")
+        cmd_works(f"diff {p} {dest_dir}/{p.relative_to(origin_dir.parent)}")
         for p in files
     ):
         run(f"sudo cp -rf {FILES}/firefox/apt /etc")
@@ -211,7 +216,7 @@ def install_firefox():
     # remove snap that is the default on ubuntu 22.04
     # based on https://www.omgubuntu.co.uk/2022/04/how-to-install-firefox-deb-apt-ubuntu-22-04
 
-    if is_success("snap list firefox"):
+    if cmd_works("snap list firefox"):
         run("sudo snap remove --purge firefox")
     apt_add_ppa("mozillateam")
     # configure apt to prioritize PPA and do automatic updates

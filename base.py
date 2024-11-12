@@ -29,8 +29,8 @@ def get_return_code(cmd):
     return run(cmd, capture_output=True, check=False).returncode
 
 
-def is_success(cmd):
-    return not get_return_code(cmd)
+def cmd_works(cmd):
+    return get_return_code(cmd) == 0
 
 
 def wait_for_condition(test, timeout=2):
@@ -53,8 +53,8 @@ def install(tool, packages, cmd, cmd_check_is_installed="which"):
     names = strip_comments(packages).split()
 
     def already_installed(name):
-        if not cmd_check_is_installed:
-            return False
+        if callable(cmd_check_is_installed):
+            return cmd_check_is_installed(name)
         return get_return_code(f"{cmd_check_is_installed} {name}") == 0
 
     def install_all():
