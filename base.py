@@ -46,16 +46,16 @@ def strip_comments(text):
     return re.sub(" *#.*", "", text)
 
 
-def install(tool, packages, cmd, test_cmd="which"):
+def install(tool, packages, cmd, cmd_check_is_installed="which"):
     """
     Returns the list of packages actually installed for the first time
     """
     names = strip_comments(packages).split()
 
     def already_installed(name):
-        if not test_cmd:
+        if not cmd_check_is_installed:
             return False
-        return get_return_code(f"{test_cmd} {name}") == 0
+        return get_return_code(f"{cmd_check_is_installed} {name}") == 0
 
     def install_all():
         for name in names:
