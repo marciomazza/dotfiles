@@ -51,6 +51,27 @@ for script in Path("install").glob("*.sh"):
             # work on /tmp for downloads not to polute this dir
             run(str(script.absolute()), cwd="/tmp", capture_output=True)
 
+
+# nodejs
+def install_node():
+    # install nvm more or less like
+    # https://nodejs.org/en/download/package-manager
+    nvm_repo = "https://github.com/nvm-sh/nvm.git"
+    nvm_dir = Path.home() / ".nvm"
+    if nvm_dir.exists():
+        run("git pull", cwd=nvm_dir)
+    else:
+        run(f"git clone {nvm_repo} /tmp/{nvm_dir}")
+    run("nvm install node", executable="/bin/zsh")
+
+
+if not cmd_works("which node"):
+    install_node()
+
+# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+# tweaks
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 # enable some Linux Magic System Request Keys
 # see https://www.kernel.org/doc/html/latest/admin-guide/sysrq.html
 lineinfile("/etc/sysctl.conf", f"kernel.sysrq={0b11110000}")
@@ -128,25 +149,6 @@ if "pt_BR.utf8" not in run("locale -a", capture_output=True).stdout.splitlines()
     run("sudo locale-gen pt_BR.UTF-8")
 
 
-# nodejs
-# https://github.com/nodesource/distributions/blob/master/README.md#debinstall
-def install_node(version):
-    # TODO review this
-    added_to_sources = Path("/etc/apt/sources.list.d/nodesource.list").exists()
-
-    def get_node_version():
-        if get_return_code("which node"):
-            return 0  # not installed
-        version = run("node --version", capture_output=True).stdout
-        return int(version.lstrip("v").split(".")[0])
-
-    if not added_to_sources or get_node_version() < version:
-        node_setup_script = download(f"https://deb.nodesource.com/setup_{version}.x")
-        run(f"sudo -E bash {node_setup_script}")
-        apt_install("nodejs")
-
-
-install_node(16)
 npm_install("yarn")
 
 # bitwarden cli
