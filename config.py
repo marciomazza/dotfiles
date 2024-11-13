@@ -31,10 +31,14 @@ if run("echo $SHELL", capture_output=True).stdout.strip() != "/usr/bin/zsh":
     run("sudo chsh -s /bin/zsh")
 
 
+def command_not_avalable(name):
+    return not cmd_works(f"which {command_name}")
+
+
 # install some stuf with bash scripts
 for script in Path("install").glob("*.sh"):
     command_name = script.stem
-    if not cmd_works(f"which {command_name}"):
+    if command_not_avalable(command_name):
         with print_message_and_done(f"Installing {command_name}"):
             # work on /tmp for downloads not to polute this dir
             run(str(script.absolute()), cwd="/tmp", capture_output=True)
@@ -53,7 +57,7 @@ def install_node():
     run("nvm install node", executable="/bin/zsh")
 
 
-if not cmd_works("which node"):
+if command_not_avalable("node"):
     install_node()
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
