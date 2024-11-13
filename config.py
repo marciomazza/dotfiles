@@ -91,9 +91,6 @@ for here in files_home_dir.rglob("*"):
             symlink(athome, here)
 
 
-LOCAL_BIN_DIR = Path.home() / ".local/bin"
-
-
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # development tools
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -135,7 +132,7 @@ npm_install("@bitwarden/cli")
 
 # https://github.com/foriequal0/git-trim
 install_from_github_release(
-    "foriequal0/git-trim", ".*linux.*tgz$", LOCAL_BIN_DIR, "git-trim"
+    "foriequal0/git-trim", ".*linux.*tgz$", Path.home() / ".local/bin", "git-trim"
 )
 
 
@@ -194,20 +191,6 @@ def install_firefox():
 
 
 if "XDG_CURRENT_DESKTOP" in os.environ:
-    apt_install(
-        """
-        terminator
-        gnome-tweaks gnome-shell-extensions
-        dconf-editor
-
-        gimp imagemagick
-        vlc ffmpeg
-        xournal pdfarranger
-        libreoffice
-        qbittorrent
-        """
-    )
-
     install_firefox()
 
     # install google chrome
@@ -224,9 +207,6 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
         "https://cloud.gastecnologia.com.br/bb/downloads/ws/warsaw_setup64.deb",
         "warsaw",
     )
-
-    # more desktop dev tools
-    apt_install("gitk gitg meld")
 
     # TODO
     # disable faulty lenovo webcam
