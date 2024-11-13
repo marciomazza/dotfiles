@@ -28,6 +28,7 @@ from base import (
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 apt_install(
     """
+    zsh
     software-properties-common
     tree trash-cli xclip curl smbclient htop ncdu silversearcher-ag fd-find
 
@@ -36,6 +37,11 @@ apt_install(
     cargo git
     """
 )
+
+# zsh
+if run("echo $SHELL", capture_output=True).stdout.strip() != "/usr/bin/zsh":
+    run("sudo chsh -s /bin/zsh")
+
 
 # install some stuf with bash scripts
 for script in Path("install").glob("*.sh"):
@@ -75,10 +81,6 @@ for here in files_home_dir.rglob("*"):
 
 
 LOCAL_BIN_DIR = HOME / ".local/bin"
-
-# zsh
-if apt_install("zsh"):
-    run("sudo chsh -s /bin/zsh")
 
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
