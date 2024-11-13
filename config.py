@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-import grp
 import os
 import subprocess
 
@@ -32,12 +31,19 @@ apt_install(
     software-properties-common
     tree trash-cli xclip curl smbclient htop ncdu silversearcher-ag fd-find
 
-    docker.io docker-compose
     openfortivpn
     baobab timeshift
     cargo git
     """
 )
+
+# install some stuf with bash scripts
+for script in Path("install").glob("*.sh"):
+    command_name = script.stem
+    if not cmd_works(f"which {command_name}"):
+        with print_message_and_done(f"Installing {command_name}"):
+            # work on /tmp for downloads not to polute this dir
+            run(str(script.absolute()), cwd="/tmp", capture_output=True)
 
 # enable some Linux Magic System Request Keys
 # see https://www.kernel.org/doc/html/latest/admin-guide/sysrq.html
@@ -92,20 +98,6 @@ def install_nerd_font(base_font_name):
         with print_message_and_done("Updating fonts"):
             run("sudo fc-cache -rsv", capture_output=True)
 
-
-def install_neovim():
-    # FIXME: install neovim from tar
-    # curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
-    # sudo rm -rf /opt/nvim
-    # sudo tar -C /opt -xzf nvim-linux64.tar.gz
-
-    # for majutsushi/tagbar
-    apt_install("universal-ctags")
-    # install patched Hack font for ryanoasis/vim-devicons
-    install_nerd_font("Hack")
-
-
-install_neovim()
 
 apt_install(
     """
@@ -163,23 +155,6 @@ npm_install("@bitwarden/cli")
 install_from_github_release(
     "foriequal0/git-trim", ".*linux.*tgz$", LOCAL_BIN_DIR, "git-trim"
 )
-
-
-def get_user_groups(username):
-    return {g.gr_name for g in grp.getgrall() if username in g.gr_mem}
-
-
-# TODO...
-# docker compose V2
-# https://docs.docker.com/compose/cli-command/
-#
-# sudo mkdir -p /usr/local/lib/docker/cli-plugins
-# sudo curl -SL https://github.com/docker/compose/releases/download/v2.0.1/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose
-# run docker without sudo
-
-
-if "docker" not in get_user_groups(USERNAME):
-    run(f"sudo adduser --quiet {USERNAME} docker")
 
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

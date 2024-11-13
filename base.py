@@ -149,14 +149,17 @@ def get_file_info_for_download(url):
 
 
 @contextmanager
-def print_message_and_done(message):
-    done_message = "done"
+def print_message_and_done(message, oneline=True):
+    if oneline:
+        message, done_message = f"{message}... ", "done"
+    else:
+        message, done_message = f"#### {message} ####\n", "\n---- done ----"
 
     def done(msg):
         nonlocal done_message
         done_message = msg
 
-    print(f"{message}... ", end="", flush=True)
+    print(message, end="", flush=True)
     yield done
     print(done_message)
 
