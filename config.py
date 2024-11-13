@@ -24,17 +24,7 @@ from base import (
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # basic
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-apt_install(
-    """
-    zsh
-    software-properties-common
-    tree trash-cli xclip curl smbclient htop ncdu silversearcher-ag fd-find
-
-    openfortivpn
-    baobab timeshift
-    cargo git
-    """
-)
+apt_install(Path("apt_packages").read_text())
 
 # zsh
 if run("echo $SHELL", capture_output=True).stdout.strip() != "/usr/bin/zsh":
@@ -116,18 +106,6 @@ def install_nerd_font(base_font_name):
     if done_for_the_first_time:
         with print_message_and_done("Updating fonts"):
             run("sudo fc-cache -rsv", capture_output=True)
-
-
-apt_install(
-    """
-    postgresql
-    sqlite3
-    libpq-dev                   # for psycopg
-
-    graphviz libgraphviz-dev
-    git-flow
-    """
-)
 
 
 # python
