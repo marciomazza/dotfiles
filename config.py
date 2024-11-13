@@ -8,9 +8,7 @@ from base import (
     apt_add_ppa,
     apt_install,
     cmd_works,
-    download,
     download_and_install_deb,
-    get_return_code,
     install,
     install_from_github_release,
     lineinfile,
@@ -87,13 +85,11 @@ for dic in Path("/usr/share/hunspell").glob("en_*"):
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # link home config files recursively
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-USERNAME = os.getlogin()
-HOME = Path.home()
 FILES = Path("files").absolute()
 
 files_home_dir = FILES / "home"
 for here in files_home_dir.rglob("*"):
-    athome = HOME / here.relative_to(files_home_dir)  # path relative to home
+    athome = Path.home() / here.relative_to(files_home_dir)  # path relative to home
     if here.is_dir() and not here.is_symlink():
         mkdir(athome)
     else:
@@ -101,7 +97,7 @@ for here in files_home_dir.rglob("*"):
             symlink(athome, here)
 
 
-LOCAL_BIN_DIR = HOME / ".local/bin"
+LOCAL_BIN_DIR = Path.home() / ".local/bin"
 
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -109,7 +105,7 @@ LOCAL_BIN_DIR = HOME / ".local/bin"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 def install_nerd_font(base_font_name):
     # install patched Hack nerd font (https://www.nerdfonts.com)
-    custom_fonts_dir = mkdir(HOME / ".local/share/fonts")
+    custom_fonts_dir = mkdir(Path.home() / ".local/share/fonts")
     done_for_the_first_time = install_from_github_release(
         "ryanoasis/nerd-fonts",
         f".*{base_font_name}.zip",
@@ -200,7 +196,7 @@ def install_firefox():
     sudo_cp(FILES / "firefox/apt", "/etc")
     apt_install("firefox")
 
-    config_dir = HOME / ".mozilla/firefox"
+    config_dir = Path.home() / ".mozilla/firefox"
 
     # trigger the the creation the initial config that includes the default profile
     process = subprocess.Popen(["firefox", "--headless"])
