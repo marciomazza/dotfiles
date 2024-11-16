@@ -29,6 +29,10 @@ def get_return_code(cmd):
     return run(cmd, capture_output=True, check=False).returncode
 
 
+def cmd_output(cmd):
+    return run(cmd, capture_output=True, check=False).stdout.strip()
+
+
 def cmd_works(cmd):
     return get_return_code(cmd) == 0
 
