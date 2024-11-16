@@ -17,7 +17,6 @@ from base import (
     print_message_and_done,
     run,
     symlink,
-    temporary_ownership_of,
     wait_for_condition,
 )
 
@@ -139,20 +138,6 @@ install_from_github_release(
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # desktop
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-def install_spotify():
-    # FIXME
-    if snap_install("spotify"):
-        template = (FILES / "spotify_spotify.desktop.template").read_text()
-        # there can be multiple versions of the snap
-        # the paths start with /snap/spotify/<version>,
-        # so the last one should be the installed version
-        *_, icon = sorted(Path("/snap/spotify").rglob("icons/spotify-linux-128.png"))
-        with temporary_ownership_of(
-            "/var/lib/snapd/desktop/applications/spotify_spotify.desktop"
-            # FIXME use !!!!!!!!!!
-            # '~/.local/share/applications/spotify_spotify.desktop'
-        ) as desktop_file:
-            desktop_file.write_text(template.format(icon=icon))
 
 
 def sudo_cp(origin_dir, dest_dir):
@@ -199,7 +184,6 @@ if "XDG_CURRENT_DESKTOP" in os.environ:
         "google-chrome-stable",
     )
 
-    install_spotify()
     download_and_install_deb("https://zoom.us/client/latest/zoom_amd64.deb", "zoom")
 
     # banco do brasil
