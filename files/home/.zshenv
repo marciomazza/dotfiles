@@ -1,4 +1,5 @@
 . "$HOME/.cargo/env"
+. "$HOME/.local/bin/env"
 
 # nvm
 NVM_DIR="$HOME/.nvm"
