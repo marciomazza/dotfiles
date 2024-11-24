@@ -87,7 +87,7 @@ if install("basic", "uv", "curl -LsSf https://astral.sh/uv/install.sh | sh"):
         "uv",
         "ruff isort ipython djlint poetry",
         "uv tool install --force {}",
-        lambda: False,
+        lambda _: False,
     )
 
 
