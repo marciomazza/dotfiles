@@ -6,13 +6,13 @@ dconf-editor
 eza
 fd-find
 ffmpeg
-gimp 
+gimp
 git
 git-flow
-gitk
 gitg
+gitk
 gnome-shell-extensions
-gnome-tweaks 
+gnome-tweaks
 graphviz
 htop
 imagemagick
@@ -24,6 +24,7 @@ libreoffice
 meld
 moreutils
 ncdu
+net-tools
 openfortivpn
 otpclient
 pdfarranger
@@ -39,7 +40,7 @@ terminator
 trash-cli
 tree
 universal-ctags
-vlc 
+vlc
 xclip
-xournal 
+xournal
 xsel
