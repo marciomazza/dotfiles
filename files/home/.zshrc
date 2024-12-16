@@ -107,7 +107,7 @@ function uv_venv_create() {
     # Create a unique venv name based on the initials of parent directories
     # and the current directory name
     local ancestors_initials=""
-    for dir in $(pwd | sed "s|^$HOME/||" | tr '/' ' '); do
+    for dir in $(dirname `pwd` | sed "s|^$HOME/||" | tr '/' ' '); do
         ancestors_initials+="${dir:0:1}"
     done
     local venv_name="${ancestors_initials}-$(basename $(pwd))"
