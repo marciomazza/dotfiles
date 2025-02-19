@@ -85,7 +85,7 @@ install_from_github_release(
 if install("basic", "uv", "curl -LsSf https://astral.sh/uv/install.sh | sh"):
     install(
         "uv",
-        "ruff isort ipython djlint poetry",
+        "ruff isort ipython djlint",
         "uv tool install --force {}",
         lambda _: False,
     )
