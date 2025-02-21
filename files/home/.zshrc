@@ -100,8 +100,9 @@ export FZF_DEFAULT_COMMAND='fdfind --type f --strip-cwd-prefix --hidden --follow
 export RELOAD_PATH=src  # for sauna.reload
 export PYCHARM_JDK=/usr/lib/jvm/java-11-openjdk-amd64  # for pycharm
 
-# debug with ipdb
+# debug with IPython
 export PYTHONBREAKPOINT='IPython.terminal.debugger.set_trace'
+export PYTEST_ADDOPTS="--pdbcls=IPython.terminal.debugger:Pdb"
 
 function uv_venv_create() {
     # Create a unique venv name based on the initials of parent directories
