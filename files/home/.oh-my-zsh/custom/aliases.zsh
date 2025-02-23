@@ -4,10 +4,13 @@ alias x=trash-put
 alias vim=nvim
 alias e=nvim
 alias s=gsb
-alias d='git diff -w ":(exclude)uv.lock"'
-alias di='git diff -w --cached ":(exclude)uv.lock"'
-alias dd='git difftool --no-prompt -- ":(exclude)uv.lock"'
-alias ddi='git difftool --no-prompt --cached -- ":(exclude)uv.lock"'
+
+DIFF_EXCLUDES='":(exclude)**/uv.lock" ":(exclude)**/package-lock.json"'
+alias d="git diff -w $DIFF_EXCLUDES"
+alias di="git diff -w --cached $DIFF_EXCLUDES"
+alias dd="git difftool --no-prompt -- $DIFF_EXCLUDES"
+alias ddi="git difftool --no-prompt --cached -- $DIFF_EXCLUDES"
+
 alias lo=glods
 alias lol=glola
 alias amend=gc!
@@ -25,6 +28,7 @@ alias zzzzz='cd ../../../../..'
 alias ls="eza --icons --git --ignore-glob='.git|node_modules|__pycache__|*.pyc|*.pyo|*.o|*.swp|*.swo|*.swx|*.swpx'" # list
 alias ll="ls -l"
 alias t="ls --tree"
+alias p=pytest
 
 
 a ()
