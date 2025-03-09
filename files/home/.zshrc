@@ -122,3 +122,6 @@ function uv_venv_create() {
     source .venv/bin/activate
 }
 alias u=uv_venv_create
+
+eval "$(direnv hook zsh)"    # enable direnv
+export DIRENV_LOG_FORMAT=""  # stop annoying direnv messages
