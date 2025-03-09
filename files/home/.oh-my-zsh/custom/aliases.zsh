@@ -10,10 +10,10 @@ alias d="git diff -w $DIFF_EXCLUDES"
 alias di="git diff -w --cached $DIFF_EXCLUDES"
 alias dd="git difftool --no-prompt -- $DIFF_EXCLUDES"
 alias ddi="git difftool --no-prompt --cached -- $DIFF_EXCLUDES"
+alias am=gc!
 
 alias lo=glods
 alias lol=glola
-alias amend=gc!
 alias w=workon
 alias pz="pwd | tr -d '[:space:]' | xclip -selection c"
 alias cp='cp -a -v'
@@ -29,6 +29,7 @@ alias ls="eza --icons --git --ignore-glob='.git|node_modules|__pycache__|*.pyc|*
 alias ll="ls -l"
 alias t="ls --tree"
 alias p=pytest
+alias m="./manage.py migrate"
 
 
 a ()
@@ -49,7 +50,7 @@ c ()
         len_line_1=$(echo "$*" | sed -n 1p | tr -d '\n' | wc -m)
         len_line_2=$(echo "$*" | sed -n 2p | tr -d '\n' | wc -m)
         max_len=$(echo "$*" | wc --max-line-length)
-        if [ $len_line_1 -gt 50 -o $len_line_2 -gt 0 -o $max_len -gt 72 ]; then
+        if [ $len_line_1 -gt 50 ] || [ $len_line_2 -gt 0 ] || [ $max_len -gt 72 ]; then
             git commit -m "$msg" -e
         else
             git commit -m "$msg"
