@@ -30,6 +30,7 @@ alias ll="ls -l"
 alias t="ls --tree"
 alias p=pytest
 alias m="./manage.py migrate"
+alias ag=rg
 
 
 a ()
