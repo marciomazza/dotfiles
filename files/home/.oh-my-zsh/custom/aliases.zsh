@@ -26,10 +26,13 @@ alias zzz='cd ../../..'
 alias zzzz='cd ../../../..'
 alias zzzzz='cd ../../../../..'
 alias ls="eza --icons --git --ignore-glob='.git|node_modules|__pycache__|*.pyc|*.pyo|*.o|*.swp|*.swo|*.swx|*.swpx'" # list
-alias ll="ls -l"
+alias l="ls -lah --sort=newest"
 alias t="ls --tree"
 alias p=pytest
-alias m="./manage.py migrate"
+alias m="./manage.py"
+alias mk="./manage.py makemigrations"
+alias mm="./manage.py migrate"
+alias o=open
 alias a=lazygit
 alias ag=rg
 
