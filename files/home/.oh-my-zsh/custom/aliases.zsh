@@ -30,31 +30,23 @@ alias ll="ls -l"
 alias t="ls --tree"
 alias p=pytest
 alias m="./manage.py migrate"
+alias a=lazygit
 alias ag=rg
 
-
-a ()
-{
-    if [ $# -eq 0 ]; then
-        git add .
-    else
-        git add "$@"
-    fi
-}
 
 c ()
 {
     if [ $# -eq 0 ]; then
-        git commit
+        git commit --verbose
     else
         msg=$(echo "$*" | sed 's/.*/\u&/')
         len_line_1=$(echo "$*" | sed -n 1p | tr -d '\n' | wc -m)
         len_line_2=$(echo "$*" | sed -n 2p | tr -d '\n' | wc -m)
         max_len=$(echo "$*" | wc --max-line-length)
         if [ $len_line_1 -gt 50 ] || [ $len_line_2 -gt 0 ] || [ $max_len -gt 72 ]; then
-            git commit -m "$msg" -e
+            git commit --verbose -m "$msg" -e
         else
-            git commit -m "$msg"
+            git commit --verbose -m "$msg"
         fi
     fi
 }
