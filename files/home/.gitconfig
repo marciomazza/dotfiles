@@ -38,3 +38,5 @@
     rebase = true
 [mergetool "nvimdiff"]
 	cmd = nvim -d $LOCAL $REMOTE $MERGED -c \"wincmd l\" -c \"wincmd J\"
+[commit]
+	verbose = true
