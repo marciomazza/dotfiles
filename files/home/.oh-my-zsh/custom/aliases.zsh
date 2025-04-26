@@ -5,7 +5,7 @@ alias vim=nvim
 alias e=nvim
 alias s=gsb
 
-DIFF_EXCLUDES='":(exclude)**/uv.lock" ":(exclude)**/package-lock.json"'
+DIFF_EXCLUDES='":(exclude)uv.lock" ":(exclude)package-lock.json"'
 alias d="git diff -w $DIFF_EXCLUDES"
 alias di="git diff -w --cached $DIFF_EXCLUDES"
 alias dd="git difftool --no-prompt -- $DIFF_EXCLUDES"
