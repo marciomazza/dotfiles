@@ -125,3 +125,11 @@ alias u=uv_venv_create
 
 eval "$(direnv hook zsh)"    # enable direnv
 export DIRENV_LOG_FORMAT=""  # stop annoying direnv messages
+
+function bwcopy() {
+  export NODE_NO_WARNINGS=1
+  if ! bw sync --session "$BW_SESSION" --quiet >/dev/null 2>&1; then
+    export BW_SESSION=$(bw unlock --raw)
+  fi
+  bw get password "$1" --session "$BW_SESSION" | xclip -selection clipboard
+}
