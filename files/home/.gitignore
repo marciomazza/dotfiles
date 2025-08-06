@@ -68,3 +68,4 @@ zz*
 .envrc
 .tool-versions
 .ruff.toml
+.claude
