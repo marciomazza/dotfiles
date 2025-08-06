@@ -1,4 +1,4 @@
-export PATH="/home/mazza/.cargo/bin:/opt/nvim-linux64/bin:$PATH"
+export PATH="/home/mazza/.cargo/bin:/opt/nvim-linux-x86_64/bin:$PATH"
 export SHELL=$(which zsh)
 
 # Path to your oh-my-zsh installation.
