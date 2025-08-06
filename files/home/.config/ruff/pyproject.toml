@@ -1,0 +1,2 @@
+[tool.ruff]
+exclude = ["ipython_log.py", "/home/mazza/work/secom/plone/**/*.py"]
