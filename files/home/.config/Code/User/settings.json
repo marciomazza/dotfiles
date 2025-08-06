@@ -23,13 +23,12 @@
   "window.menuBarVisibility": "toggle",
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.organizeImports": false
+    "source.organizeImports": "never"
   },
   "editor.snippetSuggestions": "top",
   "editor.bracketPairColorization.enabled": true,
   "editor.rulers": [100],
   "python.formatting.provider": "black",
-  "workbench.activityBar.visible": false,
   "workbench.editor.highlightModifiedTabs": true,
   "workbench.editorAssociations": {
     "*.ipynb": "jupyter-notebook"
@@ -60,5 +59,17 @@
   "explorer.confirmDelete": false,
   "window.zoomLevel": 1,
   "workbench.statusBar.visible": false,
-  "editor.inlineSuggest.enabled": true
+  "editor.inlineSuggest.enabled": true,
+"workbench.activityBar.location": "hidden",
+"mcp": {
+	"servers": {
+		"playwright": {
+			"command": "npx",
+			"args": [
+				"@playwright/mcp@latest"
+			]
+		}
+	}
+},
+"chat.agent.enabled": true
 }
