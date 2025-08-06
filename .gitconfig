@@ -8,7 +8,7 @@
 [merge]
 	tool = nvimdiff
 [core]
-  excludesfile = ~/.gitignore
+  excludesfile = ~/.gitignore_global
 [alias]
   st = status
   ci = commit
