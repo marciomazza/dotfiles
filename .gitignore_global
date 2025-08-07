@@ -29,16 +29,6 @@ parts
 var
 build
 
-# MAVEN
-target
-
-# ECLIPSE
-.classpath
-.project
-.settings
-.pydevproject
-.pydevproject.bak
-
 # MORE
 .ropeproject
 .sass-cache
@@ -46,10 +36,6 @@ ipython_log.py
 
 .coverage
 htmlcov
-
-# SUBLIME
-*.sublime-project
-*.sublime-workspace
 
 *.orig
 geckodriver.log
