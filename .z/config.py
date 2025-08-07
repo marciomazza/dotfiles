@@ -1,6 +1,4 @@
 #!/usr/bin/python3
-
-
 from base import (
     Path,
     apt_install,
@@ -73,6 +71,12 @@ if install("basic", "uv", "curl -LsSf https://astral.sh/uv/install.sh | sh"):
         lambda _: False,
     )
 
+# google chrome
+download_and_install_deb(
+    "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb",
+    "google-chrome-stable",
+)
+
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # tweaks
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -94,23 +98,13 @@ if "pt_BR.utf8" not in run("locale -a", capture_output=True).stdout.splitlines()
     run("sudo locale-gen pt_BR.UTF-8")
 
 
-# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-# desktop
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# FOR FUTURE USE, MAYBE ...
 
+# zoom
+# download_and_install_deb("https://zoom.us/client/latest/zoom_amd64.deb", "zoom")
 
-# if "XDG_CURRENT_DESKTOP" in os.environ:
-def temp_not_using_______________________________():
-    # install google chrome
-    download_and_install_deb(
-        "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb",
-        "google-chrome-stable",
-    )
-
-    download_and_install_deb("https://zoom.us/client/latest/zoom_amd64.deb", "zoom")
-
-    # banco do brasil
-    download_and_install_deb(
-        "https://cloud.gastecnologia.com.br/bb/downloads/ws/warsaw_setup64.deb",
-        "warsaw",
-    )
+# banco do brasil
+# download_and_install_deb(
+#     "https://cloud.gastecnologia.com.br/bb/downloads/ws/warsaw_setup64.deb",
+#     "warsaw",
+# )
