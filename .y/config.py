@@ -21,19 +21,6 @@ from base import (
 )
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-# link home config files recursively
-# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-files_home_dir = Path("files/home").absolute()
-for here in files_home_dir.rglob("*"):
-    athome = Path.home() / here.relative_to(files_home_dir)  # path relative to home
-    if here.is_dir() and not here.is_symlink():
-        mkdir(athome)
-    else:
-        if here.name != ".gitkeep":  # skip directory holders
-            symlink(athome, here)
-
-
-# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # basic
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 apt_install(Path("apt_packages").read_text())
