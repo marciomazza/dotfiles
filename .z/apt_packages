@@ -35,7 +35,6 @@ shotwell
 smbclient
 software-properties-common
 sqlite3
-terminator
 trash-cli
 tree
 universal-ctags

@@ -1,10 +1,8 @@
 #!/usr/bin/python3
 
-import subprocess
 
 from base import (
     Path,
-    apt_add_ppa,
     apt_install,
     cmd_output,
     cmd_works,
@@ -16,8 +14,6 @@ from base import (
     npm_install,
     print_message_and_done,
     run,
-    symlink,
-    wait_for_condition,
 )
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -60,7 +56,8 @@ if command_not_available("node"):
     install_node()
 
 npm_install("yarn")
-npm_install("@bitwarden/cli")  # bitwarden cli
+# bitwarden cli
+npm_install("@bitwarden/cli")
 
 
 # https://github.com/foriequal0/git-trim
@@ -122,48 +119,8 @@ if "pt_BR.utf8" not in run("locale -a", capture_output=True).stdout.splitlines()
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-FILES = Path("files").absolute()
-
-
-def sudo_cp(origin_dir, dest_dir):
-    files = [p for p in origin_dir.glob("**/*") if p.is_file()]
-    if not all(
-        cmd_works(f"diff {p} {dest_dir}/{p.relative_to(origin_dir.parent)}")
-        for p in files
-    ):
-        run(f"sudo cp -rf {FILES}/firefox/apt /etc")
-
-
-def install_firefox():
-    # remove snap that is the default on ubuntu 22.04
-    # based on https://www.omgubuntu.co.uk/2022/04/how-to-install-firefox-deb-apt-ubuntu-22-04
-
-    if cmd_works("snap list firefox"):
-        run("sudo snap remove --purge firefox")
-    apt_add_ppa("mozillateam")
-    # configure apt to prioritize PPA and do automatic updates
-    sudo_cp(FILES / "firefox/apt", "/etc")
-    apt_install("firefox")
-
-    config_dir = Path.home() / ".mozilla/firefox"
-
-    # trigger the the creation the initial config that includes the default profile
-    process = subprocess.Popen(["firefox", "--headless"])
-    wait_for_condition(config_dir.exists)
-    process.terminate()
-
-    # custom firefox appearance
-    [firefox_profile] = config_dir.glob("*.default-release")
-    symlink(firefox_profile / "user.js", FILES / "firefox/user.js")
-
-    # make firefox the default browser on X
-    run("xdg-settings set default-web-browser firefox.desktop")
-
-
 # if "XDG_CURRENT_DESKTOP" in os.environ:
 def temp_not_using_______________________________():
-    install_firefox()
-
     # install google chrome
     download_and_install_deb(
         "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb",
@@ -177,15 +134,3 @@ def temp_not_using_______________________________():
         "https://cloud.gastecnologia.com.br/bb/downloads/ws/warsaw_setup64.deb",
         "warsaw",
     )
-
-    # TODO
-    # disable faulty lenovo webcam
-    # based on https://superuser.com/a/982292
-    #
-    # add disable to the startup using cron
-    # based on https://karlcode.owtelse.com/blog/2017/01/09/disabling-usb-ports-on-linux/
-    #
-    # ... > sudo crontab -e
-    #
-    # disable builtin webcam
-    # @reboot echo 0 > /sys/bus/usb/devices/2-8/bConfigurationValue
