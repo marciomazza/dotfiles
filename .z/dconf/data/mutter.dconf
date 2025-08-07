@@ -1,0 +1,9 @@
+[/]
+center-new-windows=true
+dynamic-workspaces=false
+edge-tiling=false
+experimental-features=@as []
+
+[keybindings]
+toggle-tiled-left=@as []
+toggle-tiled-right=@as []

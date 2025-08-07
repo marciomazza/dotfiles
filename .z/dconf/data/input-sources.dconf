@@ -1,0 +1,6 @@
+[/]
+mru-sources=[('xkb', 'br'), ('ibus', 'table:cangjie3'), ('ibus', 'table:cangjie-big'), ('xkb', 'cn')]
+per-window=false
+show-all-sources=true
+sources=[('xkb', 'br')]
+xkb-options=['caps:ctrl_modifier', 'shift:both_capslock_cancel', 'eurosign:e']

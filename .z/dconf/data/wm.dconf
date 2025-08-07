@@ -1,0 +1,10 @@
+[keybindings]
+cycle-group=['<Alt>apostrophe']
+cycle-group-backward=['<Shift><Alt>apostrophe']
+cycle-windows=['<Alt>Escape']
+cycle-windows-backward=['<Shift><Alt>Escape']
+switch-group=@as []
+switch-group-backward=@as []
+
+[preferences]
+num-workspaces=3

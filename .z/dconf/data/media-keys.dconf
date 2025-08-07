@@ -1,0 +1,8 @@
+[/]
+custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']
+logout=@as []
+
+[custom-keybindings/custom0]
+binding='<Primary><Alt>Delete'
+command='shutdown now'
+name='power off'
