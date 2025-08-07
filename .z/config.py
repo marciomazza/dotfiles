@@ -26,7 +26,7 @@ if cmd_output("echo $SHELL") != "/usr/bin/zsh":
     run("sudo chsh -s /bin/zsh")
 
 
-def command_not_available(name):
+def command_not_available(command_name):
     return not cmd_works(f"which {command_name}")
 
 
