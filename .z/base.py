@@ -250,9 +250,3 @@ def install_from_github_release(
 
     # signal that the install or update was done
     return True
-
-
-def mkdir(*path_parts):
-    path = Path(*path_parts)
-    path.mkdir(parents=True, exist_ok=True)
-    return path

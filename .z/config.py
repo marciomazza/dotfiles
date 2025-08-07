@@ -10,7 +10,6 @@ from base import (
     install,
     install_from_github_release,
     lineinfile,
-    mkdir,
     npm_install,
     print_message_and_done,
     run,
@@ -73,25 +72,6 @@ if install("basic", "uv", "curl -LsSf https://astral.sh/uv/install.sh | sh"):
         "uv tool install --force {}",
         lambda _: False,
     )
-
-
-# <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-# extra development tools
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-def install_nerd_font(base_font_name):
-    # install patched Hack nerd font (https://www.nerdfonts.com)
-    custom_fonts_dir = mkdir(Path.home() / ".local/share/fonts")
-    done_for_the_first_time = install_from_github_release(
-        "ryanoasis/nerd-fonts",
-        f".*{base_font_name}.zip",
-        custom_fonts_dir,
-        "*.ttf",
-        update=True,
-    )
-    if done_for_the_first_time:
-        with print_message_and_done("Updating fonts"):
-            run("sudo fc-cache -rsv", capture_output=True)
-
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # tweaks
