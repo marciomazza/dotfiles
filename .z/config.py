@@ -23,14 +23,18 @@ if cmd_output("echo $SHELL") != "/usr/bin/zsh":
     run("sudo chsh -s /bin/zsh")
 
 
-def command_not_available(command_name):
-    return not cmd_works(f"which {command_name}")
+def command_available(command_name):
+    return cmd_works(f"which {command_name}")
 
 
 # install some stuf with bash scripts
 for script in Path("install").glob("*.sh"):
-    command_name = script.stem
-    if command_not_available(command_name):
+    match script.stem.split(":"):
+        case [command_name]:
+            is_installed = command_available(command_name)
+        case [command_name, test]:
+            is_installed = cmd_works(test)
+    if not is_installed:
         with print_message_and_done(f"Installing {command_name}"):
             # work on /tmp for downloads not to polute this dir
             run(str(script.absolute()), cwd="/tmp", capture_output=True)
@@ -49,7 +53,7 @@ def install_node():
     run("nvm install node", executable="/bin/zsh")
 
 
-if command_not_available("node"):
+if not command_available("node"):
     install_node()
 
 npm_install("yarn")
