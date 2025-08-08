@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+import os
 from base import (
     Path,
     apt_install,
@@ -13,6 +14,10 @@ from base import (
     run,
 )
 
+# avoid conflicts with git operations and still use as a repo for dotfiles
+os.environ.pop("GIT_DIR", None)
+os.environ.pop("GIT_WORK_TREE", None)
+
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # basic
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -23,15 +28,11 @@ if cmd_output("echo $SHELL") != "/usr/bin/zsh":
     run("sudo chsh -s /bin/zsh")
 
 
-def command_available(command_name):
-    return cmd_works(f"which {command_name}")
-
-
 # install some stuf with bash scripts
 for script in Path("install").glob("*.sh"):
     match script.stem.split(":"):
         case [command_name]:
-            is_installed = command_available(command_name)
+            is_installed = cmd_works(f"which {command_name}")
         case [command_name, test]:
             is_installed = cmd_works(test)
     if not is_installed:
@@ -40,24 +41,6 @@ for script in Path("install").glob("*.sh"):
             run(str(script.absolute()), cwd="/tmp", capture_output=True)
 
 
-# nodejs
-def install_node():
-    # install nvm more or less like
-    # https://nodejs.org/en/download/package-manager
-    nvm_repo = "https://github.com/nvm-sh/nvm.git"
-    nvm_dir = Path.home() / ".nvm"
-    if nvm_dir.exists():
-        run("git pull", cwd=nvm_dir)
-    else:
-        run(f"git clone {nvm_repo} /tmp/{nvm_dir}")
-    run("nvm install node", executable="/bin/zsh")
-
-
-if not command_available("node"):
-    install_node()
-
-npm_install("yarn")
-# bitwarden cli
 npm_install("@bitwarden/cli")
 
 

@@ -94,7 +94,7 @@ def apt_add_ppa(name):
 
 def npm_install(packages):
     return install(
-        "global npm", packages, "sudo npm install --global {}", "npm list -g"
+        "global npm", packages, "npm install --global {}", "npm list -g"
     )
 
 
