@@ -1,4 +1,4 @@
-export PATH="/home/mazza/.cargo/bin:/opt/nvim-linux-x86_64/bin:$PATH"
+export PATH="$HOME/.local/bin:$HOME/.cargo/bin:/opt/nvim-linux-x86_64/bin:$PATH"
 export SHELL=$(which zsh)
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="bira"

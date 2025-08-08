@@ -50,7 +50,7 @@ install_from_github_release(
 )
 
 # python
-if install("basic", "uv", "curl -LsSf https://astral.sh/uv/install.sh | sh"):
+if install("basic", "uv", "curl -LsSf https://astral.sh/uv/install.sh | env UV_NO_MODIFY_PATH=1 sh"):
     install(
         "uv",
         "ruff isort ipython djlint",
