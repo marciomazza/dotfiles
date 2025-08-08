@@ -1,0 +1,4 @@
+fullscreen = true
+window-decoration = none
+font-size = 15
+copy-on-select = clipboard
