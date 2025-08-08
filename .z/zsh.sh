@@ -1,5 +1,8 @@
 #!/bin/bash
 
+sudo apt install --yes --quiet zsh
+sudo chsh -s /bin/zsh
+
 # https://github.com/ohmyzsh/ohmyzsh?tab=readme-ov-file#manual-installation
 
 OHMYZSH_DIR="$HOME/.oh-my-zsh"

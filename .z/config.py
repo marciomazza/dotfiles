@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import os
+
 from base import (
     Path,
     apt_install,
@@ -23,18 +24,10 @@ os.environ.pop("GIT_WORK_TREE", None)
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 apt_install(Path("apt_packages").read_text())
 
-# zsh
-if cmd_output("echo $SHELL") != "/usr/bin/zsh":
-    run("sudo chsh -s /bin/zsh")
-
-
 # install some stuf with bash scripts
 for script in Path("install").glob("*.sh"):
-    match script.stem.split(":"):
-        case [command_name]:
-            is_installed = cmd_works(f"which {command_name}")
-        case [command_name, test]:
-            is_installed = cmd_works(test)
+    command_name = script.stem
+    is_installed = cmd_works(f"which {command_name}")
     if not is_installed:
         with print_message_and_done(f"Installing {command_name}"):
             # work on /tmp for downloads not to polute this dir
@@ -50,8 +43,14 @@ install_from_github_release(
 )
 
 # python
-if install("basic", "uv", "curl -LsSf https://astral.sh/uv/install.sh | env UV_NO_MODIFY_PATH=1 sh"):
-    install("uv", "ruff isort ipython djlint", "uv tool install --force {}", lambda _: False)
+if install(
+    "basic",
+    "uv",
+    "curl -LsSf https://astral.sh/uv/install.sh | env UV_NO_MODIFY_PATH=1 sh",
+):
+    install(
+        "uv", "ruff isort ipython djlint", "uv tool install --force {}", lambda _: False
+    )
 
 # google chrome
 download_and_install_deb(
