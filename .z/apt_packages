@@ -4,6 +4,7 @@ bat
 build-essential
 curl
 dconf-editor
+direnv
 eza
 fd-find
 ffmpeg
