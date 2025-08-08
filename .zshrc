@@ -83,6 +83,7 @@ ZSH_THEME_VIRTUALENV_SUFFIX="%f"
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
 # User configuration
+source ~/.zsh/aliases.zsh
 
 # export MANPATH="/usr/local/man:$MANPATH"
 

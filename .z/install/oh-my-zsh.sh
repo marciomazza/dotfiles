@@ -1,11 +1,13 @@
 #!/bin/bash
 
-# https://ohmyz.sh/#install
+# https://github.com/ohmyzsh/ohmyzsh?tab=readme-ov-file#manual-installation
 
-if [ ! -d "$HOME/.oh-my-zsh" ]; then
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+OHMYZSH_DIR="$HOME/.oh-my-zsh"
+
+if [ ! -d "$OHMYZSH_DIR" ]; then
+    git clone https://github.com/ohmyzsh/ohmyzsh.git "$OHMYZSH_DIR"
 else
-    echo "oh-my-zsh already exists at $HOME/.oh-my-zsh, skipping installation"
+    echo "oh-my-zsh already exists at $OHMYZSH_DIR, skipping installation"
 fi
 
 # Plugin remotes list
