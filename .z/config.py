@@ -51,12 +51,7 @@ install_from_github_release(
 
 # python
 if install("basic", "uv", "curl -LsSf https://astral.sh/uv/install.sh | env UV_NO_MODIFY_PATH=1 sh"):
-    install(
-        "uv",
-        "ruff isort ipython djlint",
-        "uv tool install --force {}",
-        lambda _: False,
-    )
+    install("uv", "ruff isort ipython djlint", "uv tool install --force {}", lambda _: False)
 
 # google chrome
 download_and_install_deb(
