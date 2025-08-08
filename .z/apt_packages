@@ -8,6 +8,7 @@ direnv
 eza
 fd-find
 ffmpeg
+fzf
 gimp
 git
 git-flow
