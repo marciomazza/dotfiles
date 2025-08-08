@@ -2,3 +2,4 @@ ipython_log.py
 zz*
 .claude
 .dotfiles.git
+__pycache__
