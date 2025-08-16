@@ -34,8 +34,6 @@ alias mk="./manage.py makemigrations"
 alias mm="./manage.py migrate"
 alias o=open
 alias a=lazygit
-alias ag=rg
-alias cat=batcat
 
 
 c ()
