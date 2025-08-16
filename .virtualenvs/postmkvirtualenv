@@ -1,7 +1,0 @@
-#!/bin/bash
-# This hook is sourced after a new virtualenv is activated.
-
-# basic libs
-pip install pytest isort flake8 pdbpp black pynvim
-# ipython and extensions
-pip install ipython ipython-autoimport pprintpp
