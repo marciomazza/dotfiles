@@ -1,0 +1,3 @@
+[env]
+GIT_DIR = "/home/mazza/.z/.dotfiles.git"
+GIT_WORK_TREE = "/home/mazza"

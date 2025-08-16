@@ -50,8 +50,7 @@ function uv_venv_create() {
 }
 alias u=uv_venv_create
 
-eval "$(direnv hook zsh)"    # enable direnv
-export DIRENV_LOG_FORMAT=""  # stop annoying direnv messages
+eval "$(mise activate zsh)"
 
 function bwcopy() {
   export NODE_NO_WARNINGS=1
