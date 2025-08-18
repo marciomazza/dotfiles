@@ -1,3 +1,3 @@
 #!/bin/bash
 
-yay -S --noconfirm $(cat ../packages)
+yay -S --noconfirm $(cat "$(dirname "$0")/packages")
