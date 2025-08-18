@@ -3,7 +3,7 @@ export SHELL=$(which zsh)
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="bira"
 DISABLE_VENV_CD=1
-plugins=(git autojump virtualenv git-open F-Sy-H zsh-autosuggestions git-flow-completion)
+plugins=(git virtualenv git-open F-Sy-H zsh-autosuggestions git-flow-completion)
 export _Z_DATA="$HOME/.data/z"
 fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 
@@ -50,8 +50,6 @@ function uv_venv_create() {
 }
 alias u=uv_venv_create
 
-eval "$(mise activate zsh)"
-
 function bwcopy() {
   export NODE_NO_WARNINGS=1
   if ! bw sync --session "$BW_SESSION" --quiet >/dev/null 2>&1; then
@@ -59,3 +57,6 @@ function bwcopy() {
   fi
   bw get password "$1" --session "$BW_SESSION" | xclip -selection clipboard
 }
+
+eval "$(mise activate zsh)"
+eval "$(zoxide init --cmd=j zsh)"
