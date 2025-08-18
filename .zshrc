@@ -61,5 +61,5 @@ function bwcopy() {
 eval "$(mise activate zsh)"
 eval "$(zoxide init --cmd=j zsh)"
 
-# SSH key management - load on demand
-alias loadkey='eval $(keychain --eval --quiet ~/.ssh/id_rsa)'
+# SSH key management - use ssh-agent
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
