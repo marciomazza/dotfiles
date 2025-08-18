@@ -60,3 +60,6 @@ function bwcopy() {
 
 eval "$(mise activate zsh)"
 eval "$(zoxide init --cmd=j zsh)"
+
+# SSH key management - load on demand
+alias loadkey='eval $(keychain --eval --quiet ~/.ssh/id_rsa)'
