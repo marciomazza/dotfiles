@@ -1,5 +1,13 @@
-window-decoration = none
+theme = Monokai Pro Ristretto
+
+font-family = CaskaydiaMono Nerd Font
 font-size = 12
+
+window-padding-x = 8
+window-padding-y = 8
+window-decoration = false
+background-opacity = 0.99
+
 copy-on-select = clipboard
 keybind = shift+enter=text:\n
 keybind = f11=toggle_fullscreen
