@@ -17,7 +17,6 @@ alias lol=glola
 alias w=workon
 alias pz="pwd | tr -d '[:space:]' | wl-copy"
 alias cp='cp -a -v'
-alias fd=fdfind
 alias vd="nvim -d"
 alias gh="git open"
 alias z='cd ..'
