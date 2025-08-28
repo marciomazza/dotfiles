@@ -14,7 +14,6 @@ alias am=gc!
 
 alias lo=glods
 alias lol=glola
-alias w=workon
 alias pz="pwd | tr -d '[:space:]' | wl-copy"
 alias cp='cp -a -v'
 alias vd="nvim -d"
