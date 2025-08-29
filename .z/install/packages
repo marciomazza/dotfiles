@@ -1,11 +1,10 @@
 fd
 ffmpeg
 fzf
+ghostty
 git-flow-avh
-gitk
 graphviz
 iotop
-jxplorer
 meld
 moreutils
 ncdu
@@ -13,6 +12,7 @@ net-tools
 otpclient
 pdfarranger
 qbittorrent
+tk
 trash-cli
 wl-clipboard
 zoxide
