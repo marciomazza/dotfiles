@@ -1,9 +1,12 @@
 #!/bin/bash
 
 sudo pacman -S --noconfirm zsh
-sudo chsh -s /bin/zsh
+sudo chsh -s /usr/bin/zsh
 
 # https://github.com/ohmyzsh/ohmyzsh?tab=readme-ov-file#manual-installation
+
+unset GIT_DIR
+unset GIT_WORK_TREE
 
 OHMYZSH_DIR="$HOME/.oh-my-zsh"
 
