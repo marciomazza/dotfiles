@@ -1,4 +1,5 @@
-theme = Monokai Pro Ristretto
+# theme = Monokai Pro Ristretto
+theme = tokyonight
 
 font-family = CaskaydiaMono Nerd Font
 font-size = 12
